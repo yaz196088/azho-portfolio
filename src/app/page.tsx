@@ -36,7 +36,7 @@ export default function Home() {
     function charSplit(el: HTMLElement | null, text: string, baseDelay: number) {
       if (!el) return
       el.innerHTML = ''
-      ;[...text].forEach((ch, i) => {
+      text.split('').forEach((ch, i) => {
         const s = document.createElement('span')
         s.className = 'char'
         s.textContent = ch === ' ' ? ' ' : ch
