@@ -441,6 +441,70 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── POSTER GALLERY ─── */}
+      <div className="poster-section">
+        <div className="poster-section-label">Subconscious · Poster Series</div>
+        <div className="poster-scroll">
+
+          {/* Panel 1 */}
+          <div className="poster-panel">
+            <div className="poster-meta">
+              <span>01 / 04</span>
+              <span>Poster Series</span>
+              <span>2023</span>
+            </div>
+            <div className="poster-img-wrap">
+              <img src="/images/posters/constructivism.png" alt="Observe Subjectively poster" />
+            </div>
+            <div className="poster-title">Observe<br />Subjectively</div>
+            <div className="poster-desc">The subconscious mind rendered visible — perception as construction</div>
+          </div>
+
+          {/* Panel 2 */}
+          <div className="poster-panel">
+            <div className="poster-meta">
+              <span>02 / 04</span>
+              <span>Poster Series</span>
+              <span>2023</span>
+            </div>
+            <div className="poster-img-wrap">
+              <img src="/images/posters/escape.png" alt="Escape poster" />
+            </div>
+            <div className="poster-title">Escape</div>
+            <div className="poster-desc">23.37km into the mountains — Azho Designs, 27.08.2023</div>
+          </div>
+
+          {/* Panel 3 */}
+          <div className="poster-panel">
+            <div className="poster-meta">
+              <span>03 / 04</span>
+              <span>Poster Series</span>
+              <span>2023</span>
+            </div>
+            <div className="poster-img-wrap">
+              <img src="/images/posters/Momento_Mori_.png" alt="Momento Mori poster" />
+            </div>
+            <div className="poster-title">Momento<br />Mori</div>
+            <div className="poster-desc">Form, void, and the quiet acceptance of impermanence</div>
+          </div>
+
+          {/* Panel 4 */}
+          <div className="poster-panel">
+            <div className="poster-meta">
+              <span>04 / 04</span>
+              <span>Poster Series</span>
+              <span>2023</span>
+            </div>
+            <div className="poster-img-wrap">
+              <img src="/images/posters/crash_poster_.png" alt="Parallel Parking Gone Wrong poster" />
+            </div>
+            <div className="poster-title">Parallel<br />Parking<br />Gone Wrong</div>
+            <div className="poster-desc">Deadpan humour as graphic commentary — 2023</div>
+          </div>
+
+        </div>
+      </div>
+
       <hr />
 
       {/* ─── QUOTE ─── */}
