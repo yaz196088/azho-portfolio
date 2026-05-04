@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const POSTERS = [
   { src: '/images/posters/constructivism.png', title: 'OBSERVE SUBJECTIVELY' },
@@ -14,6 +14,7 @@ export default function Home() {
   const [displayedIndex, setDisplayedIndex] = useState(0)
   const [titleVisible, setTitleVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const t = setTimeout(() => setTitleVisible(true), 120)
@@ -35,6 +36,56 @@ export default function Home() {
       setTitleVisible(true)
     }, 380)
   }
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const SWIPE_THRESHOLD = 50
+    let touchStartX = 0
+    let mouseStartX = 0
+    let isDragging = false
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartX = e.changedTouches[0].screenX
+    }
+    const onTouchEnd = (e: TouchEvent) => {
+      const diff = touchStartX - e.changedTouches[0].screenX
+      if (Math.abs(diff) > SWIPE_THRESHOLD) {
+        if (diff > 0) handlePosterClick(Math.min(selectedIndex + 1, POSTERS.length - 1))
+        else handlePosterClick(Math.max(selectedIndex - 1, 0))
+      }
+    }
+    const onMouseDown = (e: MouseEvent) => {
+      mouseStartX = e.clientX
+      isDragging = true
+    }
+    const onMouseUp = (e: MouseEvent) => {
+      if (!isDragging) return
+      isDragging = false
+      const diff = mouseStartX - e.clientX
+      if (Math.abs(diff) > SWIPE_THRESHOLD) {
+        if (diff > 0) handlePosterClick(Math.min(selectedIndex + 1, POSTERS.length - 1))
+        else handlePosterClick(Math.max(selectedIndex - 1, 0))
+      }
+    }
+    const onMouseLeave = () => { isDragging = false }
+
+    section.addEventListener('touchstart', onTouchStart, { passive: true })
+    section.addEventListener('touchend', onTouchEnd, { passive: true })
+    section.addEventListener('mousedown', onMouseDown)
+    section.addEventListener('mouseup', onMouseUp)
+    section.addEventListener('mouseleave', onMouseLeave)
+
+    return () => {
+      section.removeEventListener('touchstart', onTouchStart)
+      section.removeEventListener('touchend', onTouchEnd)
+      section.removeEventListener('mousedown', onMouseDown)
+      section.removeEventListener('mouseup', onMouseUp)
+      section.removeEventListener('mouseleave', onMouseLeave)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIndex])
 
   useEffect(() => {
     /* ── DATA ── */
@@ -476,6 +527,7 @@ export default function Home() {
 
       {/* ─── POSTER RACK ─── */}
       <div
+        ref={sectionRef}
         className="poster-rack-section"
         onMouseMove={(e) => {
           const dot = document.getElementById('poster-cursor')
@@ -507,8 +559,6 @@ export default function Home() {
                   key={p.src}
                   className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
                   style={{ transform: cardTransform }}
-                  onClick={() => handlePosterClick(i)}
-                  onTouchEnd={() => handlePosterClick(i)}
                 >
                   <img src={p.src} alt={p.title} />
                 </div>
@@ -521,13 +571,9 @@ export default function Home() {
             {POSTERS[displayedIndex].title}
           </div>
         </div>
-        <div className="rack-nav">
+        <div className="rack-dots">
           {POSTERS.map((_, i) => (
-            <div
-              key={i}
-              className={`rack-nav-dot${i === selectedIndex ? ' active' : ''}`}
-              onClick={() => handlePosterClick(i)}
-            />
+            <div key={i} className={`rack-dot${i === selectedIndex ? ' active' : ''}`} />
           ))}
         </div>
         <div className="rack-meta">
