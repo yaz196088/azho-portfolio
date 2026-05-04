@@ -572,17 +572,19 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
 
 /* ─── POSTER RACK ─────────────────────────────────────── */
 .poster-rack-section {
-  background: var(--ink);
+  background: var(--red);
   padding: 56px 0 80px;
   overflow: hidden;
+  cursor: none;
 }
+.poster-rack-section * { cursor: none; }
 
 .rack-top-label {
   font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
-  color: rgba(241,234,224,0.4); display: flex; align-items: center; gap: 14px;
+  color: rgba(241,234,224,0.6); display: flex; align-items: center; gap: 14px;
   padding: 0 56px 48px;
 }
-.rack-top-label::before { content: ''; width: 20px; height: 1px; background: var(--red); }
+.rack-top-label::before { content: ''; width: 20px; height: 1px; background: var(--cream); }
 
 .rack-scene {
   perspective: 1400px;
@@ -615,14 +617,12 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
 }
 
 .rack-card.selected {
-  transform: rotateY(0deg);
   opacity: 1;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
 }
 
 .rack-card.unselected {
-  transform: rotateY(90deg);
-  opacity: 0;
+  opacity: 0.65;
 }
 
 .rack-card img {
@@ -684,6 +684,21 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
   color: rgba(241,234,224,0.35);
   padding: 20px 56px 0;
 }
+
+#poster-cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: #100F0D;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+body.cur-hidden #c-dot,
+body.cur-hidden #c-ring { opacity: 0; }
 
 /* ─── RESPONSIVE ──────────────────────────────────────────── */
 @media (max-width: 800px) {

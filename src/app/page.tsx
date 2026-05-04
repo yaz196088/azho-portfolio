@@ -468,19 +468,43 @@ export default function Home() {
       </section>
 
       {/* ─── POSTER RACK ─── */}
-      <div className="poster-rack-section">
+      <div
+        className="poster-rack-section"
+        onMouseMove={(e) => {
+          const dot = document.getElementById('poster-cursor')
+          if (dot) { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' }
+        }}
+        onMouseEnter={() => {
+          const dot = document.getElementById('poster-cursor')
+          if (dot) dot.style.opacity = '1'
+          document.body.classList.add('cur-hidden')
+        }}
+        onMouseLeave={() => {
+          const dot = document.getElementById('poster-cursor')
+          if (dot) dot.style.opacity = '0'
+          document.body.classList.remove('cur-hidden')
+        }}
+      >
+        <div id="poster-cursor" />
         <div className="rack-top-label">Subconscious · Poster Series</div>
         <div className="rack-scene">
           <div className="rack-container">
-            {POSTERS.map((p, i) => (
-              <div
-                key={p.src}
-                className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
-                onClick={() => handlePosterClick(i)}
-              >
-                <img src={p.src} alt={p.title} />
-              </div>
-            ))}
+            {POSTERS.map((p, i) => {
+              const offset = i - selectedIndex
+              const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
+              const translateZ = offset === 0 ? 0 : -80
+              const cardTransform = `translateX(${offset * 180}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`
+              return (
+                <div
+                  key={p.src}
+                  className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
+                  style={{ transform: cardTransform }}
+                  onClick={() => handlePosterClick(i)}
+                >
+                  <img src={p.src} alt={p.title} />
+                </div>
+              )
+            })}
           </div>
         </div>
         <div className="rack-title-wrap">
