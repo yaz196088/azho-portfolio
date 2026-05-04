@@ -507,6 +507,19 @@ export default function Home() {
             })}
           </div>
         </div>
+
+        {/* Mobile vertical stack */}
+        <div className="rack-mobile-stack">
+          {POSTERS.map((p, i) => (
+            <div
+              key={p.src}
+              className={`rack-mobile-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
+              onClick={() => handlePosterClick(i)}
+            >
+              <img src={p.src} alt={p.title} />
+            </div>
+          ))}
+        </div>
         <div className="rack-title-wrap">
           <div className={`rack-title-text${titleVisible ? ' visible' : ''}`}>
             {POSTERS[displayedIndex].title}
