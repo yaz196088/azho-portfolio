@@ -1,8 +1,34 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+const POSTERS = [
+  { src: '/images/posters/constructivism.png', title: 'OBSERVE SUBJECTIVELY' },
+  { src: '/images/posters/escape.png', title: 'ESCAPE' },
+  { src: '/images/posters/Momento_Mori_.png', title: 'MOMENTO MORI' },
+  { src: '/images/posters/crash_poster_.png', title: 'PARALLEL PARKING GONE WRONG' },
+]
 
 export default function Home() {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [displayedIndex, setDisplayedIndex] = useState(0)
+  const [titleVisible, setTitleVisible] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setTitleVisible(true), 120)
+    return () => clearTimeout(t)
+  }, [])
+
+  function handlePosterClick(i: number) {
+    if (i === selectedIndex) return
+    setTitleVisible(false)
+    setSelectedIndex(i)
+    setTimeout(() => {
+      setDisplayedIndex(i)
+      setTitleVisible(true)
+    }, 380)
+  }
+
   useEffect(() => {
     /* ── DATA ── */
     const PORTALS: Record<string, {
@@ -441,67 +467,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── POSTER GALLERY ─── */}
-      <div className="poster-section">
-        <div className="poster-section-label">Subconscious · Poster Series</div>
-        <div className="poster-scroll">
-
-          {/* Panel 1 */}
-          <div className="poster-panel">
-            <div className="poster-meta">
-              <span>01 / 04</span>
-              <span>Poster Series</span>
-              <span>2023</span>
-            </div>
-            <div className="poster-img-wrap">
-              <img src="/images/posters/constructivism.png" alt="Observe Subjectively poster" />
-            </div>
-            <div className="poster-title">Observe<br />Subjectively</div>
-            <div className="poster-desc">The subconscious mind rendered visible — perception as construction</div>
+      {/* ─── POSTER RACK ─── */}
+      <div className="poster-rack-section">
+        <div className="rack-top-label">Subconscious · Poster Series</div>
+        <div className="rack-scene">
+          <div className="rack-container">
+            {POSTERS.map((p, i) => (
+              <div
+                key={p.src}
+                className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
+                onClick={() => handlePosterClick(i)}
+              >
+                <img src={p.src} alt={p.title} />
+              </div>
+            ))}
           </div>
-
-          {/* Panel 2 */}
-          <div className="poster-panel">
-            <div className="poster-meta">
-              <span>02 / 04</span>
-              <span>Poster Series</span>
-              <span>2023</span>
-            </div>
-            <div className="poster-img-wrap">
-              <img src="/images/posters/escape.png" alt="Escape poster" />
-            </div>
-            <div className="poster-title">Escape</div>
-            <div className="poster-desc">23.37km into the mountains — Azho Designs, 27.08.2023</div>
+        </div>
+        <div className="rack-title-wrap">
+          <div className={`rack-title-text${titleVisible ? ' visible' : ''}`}>
+            {POSTERS[displayedIndex].title}
           </div>
-
-          {/* Panel 3 */}
-          <div className="poster-panel">
-            <div className="poster-meta">
-              <span>03 / 04</span>
-              <span>Poster Series</span>
-              <span>2023</span>
-            </div>
-            <div className="poster-img-wrap">
-              <img src="/images/posters/Momento_Mori_.png" alt="Momento Mori poster" />
-            </div>
-            <div className="poster-title">Momento<br />Mori</div>
-            <div className="poster-desc">Form, void, and the quiet acceptance of impermanence</div>
-          </div>
-
-          {/* Panel 4 */}
-          <div className="poster-panel">
-            <div className="poster-meta">
-              <span>04 / 04</span>
-              <span>Poster Series</span>
-              <span>2023</span>
-            </div>
-            <div className="poster-img-wrap">
-              <img src="/images/posters/crash_poster_.png" alt="Parallel Parking Gone Wrong poster" />
-            </div>
-            <div className="poster-title">Parallel<br />Parking<br />Gone Wrong</div>
-            <div className="poster-desc">Deadpan humour as graphic commentary — 2023</div>
-          </div>
-
+        </div>
+        <div className="rack-nav">
+          {POSTERS.map((_, i) => (
+            <div
+              key={i}
+              className={`rack-nav-dot${i === selectedIndex ? ' active' : ''}`}
+              onClick={() => handlePosterClick(i)}
+            />
+          ))}
+        </div>
+        <div className="rack-meta">
+          <span>{String(displayedIndex + 1).padStart(2, '0')} / {String(POSTERS.length).padStart(2, '0')}</span>
+          <span>Poster Series</span>
+          <span>2023</span>
         </div>
       </div>
 
