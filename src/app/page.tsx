@@ -13,10 +13,17 @@ export default function Home() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [displayedIndex, setDisplayedIndex] = useState(0)
   const [titleVisible, setTitleVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => setTitleVisible(true), 120)
-    return () => clearTimeout(t)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => {
+      clearTimeout(t)
+      window.removeEventListener('resize', checkMobile)
+    }
   }, [])
 
   function handlePosterClick(i: number) {
@@ -487,38 +494,27 @@ export default function Home() {
       >
         <div id="poster-cursor" />
         <div className="rack-top-label">Subconscious · Poster Series</div>
-        <div className="rack-scene">
+        <div className="rack-scene" style={{ touchAction: 'none' }}>
           <div className="rack-container">
             {POSTERS.map((p, i) => {
               const offset = i - selectedIndex
               const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
               const translateZ = offset === 0 ? 0 : -80
-              const cardTransform = `translateX(${offset * 180}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`
+              const translateXPx = isMobile ? 120 : 160
+              const cardTransform = `translateX(${offset * translateXPx}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`
               return (
                 <div
                   key={p.src}
                   className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
                   style={{ transform: cardTransform }}
                   onClick={() => handlePosterClick(i)}
+                  onTouchEnd={() => handlePosterClick(i)}
                 >
                   <img src={p.src} alt={p.title} />
                 </div>
               )
             })}
           </div>
-        </div>
-
-        {/* Mobile vertical stack */}
-        <div className="rack-mobile-stack">
-          {POSTERS.map((p, i) => (
-            <div
-              key={p.src}
-              className={`rack-mobile-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
-              onClick={() => handlePosterClick(i)}
-            >
-              <img src={p.src} alt={p.title} />
-            </div>
-          ))}
         </div>
         <div className="rack-title-wrap">
           <div className={`rack-title-text${titleVisible ? ' visible' : ''}`}>
