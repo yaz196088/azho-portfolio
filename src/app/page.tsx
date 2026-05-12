@@ -528,6 +528,7 @@ export default function Home() {
       <div
         ref={posterSectionRef}
         className="poster-rack-section"
+        style={{ width: '100vw', position: 'relative' }}
         onMouseMove={(e) => {
           const dot = document.getElementById('poster-cursor')
           if (dot) { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' }
@@ -556,8 +557,8 @@ export default function Home() {
             {POSTERS.map((p, i) => {
               const offset = i - selectedIndex
               const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
-              const translateX = offset * (isMobile ? 120 : 160)
-              const translateZ = offset === 0 ? 0 : -80
+              const translateX = offset * (isMobile ? 180 : 260)
+              const translateZ = offset === 0 ? 0 : -120
               const cardW = isMobile ? 180 : 280
               return (
                 <div
