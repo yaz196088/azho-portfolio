@@ -512,7 +512,12 @@ export default function Home() {
             <span className="w-type">Photography</span>
             <span className="w-year">2023</span>
           </div>
-          <div className="work-row rv rv-d4" data-label="Graphic">
+          <div
+            className="work-row rv rv-d4"
+            data-label="Graphic"
+            onClick={() => document.getElementById('poster-series')?.scrollIntoView({ behavior: 'smooth' })}
+            style={{ cursor: 'none' }}
+          >
             <span className="w-num">05</span>
             <div>
               <div className="w-title">Subconscious — Poster Series</div>
@@ -520,12 +525,14 @@ export default function Home() {
             </div>
             <span className="w-type">Graphic</span>
             <span className="w-year">2023</span>
+            <span className="w-arrow">→</span>
           </div>
         </div>
       </section>
 
       {/* ─── POSTER RACK ─── */}
       <div
+        id="poster-series"
         ref={posterSectionRef}
         className="poster-rack-section"
         style={{ width: '100vw', position: 'relative' }}

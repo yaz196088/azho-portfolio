@@ -508,6 +508,15 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
   font-weight: 400; font-size: 12px; letter-spacing: .08em; color: var(--muted); text-align: right;
 }
 
+.w-arrow {
+  font-size: 18px;
+  color: var(--red);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  justify-self: end;
+}
+.work-row:hover .w-arrow { opacity: 1; transform: translateX(4px); }
+
 /* ─── QUOTE ───────────────────────────────────────────────── */
 .quote-section {
   padding: 80px 56px;
