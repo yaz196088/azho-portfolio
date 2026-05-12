@@ -163,6 +163,7 @@ nav {
   font-size: clamp(68px, 12.5vw, 172px);
   line-height: .86; letter-spacing: -.03em; text-transform: uppercase;
   margin-bottom: 40px;
+  contain: layout style;
 }
 .hero-name .l1 { display: block; }
 .hero-name .l2 { display: block; color: var(--red); }
@@ -578,6 +579,7 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
   overflow: hidden;
   cursor: none;
   position: relative;
+  contain: layout style paint;
 }
 .poster-rack-section * { cursor: none; }
 
@@ -608,27 +610,11 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
 }
 
 .rack-card {
-  width: 280px;
-  aspect-ratio: 2 / 3;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -140px;
-  margin-top: -210px;
-  cursor: pointer;
+  cursor: default;
   transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center center;
-}
-
-.rack-card.selected {
-  opacity: 1;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
-}
-
-.rack-card.unselected {
-  opacity: 0.65;
+  will-change: transform;
 }
 
 .rack-card img {
@@ -783,7 +769,6 @@ img { max-width: 100%; height: auto; }
   .poster-rack-section * { cursor: auto !important; }
   #poster-cursor { display: none; }
   .rack-scene { height: 100vw; min-height: 360px; perspective: 700px; }
-  .rack-card { width: 180px; margin-left: -90px; margin-top: -135px; }
   .rack-title-wrap { margin-top: 32px; padding: 0 24px; }
   .rack-title-text { font-size: clamp(22px, 6vw, 36px); }
   .rack-dots { bottom: 24px; }

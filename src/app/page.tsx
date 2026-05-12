@@ -14,8 +14,10 @@ export default function Home() {
   const [displayedIndex, setDisplayedIndex] = useState(0)
   const [titleVisible, setTitleVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const posterSectionRef = useRef<HTMLDivElement>(null)
+  const mounted = useRef(false)
 
+  /* ── Initial: title reveal + mobile detection ── */
   useEffect(() => {
     const t = setTimeout(() => setTitleVisible(true), 120)
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -27,65 +29,57 @@ export default function Home() {
     }
   }, [])
 
-  function handlePosterClick(i: number) {
-    if (i === selectedIndex) return
+  /* ── Title animation whenever selectedIndex changes ── */
+  useEffect(() => {
+    if (!mounted.current) { mounted.current = true; return }
     setTitleVisible(false)
-    setSelectedIndex(i)
-    setTimeout(() => {
-      setDisplayedIndex(i)
+    const t = setTimeout(() => {
+      setDisplayedIndex(selectedIndex)
       setTitleVisible(true)
     }, 380)
-  }
+    return () => clearTimeout(t)
+  }, [selectedIndex])
 
+  /* ── Poster interaction: trackpad wheel + mobile touch swipe ── */
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+    const el = posterSectionRef.current
+    if (!el) return
 
+    let swipeLocked = false
     const SWIPE_THRESHOLD = 50
     let touchStartX = 0
-    let mouseStartX = 0
-    let isDragging = false
 
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return
+      if (Math.abs(e.deltaX) < 30) return
+      e.preventDefault()
+      if (swipeLocked) return
+      swipeLocked = true
+      if (e.deltaX > 0) setSelectedIndex(prev => Math.min(prev + 1, POSTERS.length - 1))
+      else setSelectedIndex(prev => Math.max(prev - 1, 0))
+      setTimeout(() => { swipeLocked = false }, 800)
+    }
     const onTouchStart = (e: TouchEvent) => {
       touchStartX = e.changedTouches[0].screenX
     }
     const onTouchEnd = (e: TouchEvent) => {
       const diff = touchStartX - e.changedTouches[0].screenX
       if (Math.abs(diff) > SWIPE_THRESHOLD) {
-        if (diff > 0) handlePosterClick(Math.min(selectedIndex + 1, POSTERS.length - 1))
-        else handlePosterClick(Math.max(selectedIndex - 1, 0))
+        if (diff > 0) setSelectedIndex(prev => Math.min(prev + 1, POSTERS.length - 1))
+        else setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
     }
-    const onMouseDown = (e: MouseEvent) => {
-      mouseStartX = e.clientX
-      isDragging = true
-    }
-    const onMouseUp = (e: MouseEvent) => {
-      if (!isDragging) return
-      isDragging = false
-      const diff = mouseStartX - e.clientX
-      if (Math.abs(diff) > SWIPE_THRESHOLD) {
-        if (diff > 0) handlePosterClick(Math.min(selectedIndex + 1, POSTERS.length - 1))
-        else handlePosterClick(Math.max(selectedIndex - 1, 0))
-      }
-    }
-    const onMouseLeave = () => { isDragging = false }
 
-    section.addEventListener('touchstart', onTouchStart, { passive: true })
-    section.addEventListener('touchend', onTouchEnd, { passive: true })
-    section.addEventListener('mousedown', onMouseDown)
-    section.addEventListener('mouseup', onMouseUp)
-    section.addEventListener('mouseleave', onMouseLeave)
+    el.addEventListener('wheel', handleWheel, { passive: false })
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: true })
 
     return () => {
-      section.removeEventListener('touchstart', onTouchStart)
-      section.removeEventListener('touchend', onTouchEnd)
-      section.removeEventListener('mousedown', onMouseDown)
-      section.removeEventListener('mouseup', onMouseUp)
-      section.removeEventListener('mouseleave', onMouseLeave)
+      el.removeEventListener('wheel', handleWheel)
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchend', onTouchEnd)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedIndex])
+  }, [])
 
   useEffect(() => {
     /* ── DATA ── */
@@ -119,6 +113,7 @@ export default function Home() {
     /* ── CHAR REVEAL HERO ── */
     function charSplit(el: HTMLElement | null, text: string, baseDelay: number) {
       if (!el) return
+      if (el.dataset.split === 'done') return
       el.innerHTML = ''
       text.split('').forEach((ch, i) => {
         const s = document.createElement('span')
@@ -127,6 +122,7 @@ export default function Home() {
         s.style.animationDelay = (baseDelay + i * 0.045) + 's'
         el.appendChild(s)
       })
+      el.dataset.split = 'done'
     }
     charSplit(document.getElementById('l1'), 'Youssef', 0.1)
     charSplit(document.getElementById('l2'), 'El Azhari', 0.5)
@@ -150,6 +146,7 @@ export default function Home() {
     const ring = document.getElementById('c-ring')
     let mx = 0, my = 0, rx = 0, ry = 0
     let rafId: number
+    let rafActive = true
 
     const onMouseMove = (e: MouseEvent) => {
       mx = e.clientX; my = e.clientY
@@ -158,6 +155,7 @@ export default function Home() {
     document.addEventListener('mousemove', onMouseMove)
 
     function followRing() {
+      if (!rafActive) return
       rx += (mx - rx) * 0.11; ry += (my - ry) * 0.11
       if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px' }
       rafId = requestAnimationFrame(followRing)
@@ -294,6 +292,7 @@ export default function Home() {
     document.addEventListener('keydown', onKeyDown)
 
     return () => {
+      rafActive = false
       cancelAnimationFrame(rafId)
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('keydown', onKeyDown)
@@ -361,9 +360,9 @@ export default function Home() {
 
         <div className="hero-body">
           <h1 className="hero-name" id="hero-name">
-            <span className="l1" id="l1"></span>
-            <span className="l2" id="l2"></span>
-            <span className="l3" id="l3"></span>
+            <span className="l1" id="l1" suppressHydrationWarning></span>
+            <span className="l2" id="l2" suppressHydrationWarning></span>
+            <span className="l3" id="l3" suppressHydrationWarning></span>
           </h1>
           <div className="hero-foot">
             <div className="hero-intro">
@@ -527,7 +526,7 @@ export default function Home() {
 
       {/* ─── POSTER RACK ─── */}
       <div
-        ref={sectionRef}
+        ref={posterSectionRef}
         className="poster-rack-section"
         onMouseMove={(e) => {
           const dot = document.getElementById('poster-cursor')
@@ -546,21 +545,38 @@ export default function Home() {
       >
         <div id="poster-cursor" />
         <div className="rack-top-label">Subconscious · Poster Series</div>
-        <div className="rack-scene" style={{ touchAction: 'none' }}>
+        <div
+          className="rack-scene"
+          style={{
+            perspective: isMobile ? '700px' : '1000px',
+            touchAction: 'none',
+          }}
+        >
           <div className="rack-container">
             {POSTERS.map((p, i) => {
               const offset = i - selectedIndex
               const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
+              const translateX = offset * (isMobile ? 120 : 160)
               const translateZ = offset === 0 ? 0 : -80
-              const translateXPx = isMobile ? 120 : 160
-              const cardTransform = `translateX(${offset * translateXPx}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`
+              const cardW = isMobile ? 180 : 280
               return (
                 <div
                   key={p.src}
-                  className={`rack-card ${i === selectedIndex ? 'selected' : 'unselected'}`}
-                  style={{ transform: cardTransform }}
+                  className="rack-card"
+                  style={{
+                    transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
+                    opacity: Math.abs(offset) > 1 ? 0.3 : 1,
+                    transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                    width: `${cardW}px`,
+                    aspectRatio: '2/3',
+                    top: '50%',
+                    left: '50%',
+                    marginLeft: `${-cardW / 2}px`,
+                    marginTop: `${-(cardW * 1.5) / 2}px`,
+                    boxShadow: offset === 0 ? '0 40px 100px rgba(0,0,0,0.5)' : 'none',
+                  }}
                 >
-                  <img src={p.src} alt={p.title} />
+                  <img src={p.src} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                 </div>
               )
             })}
