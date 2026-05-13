@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import CursorClient from '../components/CursorClient'
 
 export const metadata: Metadata = {
   title: 'Youssef El Azhari — Architecture & Design',
@@ -17,7 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <CursorClient />
+        {children}
+      </body>
     </html>
   )
 }
