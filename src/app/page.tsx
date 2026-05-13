@@ -209,14 +209,17 @@ export default function Home() {
           <a href="mailto:yussuf.magdi.azhari@gmail.com" className="clink">
             Email <span className="arr">→</span>
           </a>
+          <a href="mailto:youssefazhari60@gmail.com" className="clink">
+            youssefazhari60@gmail.com <span className="arr">→</span>
+          </a>
           <a href="https://www.instagram.com/yazhari.86" target="_blank" rel="noopener noreferrer" className="clink">
             Instagram — @yazhari.86 <span className="arr">→</span>
           </a>
           <a href="https://linkedin.com/in/youssef-azhari" target="_blank" rel="noopener noreferrer" className="clink">
             LinkedIn <span className="arr">→</span>
           </a>
-          <a href="tel:+201023230709" className="clink">
-            +20 102 323 0709 <span className="arr">→</span>
+          <a href="tel:+201094697699" className="clink">
+            +20 109 469 7699 <span className="arr">→</span>
           </a>
         </div>
       </section>
