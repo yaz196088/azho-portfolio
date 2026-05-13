@@ -16,6 +16,7 @@ export default function PosterRack() {
   const [isMobile, setIsMobile] = useState(false)
   const posterSectionRef = useRef<HTMLDivElement>(null)
   const mounted = useRef(false)
+  const touchStartX = useRef(0)
 
   /* ── Initial: title reveal + mobile detection ── */
   useEffect(() => {
@@ -46,38 +47,43 @@ export default function PosterRack() {
     if (!el) return
 
     let swipeLocked = false
-    const SWIPE_THRESHOLD = 50
-    let touchStartX = 0
 
     const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return
       if (Math.abs(e.deltaX) < 30) return
       e.preventDefault()
       if (swipeLocked) return
       swipeLocked = true
-      if (e.deltaX > 0) setSelectedIndex(prev => Math.min(prev + 1, POSTERS.length - 1))
-      else setSelectedIndex(prev => Math.max(prev - 1, 0))
+      if (e.deltaX > 0) {
+        setSelectedIndex(prev => Math.min(prev + 1, 3))
+      } else {
+        setSelectedIndex(prev => Math.max(prev - 1, 0))
+      }
       setTimeout(() => { swipeLocked = false }, 800)
     }
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartX = e.changedTouches[0].screenX
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX.current = e.changedTouches[0].screenX
     }
-    const onTouchEnd = (e: TouchEvent) => {
-      const diff = touchStartX - e.changedTouches[0].screenX
-      if (Math.abs(diff) > SWIPE_THRESHOLD) {
-        if (diff > 0) setSelectedIndex(prev => Math.min(prev + 1, POSTERS.length - 1))
-        else setSelectedIndex(prev => Math.max(prev - 1, 0))
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const diff = touchStartX.current - e.changedTouches[0].screenX
+      if (Math.abs(diff) < 50) return
+      if (diff > 0) {
+        setSelectedIndex(prev => Math.min(prev + 1, 3))
+      } else {
+        setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
     }
 
     el.addEventListener('wheel', handleWheel, { passive: false })
-    el.addEventListener('touchstart', onTouchStart, { passive: true })
-    el.addEventListener('touchend', onTouchEnd, { passive: true })
+    el.addEventListener('touchstart', handleTouchStart, { passive: true })
+    el.addEventListener('touchend', handleTouchEnd, { passive: true })
 
     return () => {
       el.removeEventListener('wheel', handleWheel)
-      el.removeEventListener('touchstart', onTouchStart)
-      el.removeEventListener('touchend', onTouchEnd)
+      el.removeEventListener('touchstart', handleTouchStart)
+      el.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
 
@@ -111,7 +117,20 @@ export default function PosterRack() {
           touchAction: 'none',
         }}
       >
-        <div className="rack-container">
+        <div
+          className="rack-container"
+          style={{
+            perspective: '1400px',
+            perspectiveOrigin: 'center center',
+            position: 'relative',
+            width: '100%',
+            height: '80%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transformStyle: 'preserve-3d',
+          }}
+        >
           {POSTERS.map((p, i) => {
             const offset = i - selectedIndex
             const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75

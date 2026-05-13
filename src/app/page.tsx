@@ -1,5 +1,6 @@
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
+import PosterWorkRow from '../components/PosterWorkRow'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
 import StatCounters from '../components/StatCounters'
@@ -173,21 +174,7 @@ export default function Home() {
             <span className="w-type">Photography</span>
             <span className="w-year">2023</span>
           </div>
-          <a
-            href="#poster-series"
-            className="work-row rv rv-d4"
-            data-label="Graphic"
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            <span className="w-num">05</span>
-            <div>
-              <div className="w-title">Subconscious — Poster Series</div>
-              <div className="w-cat">Graphic Design · Typography · Editorial</div>
-            </div>
-            <span className="w-type">Graphic</span>
-            <span className="w-year">2023</span>
-            <span className="w-arrow">→</span>
-          </a>
+          <PosterWorkRow />
         </div>
       </section>
 
