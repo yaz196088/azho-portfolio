@@ -8,7 +8,8 @@ const nextConfig = {
       {
         source: '/(.*)',
         headers: [
-          { key: 'Cache-Control', value: 'no-store, must-revalidate' },
+          { key: 'Cache-Control', value: 'no-store, max-age=0' },
+          { key: 'Surrogate-Control', value: 'no-store' },
         ],
       },
     ]
