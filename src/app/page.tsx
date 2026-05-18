@@ -1,6 +1,7 @@
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
+import EmailDropdown from '../components/EmailDropdown'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
 import StatCounters from '../components/StatCounters'
@@ -206,12 +207,7 @@ export default function Home() {
           </div>
         </div>
         <div className="contact-links rv rv-d2">
-          <a href="mailto:yussuf.magdi.azhari@gmail.com" className="clink">
-            Email <span className="arr">→</span>
-          </a>
-          <a href="mailto:youssefazhari60@gmail.com" className="clink">
-            youssefazhari60@gmail.com <span className="arr">→</span>
-          </a>
+          <EmailDropdown />
           <a href="https://www.instagram.com/yazhari.86" target="_blank" rel="noopener noreferrer" className="clink">
             Instagram — @yazhari.86 <span className="arr">→</span>
           </a>
