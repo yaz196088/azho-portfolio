@@ -12,54 +12,71 @@ export default function EmailDropdown() {
         style={{ cursor: 'pointer' }}
       >
         Email
-        <span className="arr" style={{
-          transition: 'transform 0.3s',
+        <span style={{
           display: 'inline-block',
-          transform: open ? 'rotate(90deg)' : 'rotate(0deg)'
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+          fontSize: '15px',
+          opacity: 0.5,
         }}>→</span>
       </div>
 
-      {open && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          background: 'var(--cream)',
-          border: '1px solid var(--rule)',
-          zIndex: 100,
-        }}>
-          <a
-            href="mailto:yussuf.magdi.azhari@gmail.com"
-            className="clink"
-            style={{
-              fontSize: '10px',
-              padding: '12px 0',
-              borderBottom: '1px solid var(--rule)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            yussuf.magdi.azhari@gmail.com
-            <span className="arr">→</span>
-          </a>
-          <a
-            href="mailto:youssefazhari60@gmail.com"
-            className="clink"
-            style={{
-              fontSize: '10px',
-              padding: '12px 0',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            youssefazhari60@gmail.com
-            <span className="arr">→</span>
-          </a>
-        </div>
-      )}
+      <div style={{
+        position: 'absolute',
+        top: 'calc(100% + 8px)',
+        left: 0,
+        right: 0,
+        background: 'var(--cream)',
+        border: '1px solid var(--rule)',
+        zIndex: 100,
+        overflow: 'hidden',
+        maxHeight: open ? '200px' : '0px',
+        opacity: open ? 1 : 0,
+        transform: open ? 'translateY(0px)' : 'translateY(-8px)',
+        transition: 'max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        boxShadow: open ? '0 16px 40px rgba(16,15,13,0.10)' : 'none',
+        pointerEvents: open ? 'all' : 'none',
+      }}>
+        <a
+          href="mailto:yussuf.magdi.azhari@gmail.com"
+          className="clink"
+          style={{
+            fontSize: '10px',
+            letterSpacing: '0.16em',
+            padding: '14px 16px',
+            borderBottom: '1px solid var(--rule)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            opacity: 0.6,
+            transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
+        >
+          yussuf.magdi.azhari@gmail.com
+          <span style={{ fontSize: '14px' }}>→</span>
+        </a>
+        <a
+          href="mailto:youssefazhari60@gmail.com"
+          className="clink"
+          style={{
+            fontSize: '10px',
+            letterSpacing: '0.16em',
+            padding: '14px 16px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            opacity: 0.6,
+            transition: 'opacity 0.2s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
+        >
+          youssefazhari60@gmail.com
+          <span style={{ fontSize: '14px' }}>→</span>
+        </a>
+      </div>
     </div>
   )
 }
