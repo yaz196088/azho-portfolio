@@ -10,6 +10,7 @@
 }
 
 html { scroll-behavior: smooth; }
+html, body { overscroll-behavior-x: none; }
 
 body {
   background: var(--cream);
@@ -589,6 +590,8 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
   cursor: none;
   position: relative;
   contain: layout style paint;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
 }
 .poster-rack-section * { cursor: none; }
 

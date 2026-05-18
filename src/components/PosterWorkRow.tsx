@@ -5,8 +5,11 @@ export default function PosterWorkRow() {
     <div
       className="work-row rv rv-d4"
       data-label="Graphic"
-      onClick={() => document.getElementById('poster-series')?.scrollIntoView({ behavior: 'smooth' })}
-      style={{ cursor: 'none' }}
+      onClick={() => {
+        const el = document.getElementById('poster-series')
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }}
+      style={{ cursor: 'pointer' }}
     >
       <span className="w-num">05</span>
       <div>

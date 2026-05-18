@@ -4,9 +4,17 @@ import { useEffect } from 'react'
 
 export default function HeroClient() {
   useEffect(() => {
-    function charSplit(el: HTMLElement | null, text: string, baseDelay: number) {
-      if (!el) return
-      if (el.dataset.split === 'done') return
+    if (typeof window === 'undefined') return
+    const l1 = document.getElementById('l1')
+    const l2 = document.getElementById('l2')
+    const l3 = document.getElementById('l3')
+    if (!l1 || !l2 || !l3) return
+    if (l1.dataset.split === 'done') return
+    l1.dataset.split = 'done'
+    l2.dataset.split = 'done'
+    l3.dataset.split = 'done'
+
+    function charSplit(el: HTMLElement, text: string, baseDelay: number) {
       el.innerHTML = ''
       text.split('').forEach((ch, i) => {
         const s = document.createElement('span')
@@ -15,11 +23,10 @@ export default function HeroClient() {
         s.style.animationDelay = (baseDelay + i * 0.045) + 's'
         el.appendChild(s)
       })
-      el.dataset.split = 'done'
     }
-    charSplit(document.getElementById('l1'), 'Youssef', 0.1)
-    charSplit(document.getElementById('l2'), 'El Azhari', 0.5)
-    charSplit(document.getElementById('l3'), 'Azho', 0.92)
+    charSplit(l1, 'Youssef', 0.1)
+    charSplit(l2, 'El Azhari', 0.5)
+    charSplit(l3, 'Azho', 0.92)
   }, [])
 
   return (

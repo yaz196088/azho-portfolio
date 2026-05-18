@@ -1,19 +1,33 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    remotePatterns: [],
-  },
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/:path*',
         headers: [
-          { key: 'Cache-Control', value: 'no-store, max-age=0' },
-          { key: 'Surrogate-Control', value: 'no-store' },
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, max-age=0',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '-1',
+          },
+          {
+            key: 'Surrogate-Control',
+            value: 'no-store',
+          },
         ],
       },
     ]
   },
-};
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  },
+}
 
-export default nextConfig;
+export default nextConfig

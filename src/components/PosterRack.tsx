@@ -50,7 +50,7 @@ export default function PosterRack() {
 
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return
-      if (Math.abs(e.deltaX) < 30) return
+      if (Math.abs(e.deltaX) < 15) return
       e.preventDefault()
       if (swipeLocked) return
       swipeLocked = true
@@ -59,7 +59,7 @@ export default function PosterRack() {
       } else {
         setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
-      setTimeout(() => { swipeLocked = false }, 800)
+      setTimeout(() => { swipeLocked = false }, 600)
     }
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -93,6 +93,11 @@ export default function PosterRack() {
       ref={posterSectionRef}
       className="poster-rack-section"
       style={{ width: '100vw', position: 'relative' }}
+      onWheel={(e: React.WheelEvent) => {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+          e.preventDefault()
+        }
+      }}
       onMouseMove={(e) => {
         const dot = document.getElementById('poster-cursor')
         if (dot) { dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px' }
@@ -121,21 +126,20 @@ export default function PosterRack() {
           className="rack-container"
           style={{
             perspective: '1400px',
-            perspectiveOrigin: 'center center',
+            perspectiveOrigin: '50% 50%',
             position: 'relative',
             width: '100%',
-            height: '80%',
+            height: '80vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transformStyle: 'preserve-3d',
           }}
         >
-          {POSTERS.map((p, i) => {
-            const offset = i - selectedIndex
+          {POSTERS.map((p, index) => {
+            const offset = index - selectedIndex
             const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
-            const translateX = offset * (isMobile ? 180 : 260)
-            const translateZ = offset === 0 ? 0 : -120
+            const translateX = offset * (isMobile ? 180 : 280)
+            const translateZ = offset === 0 ? 0 : -150
             const cardW = isMobile ? 180 : 280
             return (
               <div
@@ -143,6 +147,7 @@ export default function PosterRack() {
                 className="rack-card"
                 style={{
                   transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
+                  transformStyle: 'preserve-3d',
                   opacity: Math.abs(offset) > 1 ? 0.3 : 1,
                   transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                   width: `${cardW}px`,
