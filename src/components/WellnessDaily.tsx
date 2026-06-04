@@ -1,66 +1,6 @@
 'use client'
 
-/* ─── Bottom bar sub-component (needs client for hover events) ─── */
-function WellnessDailyBar() {
-  return (
-    <div style={{
-      background: '#5C6B28',
-      padding: '20px 56px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexWrap: 'wrap' as const,
-      gap: '12px',
-    }}>
-      <a
-        href="https://www.tiktok.com/@wellnessdaily_2025?_r=1&_t=ZS-96wE0JdO4uO"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          textDecoration: 'none',
-          color: '#DDD0B8',
-          fontFamily: "'Big Shoulders Display', sans-serif",
-          fontWeight: 700,
-          fontSize: '14px',
-          letterSpacing: '0.2em',
-          opacity: 0.9,
-          transition: 'opacity 0.3s, letter-spacing 0.4s cubic-bezier(0.16,1,0.3,1)',
-          display: 'inline-block',
-        }}
-        onMouseEnter={e => {
-          const el = e.currentTarget as HTMLAnchorElement
-          el.style.opacity = '1'
-          el.style.letterSpacing = '0.28em'
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget as HTMLAnchorElement
-          el.style.opacity = '0.9'
-          el.style.letterSpacing = '0.2em'
-        }}
-      >
-        WELLNESS DAILY ↗
-      </a>
-      <span style={{
-        fontFamily: 'Cormorant Garamond, Georgia, serif',
-        fontStyle: 'italic',
-        fontSize: '12px',
-        color: '#DDD0B8',
-        opacity: 0.6,
-      }}>
-        TikTok · Instagram
-      </span>
-      <span style={{
-        fontFamily: 'Cormorant Garamond, Georgia, serif',
-        fontStyle: 'italic',
-        fontSize: '12px',
-        color: '#DDD0B8',
-        opacity: 0.5,
-      }}>
-        Longevity is the new luxury
-      </span>
-    </div>
-  )
-}
+import WellnessDailyBar from './WellnessDailyBar'
 
 /* ─── Main section ─── */
 export default function WellnessDaily() {
@@ -85,7 +25,7 @@ export default function WellnessDaily() {
   ]
 
   return (
-    <section className="rv" style={{ background: '#DDD0B8', overflow: 'hidden' }}>
+    <section id="wellness-daily-section" className="rv" style={{ background: '#DDD0B8', overflow: 'hidden' }}>
 
       {/* Top label row */}
       <div style={{

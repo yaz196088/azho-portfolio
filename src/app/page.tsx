@@ -2,6 +2,7 @@ import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
 import WellnessDaily from '../components/WellnessDaily'
+import WellnessDailyWorkRow from '../components/WellnessDailyWorkRow'
 import EmailDropdown from '../components/EmailDropdown'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
@@ -177,6 +178,7 @@ export default function Home() {
             <span className="w-year">2023</span>
           </div>
           <PosterWorkRow />
+          <WellnessDailyWorkRow />
         </div>
       </section>
 
