@@ -11,6 +11,7 @@ export default function WellnessDaily() {
     { src: '/images/wellness-daily/wd-creatine.png', alt: 'Creatine' },
     { src: '/images/wellness-daily/wd-sauna.png',    alt: 'Sauna' },
     { src: '/images/wellness-daily/wd-athx.png',     alt: 'ATHX Games' },
+    { src: '/images/wellness-daily/wd-aesthetic.png', alt: 'Aesthetic' },
   ]
 
   const pillars = [
