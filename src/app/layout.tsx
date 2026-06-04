@@ -17,6 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@300;400;600;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,300;400;500&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <CursorClient />

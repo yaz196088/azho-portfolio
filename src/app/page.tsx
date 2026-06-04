@@ -1,6 +1,7 @@
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
+import WellnessDaily from '../components/WellnessDaily'
 import EmailDropdown from '../components/EmailDropdown'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
@@ -178,6 +179,9 @@ export default function Home() {
           <PosterWorkRow />
         </div>
       </section>
+
+      {/* ─── WELLNESS DAILY ─── */}
+      <WellnessDaily />
 
       {/* ─── POSTER RACK ─── */}
       <PosterRack />
