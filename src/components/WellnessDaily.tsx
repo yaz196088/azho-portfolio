@@ -1,19 +1,10 @@
 'use client'
 
 import WellnessDailyBar from './WellnessDailyBar'
+import WellnessDailyRack from './WellnessDailyRack'
 
 /* ─── Main section ─── */
 export default function WellnessDaily() {
-  const carousels = [
-    { src: '/images/wellness-daily/wd-sleep.png',    alt: 'Sleep Maxxing' },
-    { src: '/images/wellness-daily/wd-recovery.png', alt: 'Recovery' },
-    { src: '/images/wellness-daily/wd-protein.png',  alt: 'Protein' },
-    { src: '/images/wellness-daily/wd-creatine.png', alt: 'Creatine' },
-    { src: '/images/wellness-daily/wd-sauna.png',    alt: 'Sauna' },
-    { src: '/images/wellness-daily/wd-athx.png',     alt: 'ATHX Games' },
-    { src: '/images/wellness-daily/wd-aesthetic.png', alt: 'Aesthetic' },
-  ]
-
   const pillars = [
     'Nutrition', 'Recovery', 'Movement',
     'Longevity', 'Mental Clarity', 'Sleep', 'Supplementation',
@@ -240,69 +231,9 @@ export default function WellnessDaily() {
         </div>
       </div>
 
-      {/* Carousel gallery */}
+      {/* 3D Rack gallery */}
       <div className="rv rv-d3" style={{ marginTop: '64px' }}>
-        <div style={{
-          padding: '0 56px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '24px',
-        }}>
-          <div className="sec-label" style={{ color: 'rgba(92,107,40,0.55)', marginBottom: 0 }}>
-            Selected Carousels
-          </div>
-          <span style={{
-            fontSize: '10px',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase' as const,
-            color: '#5C6B28',
-            opacity: 0.4,
-          }}>
-            10+ Published
-          </span>
-        </div>
-
-        <div style={{
-          display: 'flex',
-          overflowX: 'auto' as const,
-          gap: '20px',
-          padding: '8px 56px 56px',
-          scrollbarWidth: 'none' as const,
-          scrollBehavior: 'smooth' as const,
-        }}>
-          {carousels.map((c, i) => (
-            <div
-              key={i}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLDivElement
-                el.style.transform = 'translateY(-8px) scale(1.02)'
-                el.style.boxShadow = '0 20px 48px rgba(92,107,40,0.22)'
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLDivElement
-                el.style.transform = 'none'
-                el.style.boxShadow = '0 8px 24px rgba(92,107,40,0.12)'
-              }}
-              style={{
-                width: '200px',
-                flexShrink: 0,
-                aspectRatio: '9/16',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                boxShadow: '0 8px 24px rgba(92,107,40,0.12)',
-                transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.6s cubic-bezier(0.16,1,0.3,1)',
-                cursor: 'default',
-              }}
-            >
-              <img
-                src={c.src}
-                alt={c.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' as const }}
-              />
-            </div>
-          ))}
-        </div>
+        <WellnessDailyRack />
       </div>
 
       {/* Bottom bar */}
