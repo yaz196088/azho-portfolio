@@ -1,6 +1,5 @@
 'use client'
 
-import WellnessDailyBar from './WellnessDailyBar'
 import WellnessDailyRack from './WellnessDailyRack'
 
 /* ─── Main section ─── */
@@ -26,7 +25,7 @@ export default function WellnessDaily() {
         justifyContent: 'space-between',
         alignItems: 'center',
       }}>
-        <div className="sec-label" style={{ color: 'rgba(92,107,40,0.55)' }}>
+        <div className="sec-label" style={{ color: 'rgba(92,107,40,0.55)', marginBottom: 0, paddingLeft: 0 }}>
           Wellness Daily · Brand &amp; Content Direction
         </div>
         <span style={{
@@ -236,8 +235,6 @@ export default function WellnessDaily() {
         <WellnessDailyRack />
       </div>
 
-      {/* Bottom bar */}
-      <WellnessDailyBar />
     </section>
   )
 }

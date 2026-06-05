@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 
 const IMAGES = [
   { src: '/images/wellness-daily/wd-sleep.png',     alt: 'Sleep Maxxing' },
@@ -13,25 +13,16 @@ const IMAGES = [
 
 export default function WellnessDailyRack() {
   const [active, setActive] = useState(0)
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-
-  const startTimer = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-    intervalRef.current = setInterval(() => {
-      setActive(prev => (prev + 1) % IMAGES.length)
-    }, 3000)
-  }, [])
 
   useEffect(() => {
-    startTimer()
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [startTimer])
+    const timer = setInterval(() => {
+      setActive(prev => (prev + 1) % IMAGES.length)
+    }, 3500)
+    return () => clearInterval(timer)
+  }, [])
 
   const handleClick = (i: number) => {
     setActive(i)
-    startTimer()
   }
 
   return (
@@ -79,9 +70,17 @@ export default function WellnessDailyRack() {
           const opacity = Math.abs(offset) > 2 ? 0 : Math.abs(offset) === 0 ? 1 : 0.6
 
           return (
-            <div
+            <a
               key={i}
-              onClick={() => handleClick(i)}
+              href="https://www.tiktok.com/@wellnessdaily_2025"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                if (active !== i) {
+                  e.preventDefault()
+                  handleClick(i)
+                }
+              }}
               style={{
                 position: 'absolute',
                 width: '200px',
@@ -89,10 +88,13 @@ export default function WellnessDailyRack() {
                 borderRadius: '16px',
                 overflow: 'hidden',
                 cursor: 'pointer',
+                display: 'block',
+                textDecoration: 'none',
                 transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
                 opacity,
-                transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.7s cubic-bezier(0.16,1,0.3,1)',
+                transition: 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
                 transformStyle: 'preserve-3d',
+                willChange: 'transform',
                 boxShadow: offset === 0
                   ? '0 0 0 1px rgba(255,255,255,0.5), 0 0 0 2px rgba(92,107,40,0.15), inset 0 1px 0 rgba(255,255,255,0.8), 0 24px 64px rgba(92,107,40,0.25)'
                   : '0 0 0 1px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.3)',
@@ -118,7 +120,7 @@ export default function WellnessDailyRack() {
                 pointerEvents: 'none',
                 border: '1px solid rgba(255,255,255,0.25)',
               }} />
-            </div>
+            </a>
           )
         })}
       </div>
@@ -146,16 +148,19 @@ export default function WellnessDailyRack() {
         ))}
       </div>
 
-      {/* Active image name */}
+      {/* Hint / active name */}
       <div style={{
         textAlign: 'center',
-        fontSize: '11px',
+        fontSize: '10px',
         letterSpacing: '0.2em',
         textTransform: 'uppercase' as const,
         color: '#5C6B28',
-        opacity: 0.5,
+        opacity: 0.4,
+        marginTop: '4px',
       }}>
-        {IMAGES[active].alt}
+        {active === 0
+          ? 'Tap selected · Opens TikTok ↗'
+          : IMAGES[active].alt}
       </div>
     </div>
   )
