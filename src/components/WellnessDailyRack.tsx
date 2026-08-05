@@ -73,11 +73,8 @@ export default function WellnessDailyRack() {
           <motion.div
             key={index}
             onClick={() => handleClick(index)}
-            initial={{ width: '40px', height: '320px' }}
-            animate={{
-              width: active === index ? '340px' : '52px',
-              height: '340px',
-            }}
+            initial={{ width: '40px' }}
+            animate={{ width: active === index ? '260px' : '52px' }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'relative',
@@ -85,6 +82,7 @@ export default function WellnessDailyRack() {
               overflow: 'hidden',
               borderRadius: '18px',
               flexShrink: 0,
+              height: '380px',
               boxShadow: active === index
                 ? '0 0 0 1px rgba(255,255,255,0.5), 0 24px 64px rgba(92,107,40,0.25)'
                 : '0 0 0 1px rgba(255,255,255,0.15)',
@@ -158,6 +156,7 @@ export default function WellnessDailyRack() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover' as const,
+                objectPosition: 'center 20%',
                 display: 'block',
               }}
             />
