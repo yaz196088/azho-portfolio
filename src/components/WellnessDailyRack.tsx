@@ -1,42 +1,47 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
 
 const IMAGES = [
-  { src: '/images/wellness-daily/wd-sleep.png',     alt: 'Sleep Maxxing' },
-  { src: '/images/wellness-daily/wd-recovery.png',  alt: 'Recovery' },
-  { src: '/images/wellness-daily/wd-protein.png',   alt: 'Protein' },
-  { src: '/images/wellness-daily/wd-creatine.png',  alt: 'Creatine' },
-  { src: '/images/wellness-daily/wd-sauna.png',     alt: 'Sauna' },
-  { src: '/images/wellness-daily/wd-athx.png',      alt: 'ATHX Games' },
-  { src: '/images/wellness-daily/wd-aesthetic.png', alt: 'Aesthetic' },
+  { src: '/images/wellness-daily/wd-sleep.png',     alt: 'Sleep Maxxing',  code: '01' },
+  { src: '/images/wellness-daily/wd-recovery.png',  alt: 'Recovery',       code: '02' },
+  { src: '/images/wellness-daily/wd-protein.png',   alt: 'Protein',        code: '03' },
+  { src: '/images/wellness-daily/wd-creatine.png',  alt: 'Creatine',       code: '04' },
+  { src: '/images/wellness-daily/wd-sauna.png',     alt: 'Sauna',          code: '05' },
+  { src: '/images/wellness-daily/wd-athx.png',      alt: 'ATHX Games',     code: '06' },
+  { src: '/images/wellness-daily/wd-aesthetic.png', alt: 'Aesthetic',      code: '07' },
 ]
 
 export default function WellnessDailyRack() {
   const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    if (paused) return
+    timerRef.current = setInterval(() => {
       setActive(prev => (prev + 1) % IMAGES.length)
     }, 3500)
-    return () => clearInterval(timer)
-  }, [])
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [paused])
 
-  const handleClick = (i: number) => {
-    setActive(i)
+  const handleClick = (index: number) => {
+    if (active === index) {
+      window.open('https://www.tiktok.com/@wellnessdaily_2025', '_blank')
+    } else {
+      setActive(index)
+    }
   }
 
   return (
-    <div style={{
-      padding: '0 56px 56px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '24px',
-    }}>
-      {/* Label row */}
+    <div style={{ padding: '0 56px 56px' }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: '24px',
       }}>
         <div className="sec-label" style={{ color: 'rgba(92,107,40,0.55)', marginBottom: 0 }}>
           Selected Carousels
@@ -52,115 +57,124 @@ export default function WellnessDailyRack() {
         </span>
       </div>
 
-      {/* 3D Rack */}
-      <div style={{
-        position: 'relative',
-        height: '420px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        perspective: '1200px',
-        perspectiveOrigin: '50% 50%',
-      }}>
-        {IMAGES.map((img, i) => {
-          const offset = i - active
-          const rotateY = offset === 0 ? 0 : offset > 0 ? 75 : -75
-          const translateX = offset * 220
-          const translateZ = offset === 0 ? 0 : -100
-          const opacity = Math.abs(offset) > 2 ? 0 : Math.abs(offset) === 0 ? 1 : 0.6
-
-          return (
-            <a
-              key={i}
-              href="https://www.tiktok.com/@wellnessdaily_2025"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => {
-                if (active !== i) {
-                  e.preventDefault()
-                  handleClick(i)
-                }
-              }}
-              style={{
-                position: 'absolute',
-                width: '200px',
-                aspectRatio: '9/16',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                cursor: 'pointer',
-                display: 'block',
-                textDecoration: 'none',
-                transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
-                opacity,
-                transition: 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
-                transformStyle: 'preserve-3d',
-                willChange: 'transform',
-                boxShadow: offset === 0
-                  ? '0 0 0 1px rgba(255,255,255,0.5), 0 0 0 2px rgba(92,107,40,0.15), inset 0 1px 0 rgba(255,255,255,0.8), 0 24px 64px rgba(92,107,40,0.25)'
-                  : '0 0 0 1px rgba(255,255,255,0.2), inset 0 1px 0 rgba(255,255,255,0.3)',
-              }}
-            >
-              <img
-                src={img.src}
-                alt={img.alt}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover' as const,
-                  display: 'block',
-                  borderRadius: '16px',
-                }}
-              />
-              {/* Glass shine overlay */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '16px',
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 40%, transparent 60%)',
-                pointerEvents: 'none',
-                border: '1px solid rgba(255,255,255,0.25)',
-              }} />
-            </a>
-          )
-        })}
-      </div>
-
-      {/* Dot indicators */}
-      <div style={{
-        display: 'flex',
-        gap: '8px',
-        justifyContent: 'center',
-        paddingTop: '8px',
-      }}>
-        {IMAGES.map((_, i) => (
-          <div
-            key={i}
-            onClick={() => handleClick(i)}
-            style={{
-              width: i === active ? '20px' : '6px',
-              height: '6px',
-              borderRadius: '3px',
-              background: i === active ? '#5C6B28' : 'rgba(92,107,40,0.3)',
-              transition: 'width 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s',
-              cursor: 'pointer',
+      <div
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        style={{
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '6px',
+          height: '380px',
+        }}
+      >
+        {IMAGES.map((image, index) => (
+          <motion.div
+            key={index}
+            onClick={() => handleClick(index)}
+            initial={{ width: '40px', height: '320px' }}
+            animate={{
+              width: active === index ? '340px' : '52px',
+              height: '340px',
             }}
-          />
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'relative',
+              cursor: 'pointer',
+              overflow: 'hidden',
+              borderRadius: '18px',
+              flexShrink: 0,
+              boxShadow: active === index
+                ? '0 0 0 1px rgba(255,255,255,0.5), 0 24px 64px rgba(92,107,40,0.25)'
+                : '0 0 0 1px rgba(255,255,255,0.15)',
+            }}
+          >
+            <AnimatePresence>
+              {active === index && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(45,74,45,0.5), transparent 50%)',
+                    zIndex: 2,
+                  }}
+                />
+              )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {active === index && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-end',
+                    padding: '16px',
+                    zIndex: 3,
+                  }}
+                >
+                  <p style={{
+                    fontSize: '9px',
+                    letterSpacing: '0.2em',
+                    color: 'rgba(221,208,184,0.7)',
+                    marginBottom: '4px',
+                  }}>
+                    {image.code}
+                  </p>
+                  <p style={{
+                    fontSize: '11px',
+                    letterSpacing: '0.1em',
+                    color: '#DDD0B8',
+                    textTransform: 'uppercase' as const,
+                  }}>
+                    {image.alt}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%)',
+              zIndex: 4,
+              pointerEvents: 'none',
+            }} />
+
+            <img
+              src={image.src}
+              alt={image.alt}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover' as const,
+                display: 'block',
+              }}
+            />
+          </motion.div>
         ))}
       </div>
 
-      {/* Hint / active name */}
       <div style={{
-        textAlign: 'center',
+        textAlign: 'center' as const,
         fontSize: '10px',
         letterSpacing: '0.2em',
         textTransform: 'uppercase' as const,
         color: '#5C6B28',
         opacity: 0.4,
-        marginTop: '4px',
+        marginTop: '16px',
       }}>
-        {active === 0
-          ? 'Tap selected · Opens TikTok ↗'
-          : IMAGES[active].alt}
+        Tap selected · Opens TikTok ↗
       </div>
     </div>
   )
