@@ -497,6 +497,8 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
   text-transform: uppercase; letter-spacing: -.01em; transition: color .2s;
 }
 .work-row:hover .w-title { color: var(--red); }
+.w-title { overflow: visible; }
+.work-row { overflow: visible; }
 .w-cat { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
 .w-type {
   font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);

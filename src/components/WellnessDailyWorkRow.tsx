@@ -1,5 +1,7 @@
 'use client'
 
+import TapeLabel from './TapeLabel'
+
 export default function WellnessDailyWorkRow() {
   return (
     <div
@@ -13,7 +15,9 @@ export default function WellnessDailyWorkRow() {
     >
       <span className="w-num">06</span>
       <div>
-        <div className="w-title">Wellness Daily</div>
+        <div className="w-title">
+          <TapeLabel text="Wellness Daily" variant={5} />
+        </div>
         <div className="w-cat">Brand Identity · Content Direction · TikTok / Instagram</div>
       </div>
       <span className="w-type">Brand</span>
