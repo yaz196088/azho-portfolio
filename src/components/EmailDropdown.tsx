@@ -45,18 +45,10 @@ export default function EmailDropdown() {
           style={{
             fontSize: '10px',
             letterSpacing: '0.16em',
-            padding: '16px 20px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            opacity: 0.6,
-            transition: 'opacity 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
         >
           yussuf.magdi.azhari@gmail.com
-          <span style={{ fontSize: '14px' }}>→</span>
+          <span className="arr" style={{ fontSize: '14px' }}>→</span>
         </a>
         <a
           href="mailto:youssefazhari60@gmail.com"
@@ -64,18 +56,10 @@ export default function EmailDropdown() {
           style={{
             fontSize: '10px',
             letterSpacing: '0.16em',
-            padding: '16px 20px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            opacity: 0.6,
-            transition: 'opacity 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
         >
           youssefazhari60@gmail.com
-          <span style={{ fontSize: '14px' }}>→</span>
+          <span className="arr" style={{ fontSize: '14px' }}>→</span>
         </a>
       </div>
     </div>
