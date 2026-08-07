@@ -14,26 +14,28 @@ const IMAGES = [
 
 export default function WellnessDailyRack() {
   const [active, setActive] = useState(0)
+  const [hovered, setHovered] = useState<number | null>(null)
+  const [expanded, setExpanded] = useState<number | null>(null)
   const [paused, setPaused] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
-    if (paused) return
+    if (paused || expanded !== null) return
     timerRef.current = setInterval(() => {
       setActive(prev => (prev + 1) % IMAGES.length)
     }, 3500)
     return () => {
       if (timerRef.current) clearInterval(timerRef.current)
     }
-  }, [paused])
+  }, [paused, expanded])
 
-  const handleClick = (index: number) => {
-    if (active === index) {
-      window.open('https://www.tiktok.com/@wellnessdaily_2025', '_blank')
-    } else {
-      setActive(index)
-    }
-  }
+  useEffect(() => {
+    if (expanded === null) return
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [expanded])
+
+  const displayIndex = hovered !== null ? hovered : active
 
   return (
     <div style={{ padding: '0 56px 56px' }}>
@@ -53,13 +55,13 @@ export default function WellnessDailyRack() {
           color: '#5C6B28',
           opacity: 0.4,
         }}>
-          {active + 1} / {IMAGES.length}
+          {displayIndex + 1} / {IMAGES.length}
         </span>
       </div>
 
       <div
         onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        onMouseLeave={() => { setPaused(false); setHovered(null) }}
         style={{
           display: 'flex',
           width: '100%',
@@ -72,10 +74,14 @@ export default function WellnessDailyRack() {
         {IMAGES.map((image, index) => (
           <motion.div
             key={index}
-            onClick={() => handleClick(index)}
+            layoutId={`wd-card-${index}`}
+            onMouseEnter={() => setHovered(index)}
+            onClick={() => setExpanded(index)}
             initial={{ width: '40px' }}
-            animate={{ width: active === index ? '260px' : '52px' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            animate={{
+              width: displayIndex === index ? '260px' : '52px',
+            }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'relative',
               cursor: 'pointer',
@@ -83,13 +89,13 @@ export default function WellnessDailyRack() {
               borderRadius: '18px',
               flexShrink: 0,
               height: '380px',
-              boxShadow: active === index
+              boxShadow: displayIndex === index
                 ? '0 0 0 1px rgba(255,255,255,0.5), 0 24px 64px rgba(92,107,40,0.25)'
                 : '0 0 0 1px rgba(255,255,255,0.15)',
             }}
           >
             <AnimatePresence>
-              {active === index && (
+              {displayIndex === index && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -105,7 +111,7 @@ export default function WellnessDailyRack() {
             </AnimatePresence>
 
             <AnimatePresence>
-              {active === index && (
+              {displayIndex === index && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -121,20 +127,10 @@ export default function WellnessDailyRack() {
                     zIndex: 3,
                   }}
                 >
-                  <p style={{
-                    fontSize: '9px',
-                    letterSpacing: '0.2em',
-                    color: 'rgba(221,208,184,0.7)',
-                    marginBottom: '4px',
-                  }}>
+                  <p style={{ fontSize: '9px', letterSpacing: '0.2em', color: 'rgba(221,208,184,0.7)', marginBottom: '4px' }}>
                     {image.code}
                   </p>
-                  <p style={{
-                    fontSize: '11px',
-                    letterSpacing: '0.1em',
-                    color: '#DDD0B8',
-                    textTransform: 'uppercase' as const,
-                  }}>
+                  <p style={{ fontSize: '11px', letterSpacing: '0.1em', color: '#DDD0B8', textTransform: 'uppercase' as const }}>
                     {image.alt}
                   </p>
                 </motion.div>
@@ -149,16 +145,10 @@ export default function WellnessDailyRack() {
               pointerEvents: 'none',
             }} />
 
-            <img
+            <motion.img
               src={image.src}
               alt={image.alt}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover' as const,
-                objectPosition: 'center 20%',
-                display: 'block',
-              }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' }}
             />
           </motion.div>
         ))}
@@ -173,8 +163,72 @@ export default function WellnessDailyRack() {
         opacity: 0.4,
         marginTop: '16px',
       }}>
-        Tap selected · Opens TikTok ↗
+        Hover to preview · Click to expand
       </div>
+
+      <AnimatePresence>
+        {expanded !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            onClick={() => setExpanded(null)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 9000,
+              background: 'rgba(16,15,13,0.55)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <motion.div
+              layoutId={`wd-card-${expanded}`}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                width: 'min(360px, 80vw)',
+                aspectRatio: '9/16',
+                borderRadius: '24px',
+                overflow: 'hidden',
+                boxShadow: '0 40px 100px rgba(0,0,0,0.5)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={IMAGES[expanded].src}
+                alt={IMAGES[expanded].alt}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' }}
+              />
+            </motion.div>
+
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              onClick={() => setExpanded(null)}
+              style={{
+                position: 'absolute',
+                top: '32px',
+                right: '48px',
+                background: 'none',
+                border: 'none',
+                color: '#DDD0B8',
+                fontSize: '28px',
+                cursor: 'pointer',
+                fontFamily: "'Big Shoulders Display', sans-serif",
+                fontWeight: 900,
+              }}
+            >
+              ✕
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
