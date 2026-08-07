@@ -6,6 +6,7 @@ import WellnessDailyWorkRow from '../components/WellnessDailyWorkRow'
 import EmailDropdown from '../components/EmailDropdown'
 import AboutTextReveal from '../components/AboutTextReveal'
 import TapeLabel from '../components/TapeLabel'
+import TapeFilters from '../components/TapeFilters'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
 import StatCounters from '../components/StatCounters'
@@ -19,6 +20,9 @@ const MARQUEE_ITEMS = [
 export default function Home() {
   return (
     <>
+      {/* SVG filter defs for tape grain + edge warp */}
+      <TapeFilters />
+
       {/* Client-side effects: cursor, scroll reveal, stat counters, page interactions */}
       <PageEffects />
       <ScrollReveal />
