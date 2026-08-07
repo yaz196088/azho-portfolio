@@ -4,6 +4,7 @@ import PosterWorkRow from '../components/PosterWorkRow'
 import WellnessDaily from '../components/WellnessDaily'
 import WellnessDailyWorkRow from '../components/WellnessDailyWorkRow'
 import EmailDropdown from '../components/EmailDropdown'
+import AboutTextReveal from '../components/AboutTextReveal'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
 import StatCounters from '../components/StatCounters'
@@ -48,34 +49,6 @@ export default function Home() {
           ))}
         </div>
       </div>
-
-      {/* ─── ABOUT ─── */}
-      <section className="about" id="about">
-        <div className="about-text rv">
-          <div className="sec-label">About</div>
-          <h2>Architecture<br />Meets Intention</h2>
-          <p>Currently at TU Berlin, I came up through the AUC architecture programme before pivoting to Germany. My internship background spans FF&amp;E, 3D visualisation, and front-end development — three disciplines that share the same obsession: making form purposeful.</p>
-          <p>I believe great spaces — physical or digital — begin with honest observation and purposeful constraint. I&apos;m trilingual (Arabic, English, German) and build in both Rhino and Figma.</p>
-        </div>
-        <div className="stats rv rv-d2">
-          <div className="stat">
-            <div className="stat-n" data-target="3">0</div>
-            <div className="stat-l">Architecture internships</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n" data-target="3">0</div>
-            <div className="stat-l">Languages — fluent</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n" data-target="6">0</div>
-            <div className="stat-l">Design disciplines</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n" data-target="2">0</div>
-            <div className="stat-l">Cities, one eye</div>
-          </div>
-        </div>
-      </section>
 
       {/* Skills */}
       <div className="skills-strip rv">
@@ -199,6 +172,36 @@ export default function Home() {
             &ldquo;Buildings like these could fuse modern day architecture with old heritage — used as community buildings, libraries, or rental offices.&rdquo;
             <cite>— Youssef El Azhari, on Downtown Cairo</cite>
           </blockquote>
+        </div>
+      </section>
+
+      <hr />
+
+      {/* ─── ABOUT ─── */}
+      <section className="about" id="about">
+        <div className="about-text rv">
+          <div className="sec-label">About</div>
+          <h2>Architecture<br />Meets Intention</h2>
+          <AboutTextReveal text="Currently at TU Berlin, I came up through the AUC architecture programme before pivoting to Germany. My internship background spans FF&E, 3D visualisation, and front-end development — three disciplines that share the same obsession: making form purposeful." />
+          <AboutTextReveal text="I believe great spaces — physical or digital — begin with honest observation and purposeful constraint. I'm trilingual (Arabic, English, German) and build in both Rhino and Figma." />
+        </div>
+        <div className="stats rv rv-d2">
+          <div className="stat">
+            <div className="stat-n" data-target="3">0</div>
+            <div className="stat-l">Architecture internships</div>
+          </div>
+          <div className="stat">
+            <div className="stat-n" data-target="3">0</div>
+            <div className="stat-l">Languages — fluent</div>
+          </div>
+          <div className="stat">
+            <div className="stat-n" data-target="6">0</div>
+            <div className="stat-l">Design disciplines</div>
+          </div>
+          <div className="stat">
+            <div className="stat-n" data-target="2">0</div>
+            <div className="stat-l">Cities, one eye</div>
+          </div>
         </div>
       </section>
 
