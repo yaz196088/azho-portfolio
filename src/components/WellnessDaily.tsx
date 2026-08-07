@@ -55,17 +55,17 @@ export default function WellnessDaily() {
           }}
           onMouseLeave={e => {
             const heading = e.currentTarget.querySelector<HTMLElement>('[data-brand-heading]')
-            if (heading) heading.style.letterSpacing = '-0.03em'
+            if (heading) heading.style.letterSpacing = '-0.02em'
           }}
         >
           <div
             data-brand-heading
             style={{
-              fontFamily: "'Big Shoulders Display', sans-serif",
-              fontWeight: 900,
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 600,
               fontSize: 'clamp(64px, 10vw, 130px)',
               lineHeight: 0.85,
-              letterSpacing: '-0.03em',
+              letterSpacing: '-0.02em',
               textTransform: 'uppercase' as const,
               transition: 'letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1)',
             }}
