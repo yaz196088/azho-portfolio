@@ -6,7 +6,7 @@ const TAPE_VARIANTS = [
   { rotate: -1.2, img: '/images/tape/tape-3.png' },
   { rotate: 2.6,  img: '/images/tape/tape-4.png' },
   { rotate: -3.1, img: '/images/tape/tape-5.png' },
-  { rotate: 1.4,  img: '/images/tape/tape-1.png' }, // reuse, mirrored below
+  { rotate: 1.4,  img: '/images/tape/tape-2.png', mirror: true },
 ]
 
 export default function TapeLabel({
@@ -17,7 +17,6 @@ export default function TapeLabel({
   variant?: number
 }) {
   const v = TAPE_VARIANTS[variant % TAPE_VARIANTS.length]
-  const isReused = variant === 5
 
   return (
     <span
@@ -26,6 +25,7 @@ export default function TapeLabel({
         position: 'relative',
         transform: `rotate(${v.rotate}deg)`,
         transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
+        padding: '0.15em 0.4em',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = `rotate(0deg) scale(1.02)`
@@ -39,13 +39,16 @@ export default function TapeLabel({
         alt=""
         style={{
           position: 'absolute',
-          inset: '-16px -24px',
-          width: 'calc(100% + 48px)',
-          height: 'calc(100% + 32px)',
-          objectFit: 'fill',
-          transform: isReused ? 'scaleX(-1)' : 'none',
-          filter: 'saturate(0.85) brightness(1.02)',
-          mixBlendMode: 'multiply' as const,
+          top: '50%',
+          left: '50%',
+          width: '115%',
+          height: '210%',
+          minWidth: '160px',
+          transform: `translate(-50%, -50%) ${v.mirror ? 'scaleX(-1)' : ''}`,
+          objectFit: 'cover' as const,
+          objectPosition: 'center',
+          filter: 'saturate(0.9)',
+          opacity: 0.95,
           pointerEvents: 'none',
           zIndex: 0,
         }}
@@ -57,11 +60,9 @@ export default function TapeLabel({
           fontFamily: "'Permanent Marker', cursive",
           fontSize: 'inherit',
           color: '#100F0D',
-          padding: '4px 10px',
           letterSpacing: '0.01em',
           whiteSpace: 'nowrap' as const,
           display: 'inline-block',
-          opacity: 0.9,
         }}
       >
         {text}
