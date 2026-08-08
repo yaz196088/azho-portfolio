@@ -29,7 +29,7 @@ export default function TapeEditor() {
 
   const copyValues = () => {
     const code = variants.map(v =>
-      `{ x: ${v.x}, y: ${v.y}, scale: ${v.scale.toFixed(2)}, rotate: ${v.rotate.toFixed(1)}, img: '${v.img}' },`
+      `{ x: ${v.x}, y: ${v.y}, scaleX: ${v.scaleX.toFixed(2)}, scaleY: ${v.scaleY.toFixed(2)}, rotate: ${v.rotate.toFixed(1)}, img: '${v.img}' },`
     ).join('\n')
     navigator.clipboard.writeText(code)
     alert('Copied all variant values to clipboard!')
@@ -73,17 +73,17 @@ export default function TapeEditor() {
         ))}
       </div>
 
-      {(['x', 'y', 'scale', 'rotate'] as const).map(key => (
+      {(['x', 'y', 'scaleX', 'scaleY', 'rotate'] as const).map(key => (
         <div key={key} style={{ marginBottom: '10px' }}>
           <label style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span>{key}</span>
-            <span>{current[key].toFixed(key === 'scale' ? 2 : 0)}</span>
+            <span>{current[key].toFixed(key === 'scaleX' || key === 'scaleY' ? 2 : 0)}</span>
           </label>
           <input
             type="range"
-            min={key === 'scale' ? 0.3 : key === 'rotate' ? -45 : -100}
-            max={key === 'scale' ? 2.5 : key === 'rotate' ? 45 : 100}
-            step={key === 'scale' ? 0.01 : 1}
+            min={key === 'scaleX' || key === 'scaleY' ? 0.3 : key === 'rotate' ? -45 : -100}
+            max={key === 'scaleX' || key === 'scaleY' ? 3 : key === 'rotate' ? 45 : 100}
+            step={key === 'scaleX' || key === 'scaleY' ? 0.01 : 1}
             value={current[key]}
             onChange={e => update(key, parseFloat(e.target.value))}
             style={{ width: '100%' }}

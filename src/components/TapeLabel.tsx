@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react'
 
 export type TapeAdjust = {
-  x: number      // horizontal offset in px
-  y: number      // vertical offset in px
-  scale: number  // scale multiplier
-  rotate: number // rotation in degrees
-  img: string    // path to tape image
+  x: number       // horizontal offset in px
+  y: number       // vertical offset in px
+  scaleX: number  // horizontal scale multiplier
+  scaleY: number  // vertical scale multiplier
+  rotate: number  // rotation in degrees
+  img: string     // path to tape image
 }
 
 declare global {
@@ -14,12 +15,12 @@ declare global {
 }
 
 const DEFAULT_VARIANTS: TapeAdjust[] = [
-  { x: 0, y: 0, scale: 1, rotate: -2.5, img: '/images/tape/tape-1.png' },
-  { x: 0, y: 0, scale: 1, rotate: 1.8,  img: '/images/tape/tape-2.png' },
-  { x: 0, y: 0, scale: 1, rotate: -1.2, img: '/images/tape/tape-3.png' },
-  { x: 0, y: 0, scale: 1, rotate: 2.6,  img: '/images/tape/tape-4.png' },
-  { x: 0, y: 0, scale: 1, rotate: -3.1, img: '/images/tape/tape-5.png' },
-  { x: 0, y: 0, scale: 1, rotate: 1.4,  img: '/images/tape/tape-2.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: -2.5, img: '/images/tape/tape-1.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: 1.8,  img: '/images/tape/tape-2.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: -1.2, img: '/images/tape/tape-3.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: 2.6,  img: '/images/tape/tape-4.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: -3.1, img: '/images/tape/tape-5.png' },
+  { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: 1.4,  img: '/images/tape/tape-2.png' },
 ]
 
 export { DEFAULT_VARIANTS }
@@ -65,7 +66,7 @@ export default function TapeLabel({
           width: '112%',
           height: '190%',
           minWidth: '120px',
-          transform: `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) rotate(${v.rotate}deg) scale(${v.scale})`,
+          transform: `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) rotate(${v.rotate}deg) scaleX(${v.scaleX}) scaleY(${v.scaleY})`,
           objectFit: 'cover' as const,
           pointerEvents: 'none',
           zIndex: 0,
