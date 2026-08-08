@@ -1,37 +1,58 @@
 'use client'
+import { useState, useEffect } from 'react'
 
-const TAPE_VARIANTS = [
-  { rotate: -2.5, img: '/images/tape/tape-1.png' },
-  { rotate: 1.8,  img: '/images/tape/tape-2.png' },
-  { rotate: -1.2, img: '/images/tape/tape-3.png' },
-  { rotate: 2.6,  img: '/images/tape/tape-4.png' },
-  { rotate: -3.1, img: '/images/tape/tape-5.png' },
-  { rotate: 1.4,  img: '/images/tape/tape-2.png', mirror: true },
+export type TapeAdjust = {
+  x: number      // horizontal offset in px
+  y: number      // vertical offset in px
+  scale: number  // scale multiplier
+  rotate: number // rotation in degrees
+  img: string    // path to tape image
+}
+
+declare global {
+  interface Window { __tapeOverrides?: TapeAdjust[] }
+}
+
+const DEFAULT_VARIANTS: TapeAdjust[] = [
+  { x: 0, y: 0, scale: 1, rotate: -2.5, img: '/images/tape/tape-1.png' },
+  { x: 0, y: 0, scale: 1, rotate: 1.8,  img: '/images/tape/tape-2.png' },
+  { x: 0, y: 0, scale: 1, rotate: -1.2, img: '/images/tape/tape-3.png' },
+  { x: 0, y: 0, scale: 1, rotate: 2.6,  img: '/images/tape/tape-4.png' },
+  { x: 0, y: 0, scale: 1, rotate: -3.1, img: '/images/tape/tape-5.png' },
+  { x: 0, y: 0, scale: 1, rotate: 1.4,  img: '/images/tape/tape-2.png' },
 ]
+
+export { DEFAULT_VARIANTS }
 
 export default function TapeLabel({
   text,
   variant = 0,
+  adjust,
 }: {
   text: string
   variant?: number
+  adjust?: TapeAdjust
 }) {
-  const v = TAPE_VARIANTS[variant % TAPE_VARIANTS.length]
+  const [, forceUpdate] = useState(0)
+
+  useEffect(() => {
+    const handler = () => forceUpdate(n => n + 1)
+    window.addEventListener('tape-update', handler)
+    return () => window.removeEventListener('tape-update', handler)
+  }, [])
+
+  const v =
+    adjust ||
+    (typeof window !== 'undefined' && window.__tapeOverrides?.[variant]) ||
+    DEFAULT_VARIANTS[variant % DEFAULT_VARIANTS.length]
 
   return (
     <span
+      data-tape-variant={variant}
       style={{
         display: 'inline-block',
         position: 'relative',
-        transform: `rotate(${v.rotate}deg)`,
-        transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
         padding: '0.15em 0.4em',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.transform = `rotate(0deg) scale(1.02)`
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.transform = `rotate(${v.rotate}deg) scale(1)`
       }}
     >
       <img
@@ -41,14 +62,10 @@ export default function TapeLabel({
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '115%',
-          height: '210%',
-          minWidth: '160px',
-          transform: `translate(-50%, -50%) ${v.mirror ? 'scaleX(-1)' : ''}`,
+          width: '160px',
+          height: '80px',
+          transform: `translate(-50%, -50%) translate(${v.x}px, ${v.y}px) rotate(${v.rotate}deg) scale(${v.scale})`,
           objectFit: 'cover' as const,
-          objectPosition: 'center',
-          filter: 'saturate(0.9)',
-          opacity: 0.95,
           pointerEvents: 'none',
           zIndex: 0,
         }}
@@ -60,7 +77,6 @@ export default function TapeLabel({
           fontFamily: "'Permanent Marker', cursive",
           fontSize: 'inherit',
           color: '#100F0D',
-          letterSpacing: '0.01em',
           whiteSpace: 'nowrap' as const,
           display: 'inline-block',
         }}
