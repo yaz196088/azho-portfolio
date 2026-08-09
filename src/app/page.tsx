@@ -5,8 +5,6 @@ import WellnessDaily from '../components/WellnessDaily'
 import WellnessDailyWorkRow from '../components/WellnessDailyWorkRow'
 import EmailDropdown from '../components/EmailDropdown'
 import AboutTextReveal from '../components/AboutTextReveal'
-import TapeLabel from '../components/TapeLabel'
-import TapeEditor from '../components/TapeEditor'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
 import StatCounters from '../components/StatCounters'
@@ -20,9 +18,6 @@ const MARQUEE_ITEMS = [
 export default function Home() {
   return (
     <>
-      {/* Dev-only tape editor — visible at ?edit=tape */}
-      <TapeEditor />
-
       {/* Client-side effects: cursor, scroll reveal, stat counters, page interactions */}
       <PageEffects />
       <ScrollReveal />
@@ -122,9 +117,7 @@ export default function Home() {
           <div className="work-row rv" data-label="Architecture">
             <span className="w-num">01</span>
             <div>
-              <div className="w-title">
-                <TapeLabel text="Egypt Pavilion — Biennale 2024" variant={0} />
-              </div>
+              <div className="w-title">Egypt Pavilion — Biennale 2024</div>
               <div className="w-cat">Architecture · Concept Design · Rhino</div>
             </div>
             <span className="w-type">Architecture</span>
@@ -133,9 +126,7 @@ export default function Home() {
           <div className="work-row rv rv-d1" data-label="Interior">
             <span className="w-num">02</span>
             <div>
-              <div className="w-title">
-                <TapeLabel text="North Coast Bedroom Interior" variant={1} />
-              </div>
+              <div className="w-title">North Coast Bedroom Interior</div>
               <div className="w-cat">Interior Design · 3D Visualisation · Corona</div>
             </div>
             <span className="w-type">Interior</span>
@@ -144,9 +135,7 @@ export default function Home() {
           <div className="work-row rv rv-d2" data-label="Digital">
             <span className="w-num">03</span>
             <div>
-              <div className="w-title">
-                <TapeLabel text="Aada — Islamic Habit Tracker" variant={2} />
-              </div>
+              <div className="w-title">Aada — Islamic Habit Tracker</div>
               <div className="w-cat">UI / UX · Front-end Development · Figma</div>
             </div>
             <span className="w-type">Digital</span>
@@ -155,9 +144,7 @@ export default function Home() {
           <div className="work-row rv rv-d3" data-label="Photography">
             <span className="w-num">04</span>
             <div>
-              <div className="w-title">
-                <TapeLabel text="Downtown Cairo — Photo Series" variant={3} />
-              </div>
+              <div className="w-title">Downtown Cairo — Photo Series</div>
               <div className="w-cat">Photography · Architectural Documentation</div>
             </div>
             <span className="w-type">Photography</span>
