@@ -26,7 +26,7 @@ export default function Home() {
 
       {/* ─── NAV ─── */}
       <nav>
-        <a href="#" className="nav-logo">Azho</a>
+        <a href="#" className="nav-logo">Yaz</a>
         <div className="nav-right">
           <ul className="nav-links">
             <li><a href="#works">Work</a></li>

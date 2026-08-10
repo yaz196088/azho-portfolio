@@ -27,7 +27,7 @@ export default function HeroClient() {
     }
     charSplit(l1, 'Youssef', 0.1)
     charSplit(l2, 'El Azhari', 0.5)
-    charSplit(l3, 'Azho', 0.92)
+    charSplit(l3, 'Yaz', 0.92)
   }, [])
 
   return (
