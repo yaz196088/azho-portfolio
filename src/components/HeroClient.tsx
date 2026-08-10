@@ -37,7 +37,9 @@ export default function HeroClient() {
         <span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span>
       </div>
-      <div className="hero-geo-circle"></div>
+      <div className="hero-geo-circle">
+        <img src="/images/elements/sun.png" alt="" />
+      </div>
       <div className="hero-geo-circle2"></div>
       <div className="hero-geo-rect"></div>
 

@@ -129,16 +129,27 @@ nav {
 }
 
 .hero-geo-circle {
-  position: absolute; right: -100px; top: 55%;
+  position: absolute;
+  right: -100px;
+  top: 55%;
   transform: translateY(-50%);
-  width: 380px; height: 380px;
-  border: 1px solid rgba(31,24,192,.18);
-  border-radius: 50%; pointer-events: none; z-index: 1;
-  animation: floatCircle 8s ease-in-out infinite;
+  width: 380px;
+  height: 380px;
+  pointer-events: none;
+  z-index: 1;
+  animation: spinSun 22s linear infinite;
 }
-@keyframes floatCircle {
-  0%,100% { transform: translateY(-50%) scale(1); }
-  50%      { transform: translateY(-54%) scale(1.03); }
+
+.hero-geo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+@keyframes spinSun {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to   { transform: translateY(-50%) rotate(360deg); }
 }
 .hero-geo-rect {
   position: absolute; left: 56px; top: 42%;
@@ -860,6 +871,7 @@ img { max-width: 100%; height: auto; }
   .hero-body { padding-top: 120px; }
   .hero-eyebrow { left: 24px; right: 24px; top: 72px; }
   .hero-name { font-size: clamp(58px, 17.5vw, 92px); }
+  .hero-geo-circle { width: 220px; height: 220px; right: -60px; }
   .hero-foot { flex-direction: column; gap: 32px; }
   .hero-tags { align-items: flex-start; }
   .hero-intro { max-width: 100%; }
