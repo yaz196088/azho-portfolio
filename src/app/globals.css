@@ -886,4 +886,7 @@ img { max-width: 100%; height: auto; }
 
   /* FOOTER */
   footer { padding: 20px 24px; flex-wrap: wrap; gap: 10px; font-size: 8px; }
+
+  /* WAX SEAL — hide on mobile */
+  .wax-seal-wrapper { display: none; }
 }
