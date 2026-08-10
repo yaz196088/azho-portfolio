@@ -281,8 +281,8 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .about { padding: 96px 56px; display: grid; grid-template-columns: 5fr 3fr; gap: 80px; }
 .about-text h2 {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(46px, 6.8vw, 92px);
-  text-transform: uppercase; letter-spacing: -.02em; line-height: 1; margin-bottom: 28px;
+  font-weight: 400; font-size: clamp(52px, 7.5vw, 108px);
+  text-transform: uppercase; letter-spacing: -0.01em; line-height: 1; margin-bottom: 32px;
 }
 .about-text p { font-size: 15px; line-height: 1.9; color: var(--muted); max-width: 520px; }
 .about-text p + p { margin-top: 16px; }

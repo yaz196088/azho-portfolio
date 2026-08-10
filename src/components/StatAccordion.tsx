@@ -32,8 +32,8 @@ export default function StatAccordion() {
           onMouseEnter={() => setOpen(i)}
           onMouseLeave={() => setOpen(null)}
           style={{
-            borderTop: '1px solid var(--rule)',
-            paddingTop: '18px',
+            borderTop: i === 0 ? 'none' : '1px solid var(--rule)',
+            paddingTop: i === 0 ? '0px' : '18px',
             paddingBottom: open === i ? '18px' : '0px',
             cursor: 'default',
             transition: 'padding-bottom 0.5s cubic-bezier(0.16,1,0.3,1)',
