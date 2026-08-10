@@ -826,6 +826,14 @@ img { max-width: 100%; height: auto; }
   font-family: 'Bricolage Grotesque', sans-serif;
 }
 
+/* Roman numerals — declared after the sans override so it wins on
+   .w-num / .w-year / .eyebrow-count, which appear in that list */
+.roman {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: var(--ink);
+}
+
 /* Wellness Daily keeps its own palette — it borrows .sec-label, whose
    ::before cannot be overridden by that component's inline styles */
 #wellness-daily-section .sec-label::before {

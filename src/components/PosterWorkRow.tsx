@@ -1,5 +1,7 @@
 'use client'
 
+import { toRoman } from '@/lib/roman'
+
 export default function PosterWorkRow() {
   return (
     <div
@@ -11,13 +13,13 @@ export default function PosterWorkRow() {
       }}
       style={{ cursor: 'pointer' }}
     >
-      <span className="w-num">05</span>
+      <span className="w-num roman">{toRoman(5)}</span>
       <div>
         <div className="w-title hand-title">Subconscious — Poster Series</div>
         <div className="w-cat">Graphic Design · Typography · Editorial</div>
       </div>
       <span className="w-type">Graphic</span>
-      <span className="w-year">2023</span>
+      <span className="w-year roman">{toRoman(2023)}</span>
       <span className="w-arrow">→</span>
     </div>
   )

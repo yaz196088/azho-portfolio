@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { toRoman } from '@/lib/roman'
 
 export default function HeroClient() {
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function HeroClient() {
           TU Berlin — SS 2026<br />
           Cairo &rarr; Berlin
         </div>
-        <div className="eyebrow-count">01 / 05</div>
+        <div className="eyebrow-count"><span className="roman">{toRoman(1)}</span> / <span className="roman">{toRoman(5)}</span></div>
       </div>
 
       <div className="hero-body">

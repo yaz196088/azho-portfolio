@@ -1,3 +1,4 @@
+import { toRoman } from '@/lib/roman'
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
@@ -75,7 +76,7 @@ export default function Home() {
         <div className="intern-grid">
 
           <div className="portal-tile rv" data-portal="hsi">
-            <div className="pt-num">01</div>
+            <div className="pt-num roman">{toRoman(1)}</div>
             <div className="pt-name hand-title">Hany Saad Innovations</div>
             <div className="pt-meta">3D Department · Post Production · FF&amp;E<br />3 months, Cairo</div>
             <div className="pt-tag">Interior + Visualisation</div>
@@ -83,7 +84,7 @@ export default function Home() {
           </div>
 
           <div className="portal-tile rv rv-d1" data-portal="fr">
-            <div className="pt-num">02</div>
+            <div className="pt-num roman">{toRoman(2)}</div>
             <div className="pt-name hand-title">FR Partnership</div>
             <div className="pt-meta">Ahmad Fayyad · FF&amp;E · 3D Renders<br />2 months, Cairo</div>
             <div className="pt-tag">Architecture + Renders</div>
@@ -91,7 +92,7 @@ export default function Home() {
           </div>
 
           <div className="portal-tile rv rv-d2" data-portal="siemens">
-            <div className="pt-num">03</div>
+            <div className="pt-num roman">{toRoman(3)}</div>
             <div className="pt-name hand-title">Siemens</div>
             <div className="pt-meta">Cross-sector exposure<br />1 month, Cairo</div>
             <div className="pt-tag">Engineering + Strategy</div>
@@ -115,40 +116,40 @@ export default function Home() {
 
         <div className="work-list">
           <div className="work-row rv" data-label="Architecture">
-            <span className="w-num">01</span>
+            <span className="w-num roman">{toRoman(1)}</span>
             <div>
               <div className="w-title hand-title">Egypt Pavilion — Biennale 2024</div>
               <div className="w-cat">Architecture · Concept Design · Rhino</div>
             </div>
             <span className="w-type">Architecture</span>
-            <span className="w-year">2024</span>
+            <span className="w-year roman">{toRoman(2024)}</span>
           </div>
           <div className="work-row rv rv-d1" data-label="Interior">
-            <span className="w-num">02</span>
+            <span className="w-num roman">{toRoman(2)}</span>
             <div>
               <div className="w-title hand-title">North Coast Bedroom Interior</div>
               <div className="w-cat">Interior Design · 3D Visualisation · Corona</div>
             </div>
             <span className="w-type">Interior</span>
-            <span className="w-year">2023</span>
+            <span className="w-year roman">{toRoman(2023)}</span>
           </div>
           <div className="work-row rv rv-d2" data-label="Digital">
-            <span className="w-num">03</span>
+            <span className="w-num roman">{toRoman(3)}</span>
             <div>
               <div className="w-title hand-title">Aada — Islamic Habit Tracker</div>
               <div className="w-cat">UI / UX · Front-end Development · Figma</div>
             </div>
             <span className="w-type">Digital</span>
-            <span className="w-year">2024</span>
+            <span className="w-year roman">{toRoman(2024)}</span>
           </div>
           <div className="work-row rv rv-d3" data-label="Photography">
-            <span className="w-num">04</span>
+            <span className="w-num roman">{toRoman(4)}</span>
             <div>
               <div className="w-title hand-title">Downtown Cairo — Photo Series</div>
               <div className="w-cat">Photography · Architectural Documentation</div>
             </div>
             <span className="w-type">Photography</span>
-            <span className="w-year">2023</span>
+            <span className="w-year roman">{toRoman(2023)}</span>
           </div>
           <PosterWorkRow />
           <WellnessDailyWorkRow />
@@ -187,19 +188,19 @@ export default function Home() {
         </div>
         <div className="stats rv rv-d2">
           <div className="stat">
-            <div className="stat-n" data-target="3">0</div>
+            <div className="stat-n roman" data-target="3">{toRoman(3)}</div>
             <div className="stat-l">Architecture internships</div>
           </div>
           <div className="stat">
-            <div className="stat-n" data-target="3">0</div>
+            <div className="stat-n roman" data-target="3">{toRoman(3)}</div>
             <div className="stat-l">Languages — fluent</div>
           </div>
           <div className="stat">
-            <div className="stat-n" data-target="6">0</div>
+            <div className="stat-n roman" data-target="6">{toRoman(6)}</div>
             <div className="stat-l">Design disciplines</div>
           </div>
           <div className="stat">
-            <div className="stat-n" data-target="2">0</div>
+            <div className="stat-n roman" data-target="2">{toRoman(2)}</div>
             <div className="stat-l">Cities, one eye</div>
           </div>
         </div>

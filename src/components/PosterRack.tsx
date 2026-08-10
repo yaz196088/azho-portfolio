@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { toRoman } from '@/lib/roman'
 
 const POSTERS = [
   { src: '/images/posters/constructivism.png', title: 'OBSERVE SUBJECTIVELY' },
@@ -180,9 +181,9 @@ export default function PosterRack() {
         ))}
       </div>
       <div className="rack-meta">
-        <span>{String(displayedIndex + 1).padStart(2, '0')} / {String(POSTERS.length).padStart(2, '0')}</span>
+        <span><span className="roman">{toRoman(displayedIndex + 1)}</span> / <span className="roman">{toRoman(POSTERS.length)}</span></span>
         <span>Poster Series</span>
-        <span>2023</span>
+        <span className="roman">{toRoman(2023)}</span>
       </div>
     </div>
   )
