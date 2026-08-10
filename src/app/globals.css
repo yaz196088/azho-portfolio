@@ -168,7 +168,7 @@ nav {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
   font-style: italic;
-  font-size: clamp(68px, 12.5vw, 172px);
+  font-size: clamp(78px, 14.5vw, 200px);
   line-height: .86; letter-spacing: -.03em; text-transform: uppercase;
   margin-bottom: 40px;
   contain: layout style;
@@ -270,7 +270,7 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .about { padding: 96px 56px; display: grid; grid-template-columns: 5fr 3fr; gap: 80px; }
 .about-text h2 {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(38px, 5.5vw, 72px);
+  font-weight: 400; font-size: clamp(46px, 6.8vw, 92px);
   text-transform: uppercase; letter-spacing: -.02em; line-height: 1; margin-bottom: 28px;
 }
 .about-text p { font-size: 15px; line-height: 1.9; color: var(--muted); max-width: 520px; }
@@ -280,7 +280,7 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .stat { border-top: 1px solid var(--rule); padding-top: 18px; }
 .stat-n {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: 52px; line-height: 1; color: var(--ink); letter-spacing: -.03em;
+  font-weight: 400; font-size: 66px; line-height: 1; color: var(--ink); letter-spacing: -.03em;
 }
 .stat-l { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
 
@@ -332,7 +332,7 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 
 .pt-num {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: 48px; line-height: 1; letter-spacing: -.03em;
+  font-weight: 400; font-size: 58px; line-height: 1; letter-spacing: -.03em;
   color: rgba(31,24,192,.08);
   position: relative; z-index: 1;
   transition: color .4s;
@@ -405,7 +405,7 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .po-company {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(52px, 9vw, 120px);
+  font-size: clamp(62px, 10.5vw, 145px);
   text-transform: uppercase; line-height: .88; letter-spacing: -.03em;
   margin-bottom: 40px;
 }
@@ -449,7 +449,7 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 }
 .works-head h2 {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(52px, 9vw, 128px);
+  font-weight: 400; font-size: clamp(62px, 10.5vw, 156px);
   text-transform: uppercase; letter-spacing: -.03em; line-height: .88;
 }
 .works-head .view-all {
@@ -530,12 +530,12 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 }
 .quote-num {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: 160px; line-height: 1;
+  font-weight: 400; font-size: 200px; line-height: 1;
   color: transparent; -webkit-text-stroke: 1px rgba(31,24,192,.08); letter-spacing: -.04em;
 }
 blockquote {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(22px, 3vw, 38px);
+  font-weight: 400; font-size: clamp(26px, 3.6vw, 46px);
   line-height: 1.25; text-transform: uppercase; letter-spacing: -.01em;
 }
 blockquote cite {
@@ -552,7 +552,7 @@ blockquote cite {
 }
 .contact-left h2 {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(64px, 11vw, 148px);
+  font-weight: 400; font-size: clamp(76px, 13vw, 180px);
   text-transform: uppercase; line-height: .85; letter-spacing: -.04em;
 }
 .contact-left h2 span { color: var(--ink); }
@@ -736,7 +736,7 @@ footer p { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; col
 .rack-title-text {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(56px, 9vw, 128px);
+  font-size: clamp(64px, 10.5vw, 150px);
   color: var(--cream);
   text-transform: uppercase;
   letter-spacing: -0.03em;
@@ -851,7 +851,7 @@ img { max-width: 100%; height: auto; }
   .hero { padding: 0 24px 48px; }
   .hero-body { padding-top: 120px; }
   .hero-eyebrow { left: 24px; right: 24px; top: 72px; }
-  .hero-name { font-size: clamp(52px, 16vw, 80px); }
+  .hero-name { font-size: clamp(58px, 17.5vw, 92px); }
   .hero-foot { flex-direction: column; gap: 32px; }
   .hero-tags { align-items: flex-start; }
   .hero-intro { max-width: 100%; }
@@ -859,7 +859,7 @@ img { max-width: 100%; height: auto; }
 
   /* ABOUT */
   .about { padding: 64px 24px; grid-template-columns: 1fr; gap: 48px; }
-  .about h2 { font-size: clamp(32px, 8vw, 52px); }
+  .about h2 { font-size: clamp(38px, 9.5vw, 62px); }
   .stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -881,12 +881,12 @@ img { max-width: 100%; height: auto; }
   .intern-section { padding: 32px 24px 56px; }
   .intern-grid { grid-template-columns: 1fr; }
   #portal-overlay.open { padding: 24px; }
-  .po-company { font-size: clamp(36px, 10vw, 64px); }
+  .po-company { font-size: clamp(42px, 11.5vw, 74px); }
   .po-grid { grid-template-columns: 1fr; gap: 24px; }
 
   /* WORKS */
   .works { padding: 56px 24px; }
-  .works-head h2 { font-size: clamp(48px, 12vw, 80px); }
+  .works-head h2 { font-size: clamp(54px, 13.5vw, 92px); }
   .work-row { grid-template-columns: 40px 1fr; }
   .w-type, .w-year { display: none; }
   .w-title { font-size: clamp(18px, 5vw, 28px); }
@@ -897,19 +897,19 @@ img { max-width: 100%; height: auto; }
   #poster-cursor { display: none; }
   .rack-scene { height: 100vw; min-height: 360px; perspective: 700px; }
   .rack-title-wrap { margin-top: 32px; padding: 0 24px; }
-  .rack-title-text { font-size: clamp(22px, 6vw, 36px); }
+  .rack-title-text { font-size: clamp(26px, 7vw, 42px); }
   .rack-dots { bottom: 24px; }
   .rack-meta { padding: 16px 24px 0; font-size: 9px; }
   .rack-top-label { padding: 0 24px 32px; }
 
   /* QUOTE */
   .quote-section { padding: 56px 24px; grid-template-columns: 1fr; gap: 24px; }
-  .quote-num { font-size: 80px; }
-  blockquote { font-size: clamp(18px, 5vw, 28px); }
+  .quote-num { font-size: 100px; }
+  blockquote { font-size: clamp(21px, 5.8vw, 33px); }
 
   /* CONTACT */
   .contact { padding: 64px 24px; flex-direction: column; align-items: flex-start; }
-  .contact h2 { font-size: clamp(56px, 14vw, 96px); }
+  .contact h2 { font-size: clamp(62px, 15.5vw, 110px); }
   .contact-links { min-width: 100%; }
 
   /* FOOTER */
