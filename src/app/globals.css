@@ -295,15 +295,6 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 }
 .stat-l { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
 
-/* ─── SKILLS ──────────────────────────────────────────────── */
-.skills-strip { padding: 0 56px 72px; display: flex; flex-wrap: wrap; gap: 12px; }
-.skill-chip {
-  padding: 8px 18px; border: 1px solid var(--rule);
-  font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
-  transition: border-color .25s, color .25s, transform .25s cubic-bezier(.16,1,.3,1);
-}
-.skill-chip:hover { border-color: var(--ink); color: var(--ink); transform: translateY(-3px); }
-
 /* ─── EXPERIENCE PORTALS ──────────────────────────────────── */
 .intern-section { padding: 48px 56px 80px; }
 .intern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 0; }
@@ -831,7 +822,7 @@ img { max-width: 100%; height: auto; }
 /* Dense tracked caps stay in the sans — a serif reads cramped here */
 .sec-label, .eyebrow-desc, .eyebrow-count, .nav-links a, .w-type, .w-year,
 .w-num, .w-cat, .htag, .nav-loc, .marquee-item, .stat-l, .sh-label,
-.skill-chip, .pt-tag, .pt-cta, .po-label, .po-col-label, .rack-top-label,
+.pt-tag, .pt-cta, .po-label, .po-col-label, .rack-top-label,
 .rack-meta, .clink, .works-head .view-all, footer p, blockquote cite,
 #work-preview {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -892,10 +883,6 @@ img { max-width: 100%; height: auto; }
   }
   .stat:nth-child(odd) { border-right: 1px solid var(--rule); padding-right: 20px; }
   .stat:nth-child(even) { padding-left: 20px; }
-
-  /* SKILLS */
-  .skills-strip { padding: 0 24px 48px; }
-  .skill-chip { padding: 6px 14px; font-size: 9px; }
 
   /* EXPERIENCE PORTALS */
   .intern-section { padding: 32px 24px 56px; }

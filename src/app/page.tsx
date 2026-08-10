@@ -6,9 +6,9 @@ import WellnessDaily from '../components/WellnessDaily'
 import WellnessDailyWorkRow from '../components/WellnessDailyWorkRow'
 import EmailDropdown from '../components/EmailDropdown'
 import AboutTextReveal from '../components/AboutTextReveal'
+import StatAccordion from '@/components/StatAccordion'
 import PageEffects from '../components/PageEffects'
 import ScrollReveal from '../components/ScrollReveal'
-import StatCounters from '../components/StatCounters'
 
 const MARQUEE_ITEMS = [
   'Architecture','Interior Design','UI / UX','Photography','Graphic Design',
@@ -22,7 +22,6 @@ export default function Home() {
       {/* Client-side effects: cursor, scroll reveal, stat counters, page interactions */}
       <PageEffects />
       <ScrollReveal />
-      <StatCounters />
 
       {/* ─── NAV ─── */}
       <nav>
@@ -51,22 +50,18 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Skills */}
-      <div className="skills-strip rv">
-        <div className="sec-label" style={{width:'100%',marginBottom:'20px'}}>Tools &amp; Skills</div>
-        <span className="skill-chip">Rhino 3D</span>
-        <span className="skill-chip">Autodesk Revit</span>
-        <span className="skill-chip">AutoCAD</span>
-        <span className="skill-chip">3ds Max</span>
-        <span className="skill-chip">Corona Render</span>
-        <span className="skill-chip">Adobe Photoshop</span>
-        <span className="skill-chip">Adobe Illustrator</span>
-        <span className="skill-chip">Figma</span>
-        <span className="skill-chip">UI / UX Design</span>
-        <span className="skill-chip">Photography</span>
-        <span className="skill-chip">Front-end Dev</span>
-        <span className="skill-chip">Logo Design</span>
-      </div>
+      {/* ─── ABOUT ─── */}
+      <section className="about" id="about">
+        <div className="about-text rv">
+          <div className="sec-label">About</div>
+          <h2>THE ARCHITECT<br />BEHIND IT</h2>
+          <AboutTextReveal text="Currently at TU Berlin, I came up through the AUC architecture programme before pivoting to Germany. My internship background spans FF&E, 3D visualisation, and front-end development — three disciplines that share the same obsession: making form purposeful." />
+          <AboutTextReveal text="I believe great spaces — physical or digital — begin with honest observation and purposeful constraint. I'm trilingual (Arabic, English, German) and build in both Rhino and Figma." />
+        </div>
+        <div className="rv rv-d2">
+          <StatAccordion />
+        </div>
+      </section>
 
       <hr />
 
@@ -173,36 +168,6 @@ export default function Home() {
             &ldquo;Buildings like these could fuse modern day architecture with old heritage — used as community buildings, libraries, or rental offices.&rdquo;
             <cite><span className="hand-title" style={{ fontSize: '16px' }}>— Youssef Azhari, on Downtown Cairo</span></cite>
           </blockquote>
-        </div>
-      </section>
-
-      <hr />
-
-      {/* ─── ABOUT ─── */}
-      <section className="about" id="about">
-        <div className="about-text rv">
-          <div className="sec-label">About</div>
-          <h2>Architecture<br />Meets Intention</h2>
-          <AboutTextReveal text="Currently at TU Berlin, I came up through the AUC architecture programme before pivoting to Germany. My internship background spans FF&E, 3D visualisation, and front-end development — three disciplines that share the same obsession: making form purposeful." />
-          <AboutTextReveal text="I believe great spaces — physical or digital — begin with honest observation and purposeful constraint. I'm trilingual (Arabic, English, German) and build in both Rhino and Figma." />
-        </div>
-        <div className="stats rv rv-d2">
-          <div className="stat">
-            <div className="stat-n roman" data-target="3">{toRoman(3)}</div>
-            <div className="stat-l">Architecture internships</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n roman" data-target="3">{toRoman(3)}</div>
-            <div className="stat-l">Languages — fluent</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n roman" data-target="6">{toRoman(6)}</div>
-            <div className="stat-l">Design disciplines</div>
-          </div>
-          <div className="stat">
-            <div className="stat-n roman" data-target="2">{toRoman(2)}</div>
-            <div className="stat-l">Cities, one eye</div>
-          </div>
         </div>
       </section>
 

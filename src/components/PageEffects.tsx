@@ -32,7 +32,7 @@ const PORTALS: Record<string, {
 export default function PageEffects() {
   useEffect(() => {
     /* ── CURSOR HOVER STATE ── */
-    document.querySelectorAll('a, .skill-chip, .work-row, .portal-tile, .po-close').forEach(el => {
+    document.querySelectorAll('a, .work-row, .portal-tile, .po-close').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cur-h'))
       el.addEventListener('mouseleave', () => document.body.classList.remove('cur-h'))
     })
