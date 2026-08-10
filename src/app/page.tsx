@@ -76,7 +76,7 @@ export default function Home() {
 
           <div className="portal-tile rv" data-portal="hsi">
             <div className="pt-num">01</div>
-            <div className="pt-name">Hany Saad Innovations</div>
+            <div className="pt-name hand-title">Hany Saad Innovations</div>
             <div className="pt-meta">3D Department · Post Production · FF&amp;E<br />3 months, Cairo</div>
             <div className="pt-tag">Interior + Visualisation</div>
             <div className="pt-cta">Open portal <span className="arr">→</span></div>
@@ -84,7 +84,7 @@ export default function Home() {
 
           <div className="portal-tile rv rv-d1" data-portal="fr">
             <div className="pt-num">02</div>
-            <div className="pt-name">FR Partnership</div>
+            <div className="pt-name hand-title">FR Partnership</div>
             <div className="pt-meta">Ahmad Fayyad · FF&amp;E · 3D Renders<br />2 months, Cairo</div>
             <div className="pt-tag">Architecture + Renders</div>
             <div className="pt-cta">Open portal <span className="arr">→</span></div>
@@ -92,7 +92,7 @@ export default function Home() {
 
           <div className="portal-tile rv rv-d2" data-portal="siemens">
             <div className="pt-num">03</div>
-            <div className="pt-name">Siemens</div>
+            <div className="pt-name hand-title">Siemens</div>
             <div className="pt-meta">Cross-sector exposure<br />1 month, Cairo</div>
             <div className="pt-tag">Engineering + Strategy</div>
             <div className="pt-cta">Open portal <span className="arr">→</span></div>
@@ -117,7 +117,7 @@ export default function Home() {
           <div className="work-row rv" data-label="Architecture">
             <span className="w-num">01</span>
             <div>
-              <div className="w-title">Egypt Pavilion — Biennale 2024</div>
+              <div className="w-title hand-title">Egypt Pavilion — Biennale 2024</div>
               <div className="w-cat">Architecture · Concept Design · Rhino</div>
             </div>
             <span className="w-type">Architecture</span>
@@ -126,7 +126,7 @@ export default function Home() {
           <div className="work-row rv rv-d1" data-label="Interior">
             <span className="w-num">02</span>
             <div>
-              <div className="w-title">North Coast Bedroom Interior</div>
+              <div className="w-title hand-title">North Coast Bedroom Interior</div>
               <div className="w-cat">Interior Design · 3D Visualisation · Corona</div>
             </div>
             <span className="w-type">Interior</span>
@@ -135,7 +135,7 @@ export default function Home() {
           <div className="work-row rv rv-d2" data-label="Digital">
             <span className="w-num">03</span>
             <div>
-              <div className="w-title">Aada — Islamic Habit Tracker</div>
+              <div className="w-title hand-title">Aada — Islamic Habit Tracker</div>
               <div className="w-cat">UI / UX · Front-end Development · Figma</div>
             </div>
             <span className="w-type">Digital</span>
@@ -144,7 +144,7 @@ export default function Home() {
           <div className="work-row rv rv-d3" data-label="Photography">
             <span className="w-num">04</span>
             <div>
-              <div className="w-title">Downtown Cairo — Photo Series</div>
+              <div className="w-title hand-title">Downtown Cairo — Photo Series</div>
               <div className="w-cat">Photography · Architectural Documentation</div>
             </div>
             <span className="w-type">Photography</span>
@@ -170,7 +170,7 @@ export default function Home() {
           <div className="sec-label">On Architecture</div>
           <blockquote>
             &ldquo;Buildings like these could fuse modern day architecture with old heritage — used as community buildings, libraries, or rental offices.&rdquo;
-            <cite>— Youssef El Azhari, on Downtown Cairo</cite>
+            <cite><span className="hand-title" style={{ fontSize: '16px' }}>— Youssef El Azhari, on Downtown Cairo</span></cite>
           </blockquote>
         </div>
       </section>

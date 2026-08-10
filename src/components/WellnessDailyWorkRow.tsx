@@ -13,7 +13,7 @@ export default function WellnessDailyWorkRow() {
     >
       <span className="w-num">06</span>
       <div>
-        <div className="w-title">Wellness Daily</div>
+        <div className="w-title hand-title">Wellness Daily</div>
         <div className="w-cat">Brand Identity · Content Direction · TikTok / Instagram</div>
       </div>
       <span className="w-type">Brand</span>

@@ -13,7 +13,7 @@ export default function PosterWorkRow() {
     >
       <span className="w-num">05</span>
       <div>
-        <div className="w-title">Subconscious — Poster Series</div>
+        <div className="w-title hand-title">Subconscious — Poster Series</div>
         <div className="w-cat">Graphic Design · Typography · Editorial</div>
       </div>
       <span className="w-type">Graphic</span>
