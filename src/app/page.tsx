@@ -171,7 +171,7 @@ export default function Home() {
           <div className="sec-label">On Architecture</div>
           <blockquote>
             &ldquo;Buildings like these could fuse modern day architecture with old heritage — used as community buildings, libraries, or rental offices.&rdquo;
-            <cite><span className="hand-title" style={{ fontSize: '16px' }}>— Youssef El Azhari, on Downtown Cairo</span></cite>
+            <cite><span className="hand-title" style={{ fontSize: '16px' }}>— Youssef Azhari, on Downtown Cairo</span></cite>
           </blockquote>
         </div>
       </section>
@@ -231,7 +231,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <p>Youssef El Azhari &copy; 2025</p>
+        <p>Youssef Azhari &copy; 2025</p>
         <div className="footer-dot"></div>
         <p>Architecture &amp; Design</p>
         <div className="footer-dot"></div>

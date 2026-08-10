@@ -4,7 +4,7 @@ import CursorClient from '../components/CursorClient'
 import WaxSeal from '../components/WaxSeal'
 
 export const metadata: Metadata = {
-  title: 'Youssef El Azhari — Architecture & Design',
+  title: 'Youssef Azhari — Architecture & Design',
   description: 'Architect-in-training, designer, and creator.',
 }
 
