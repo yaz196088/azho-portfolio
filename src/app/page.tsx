@@ -52,14 +52,18 @@ export default function Home() {
 
       {/* ─── ABOUT ─── */}
       <section className="about" id="about">
-        <div className="about-text rv">
+        <div className="about-head rv">
           <div className="sec-label">About</div>
           <h2>THE ARCHITECT<br />BEHIND IT</h2>
+        </div>
+        <div className="about-body">
+        <div className="about-text rv">
           <AboutTextReveal text="Currently at TU Berlin, I came up through the AUC architecture programme before pivoting to Germany. My internship background spans FF&E, 3D visualisation, and front-end development — three disciplines that share the same obsession: making form purposeful." />
           <AboutTextReveal text="I believe great spaces — physical or digital — begin with honest observation and purposeful constraint. I'm trilingual (Arabic, English, German) and build in both Rhino and Figma." />
         </div>
         <div className="rv rv-d2">
           <StatAccordion />
+        </div>
         </div>
       </section>
 

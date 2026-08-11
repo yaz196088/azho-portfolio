@@ -278,11 +278,17 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .sec-label::before { content: ''; width: 20px; height: 1px; background: var(--ink); }
 
 /* ─── ABOUT ───────────────────────────────────────────────── */
-.about { padding: 96px 56px; display: grid; grid-template-columns: 5fr 3fr; gap: 80px; }
-.about-text h2 {
+.about { padding: 96px 56px; }
+.about-body { display: grid; grid-template-columns: 5fr 3fr; gap: 80px; align-items: start; }
+.about-head { margin-bottom: 56px; }
+.about-head h2 {
   font-family: 'Instrument Serif', serif;
-  font-weight: 400; font-size: clamp(52px, 7.5vw, 108px);
-  text-transform: uppercase; letter-spacing: -0.01em; line-height: 1; margin-bottom: 32px;
+  font-weight: 400;
+  font-size: clamp(64px, 12vw, 200px);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  -webkit-text-stroke: 0.6px var(--ink);
 }
 .about-text p { font-size: 15px; line-height: 1.9; color: var(--muted); max-width: 520px; }
 .about-text p + p { margin-top: 16px; }
@@ -869,8 +875,10 @@ img { max-width: 100%; height: auto; }
   hr { margin: 0 24px; }
 
   /* ABOUT */
-  .about { padding: 64px 24px; grid-template-columns: 1fr; gap: 48px; }
-  .about h2 { font-size: clamp(38px, 9.5vw, 62px); }
+  .about { padding: 64px 24px; }
+  .about-body { grid-template-columns: 1fr; gap: 48px; }
+  .about-head { margin-bottom: 36px; }
+  .about-head h2 { font-size: clamp(44px, 13vw, 78px); -webkit-text-stroke: 0.4px var(--ink); }
   .stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
