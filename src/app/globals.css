@@ -290,8 +290,18 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
   line-height: 0.95;
   -webkit-text-stroke: 0.6px var(--ink);
 }
-.about-text p { font-size: 15px; line-height: 1.9; color: var(--muted); max-width: 520px; }
-.about-text p + p { margin-top: 16px; }
+.about-text p {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.75;
+  color: var(--ink);
+  opacity: 0.85;
+  max-width: 560px;
+}
+
+.about-text p + p {
+  margin-top: 20px;
+}
 
 .stats { padding-top: 48px; display: flex; flex-direction: column; gap: 28px; }
 .stat { border-top: 1px solid var(--rule); padding-top: 18px; }
