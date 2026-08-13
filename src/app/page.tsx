@@ -1,4 +1,5 @@
 import { toRoman } from '@/lib/roman'
+import WalkerIntro from '@/components/WalkerIntro'
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
@@ -19,6 +20,9 @@ const MARQUEE_ITEMS = [
 export default function Home() {
   return (
     <>
+      {/* ─── WALKER INTRO ─── */}
+      <WalkerIntro />
+
       {/* Client-side effects: cursor, scroll reveal, stat counters, page interactions */}
       <PageEffects />
       <ScrollReveal />
