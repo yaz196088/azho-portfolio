@@ -55,13 +55,23 @@ export default function WalkerIntro() {
   // Falloff scales with column width so the push reads the same on both layouts
   const FALLOFF = isMobile ? 16 : 9
 
+  // Feathered transparent band centred on the figure
+  const HALF = 70
+  const FEATHER = 46
+  const BAND =
+    `linear-gradient(to right,` +
+    ` #000 calc(${figureX}% - ${HALF + FEATHER}px),` +
+    ` transparent calc(${figureX}% - ${HALF}px),` +
+    ` transparent calc(${figureX}% + ${HALF}px),` +
+    ` #000 calc(${figureX}% + ${HALF + FEATHER}px))`
+
   return (
     <div
       ref={wrapperRef}
       style={{
         height: isMobile ? '220vh' : '280vh',
         position: 'relative',
-        zIndex: done ? -1 : 50,
+        zIndex: done ? -1 : 900,
         pointerEvents: done ? 'none' : 'auto',
         visibility: done ? 'hidden' : 'visible',
       }}
@@ -71,7 +81,7 @@ export default function WalkerIntro() {
         top: 0,
         height: '100vh',
         overflow: 'hidden',
-        background: 'var(--ink)',
+        background: 'var(--cream)',
       }}>
         {/* Grid of images */}
         <div style={{
@@ -81,6 +91,10 @@ export default function WalkerIntro() {
           gridTemplateColumns: `repeat(${COLS}, 1fr)`,
           gridTemplateRows: `repeat(${ROWS}, 1fr)`,
           gap: 0,
+          // Punch a real hole through the grid so the cream page shows through,
+          // rather than layering a blur on top of opaque tiles.
+          maskImage: BAND,
+          WebkitMaskImage: BAND,
         }}>
           {Array.from({ length: TILE_COUNT }).map((_, i) => {
             const col = i % COLS
@@ -118,22 +132,6 @@ export default function WalkerIntro() {
           })}
         </div>
 
-        {/* Blurred peek window showing hero content beneath, positioned
-            at figure location */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: `${figureX}%`,
-          transform: 'translateX(-50%)',
-          width: '140px',
-          height: '100%',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          background: 'rgba(253,251,212,0.18)',
-          zIndex: 2,
-          pointerEvents: 'none',
-        }} />
-
         {/* Walking silhouette figure, procedural SVG */}
         <svg
           viewBox="0 0 100 220"
@@ -148,7 +146,7 @@ export default function WalkerIntro() {
             pointerEvents: 'none',
           }}
         >
-          <g fill="rgba(31,24,192,0.85)">
+          <g fill="var(--ink)">
             {/* head */}
             <circle cx="50" cy="20" r="14" />
             {/* torso */}
@@ -181,7 +179,8 @@ export default function WalkerIntro() {
           fontSize: '10px',
           letterSpacing: '0.3em',
           textTransform: 'uppercase' as const,
-          color: 'rgba(253,251,212,0.5)',
+          color: 'rgba(253,251,212,0.75)',
+          textShadow: '0 1px 10px rgba(0,0,0,0.55)',
           opacity: 1 - progress,
           zIndex: 4,
         }}>
