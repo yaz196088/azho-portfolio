@@ -59,16 +59,15 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
   const figureX = progress * 100
   const figureY = 50
 
-  /* ── Walk cycle ── */
-  const phase = progress * Math.PI * 20
-  const hipL = Math.sin(phase) * 28
-  const kneeL = Math.max(0, -Math.sin(phase + 0.5)) * 45
-  const hipR = Math.sin(phase + Math.PI) * 28
-  const kneeR = Math.max(0, -Math.sin(phase + Math.PI + 0.5)) * 45
-  const shoulderL = Math.sin(phase + Math.PI) * 22
-  const elbowL = Math.max(0, Math.sin(phase + Math.PI)) * 30
-  const shoulderR = Math.sin(phase) * 22
-  const elbowR = Math.max(0, Math.sin(phase)) * 30
+  /* ── Sprite sheet walk cycle: 4 x 2 = 8 frames ── */
+  const SPRITE_COLS = 4
+  const SPRITE_ROWS = 2
+  const TOTAL_FRAMES = 8
+  // Loop the cycle several times across the walk rather than once
+  const CYCLES = 6
+  const frameIndex = Math.floor(progress * TOTAL_FRAMES * CYCLES) % TOTAL_FRAMES
+  const spriteCol = frameIndex % SPRITE_COLS
+  const spriteRow = Math.floor(frameIndex / SPRITE_COLS)
 
   const COLS = isMobile ? 5 : 9
   const ROWS = isMobile ? 8 : 6
@@ -77,8 +76,8 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
   /* Oval cut-out tracking the figure. The grid hides inside it; the blur layer
      shows only inside it. */
   const OVAL = `ellipse ${isMobile ? 70 : 90}px ${isMobile ? 100 : 130}px at ${figureX}% ${figureY}%`
-  const HOLE = `radial-gradient(${OVAL}, transparent 55%, black 85%)`
-  const HOLE_INV = `radial-gradient(${OVAL}, black 55%, transparent 85%)`
+  const HOLE = `radial-gradient(${OVAL}, transparent 70%, black 78%)`
+  const HOLE_INV = `radial-gradient(${OVAL}, black 70%, transparent 78%)`
 
   return (
     <>
@@ -130,7 +129,7 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
             const dx = tileCenterXPercent - figureX
             const dy = (tileCenterYPercent - figureY) * 0.6
             const distance = Math.sqrt(dx * dx + dy * dy)
-            const influence = Math.max(0, 1 - distance / 16)
+            const influence = Math.max(0, 1 - distance / 12)
             const angle = Math.atan2(dy, dx)
             const pushAmount = influence * 34
             const translateX = Math.cos(angle) * pushAmount
@@ -164,59 +163,24 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
           })}
         </div>
 
-        {/* Jointed walking figure — forward kinematics via nested transforms */}
-        <svg
-          viewBox="0 0 100 220"
+        {/* Sprite-sheet walk animation. Cells are 252x534 (1:2.12), so the
+            box keeps that ratio; the artwork faces left, hence scaleX(-1). */}
+        <div
           style={{
             position: 'absolute',
             top: `${figureY}%`,
             left: `${figureX}%`,
-            transform: 'translate(-50%, -50%)',
-            width: isMobile ? '70px' : '90px',
-            height: isMobile ? '155px' : '200px',
+            transform: 'translate(-50%, -50%) scaleX(-1)',
+            width: isMobile ? '84px' : '110px',
+            height: isMobile ? '178px' : '233px',
+            backgroundImage: 'url(/images/walker/walkers.png)',
+            backgroundSize: `${SPRITE_COLS * 100}% ${SPRITE_ROWS * 100}%`,
+            backgroundPosition: `${(spriteCol / (SPRITE_COLS - 1)) * 100}% ${(spriteRow / (SPRITE_ROWS - 1)) * 100}%`,
+            backgroundRepeat: 'no-repeat',
             zIndex: 3,
             pointerEvents: 'none',
           }}
-        >
-          <g fill="var(--ink)">
-            {/* head */}
-            <circle cx="50" cy="20" r="14" />
-            {/* torso */}
-            <rect x="42" y="34" width="16" height="70" rx="8" />
-
-            {/* left leg — thigh then shin, shin rotates relative to thigh */}
-            <g transform={`translate(46 104) rotate(${hipL})`}>
-              <rect x="-6" y="0" width="12" height="38" rx="5" />
-              <g transform={`translate(0 38) rotate(${kneeL})`}>
-                <rect x="-5" y="0" width="10" height="38" rx="5" />
-              </g>
-            </g>
-
-            {/* right leg */}
-            <g transform={`translate(54 104) rotate(${hipR})`}>
-              <rect x="-6" y="0" width="12" height="38" rx="5" />
-              <g transform={`translate(0 38) rotate(${kneeR})`}>
-                <rect x="-5" y="0" width="10" height="38" rx="5" />
-              </g>
-            </g>
-
-            {/* left arm — upper arm then forearm */}
-            <g transform={`translate(44 42) rotate(${shoulderL})`}>
-              <rect x="-4" y="0" width="8" height="28" rx="4" />
-              <g transform={`translate(0 28) rotate(${elbowL})`}>
-                <rect x="-3.5" y="0" width="7" height="26" rx="3.5" />
-              </g>
-            </g>
-
-            {/* right arm */}
-            <g transform={`translate(56 42) rotate(${shoulderR})`}>
-              <rect x="-4" y="0" width="8" height="28" rx="4" />
-              <g transform={`translate(0 28) rotate(${elbowR})`}>
-                <rect x="-3.5" y="0" width="7" height="26" rx="3.5" />
-              </g>
-            </g>
-          </g>
-        </svg>
+        />
 
         {/* Progress hint text, fades out as figure exits */}
         <div style={{
