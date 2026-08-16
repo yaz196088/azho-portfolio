@@ -75,7 +75,7 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
 
   /* Oval cut-out tracking the figure. The grid hides inside it; the blur layer
      shows only inside it. */
-  const OVAL = `ellipse ${isMobile ? 70 : 90}px ${isMobile ? 100 : 130}px at ${figureX}% ${figureY}%`
+  const OVAL = `ellipse ${isMobile ? 110 : 145}px ${isMobile ? 180 : 235}px at ${figureX}% ${figureY}%`
   const HOLE = `radial-gradient(${OVAL}, transparent 70%, black 78%)`
   const HOLE_INV = `radial-gradient(${OVAL}, black 70%, transparent 78%)`
 
@@ -171,8 +171,8 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
             top: `${figureY}%`,
             left: `${figureX}%`,
             transform: 'translate(-50%, -50%) scaleX(-1)',
-            width: isMobile ? '84px' : '110px',
-            height: isMobile ? '178px' : '233px',
+            width: isMobile ? '140px' : '190px',
+            height: isMobile ? '297px' : '403px',
             backgroundImage: 'url(/images/walker/walkers.png)',
             backgroundSize: `${SPRITE_COLS * 100}% ${SPRITE_ROWS * 100}%`,
             backgroundPosition: `${(spriteCol / (SPRITE_COLS - 1)) * 100}% ${(spriteRow / (SPRITE_ROWS - 1)) * 100}%`,
