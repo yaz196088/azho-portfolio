@@ -173,15 +173,15 @@ nav {
   50%      { transform: translateY(-20px); }
 }
 
-.hero-body { position: relative; z-index: 2; padding-top: 160px; }
+.hero-body { position: relative; z-index: 2; padding-top: 120px; }
 
 .hero-name {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
   font-style: italic;
-  font-size: clamp(78px, 14.5vw, 200px);
-  line-height: .86; letter-spacing: -.03em; text-transform: uppercase;
-  margin-bottom: 40px;
+  font-size: clamp(58px, 10.8vw, 150px);
+  line-height: .95; letter-spacing: -.03em; text-transform: uppercase;
+  margin-bottom: 48px;
   contain: layout style;
 }
 .hero-name .l1 { display: block; }
@@ -877,7 +877,7 @@ img { max-width: 100%; height: auto; }
   .hero { padding: 0 24px 48px; }
   .hero-body { padding-top: 120px; }
   .hero-eyebrow { left: 24px; right: 24px; top: 72px; }
-  .hero-name { font-size: clamp(58px, 17.5vw, 92px); }
+  .hero-name { font-size: clamp(44px, 13vw, 70px); }
   .hero-geo-circle { width: 220px; height: 220px; right: -60px; }
   .hero-foot { flex-direction: column; gap: 32px; }
   .hero-tags { align-items: flex-start; }

@@ -44,9 +44,16 @@ export default function PageEffects() {
 
     /* ── HERO PARALLAX ── */
     const heroName = document.getElementById('hero-name')
+    const heroSection = heroName?.closest('.hero') as HTMLElement | null
     const onScrollParallax = () => {
-      if (heroName && window.scrollY < window.innerHeight)
-        heroName.style.transform = `translateY(${window.scrollY * 0.14}px)`
+      if (!heroName || !heroSection) return
+      // Measure from the hero's own top, not the document's. The walker intro
+      // reserves scroll height before the hero, so absolute scrollY would apply
+      // a large offset the moment the hero appears and shove the name into the
+      // paragraph below it.
+      const past = Math.max(0, -heroSection.getBoundingClientRect().top)
+      if (past <= window.innerHeight)
+        heroName.style.transform = `translateY(${past * 0.14}px)`
     }
     window.addEventListener('scroll', onScrollParallax, { passive: true })
 
