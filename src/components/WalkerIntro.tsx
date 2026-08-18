@@ -163,17 +163,18 @@ export default function WalkerIntro({ onDone }: { onDone?: (v: boolean) => void 
           })}
         </div>
 
-        {/* Sprite-sheet walk animation. Cells are 252x534 (1:2.12), so the
-            box keeps that ratio; the artwork faces left, hence scaleX(-1). */}
+        {/* Sprite-sheet walk animation. Frames were re-cut to uniform 264x424
+            cells (1:1.606), trimmed and bottom-aligned on a common baseline;
+            the box matches that ratio. Artwork faces left, hence scaleX(-1). */}
         <div
           style={{
             position: 'absolute',
             top: `${figureY}%`,
             left: `${figureX}%`,
             transform: 'translate(-50%, -50%) scaleX(-1)',
-            width: isMobile ? '140px' : '190px',
+            width: isMobile ? '185px' : '251px',
             height: isMobile ? '297px' : '403px',
-            backgroundImage: 'url(/images/walker/walkers.png)',
+            backgroundImage: 'url(/images/walker/walkers-clean.png)',
             backgroundSize: `${SPRITE_COLS * 100}% ${SPRITE_ROWS * 100}%`,
             backgroundPosition: `${(spriteCol / (SPRITE_COLS - 1)) * 100}% ${(spriteRow / (SPRITE_ROWS - 1)) * 100}%`,
             backgroundRepeat: 'no-repeat',
