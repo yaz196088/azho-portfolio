@@ -85,7 +85,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
     setTimeout(() => {
       setExpandedIndex(null)
       setClosingCollage(false)
-    }, 400)
+    }, 500)
   }
 
   const handleDismiss = () => {
