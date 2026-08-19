@@ -10,6 +10,8 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
   const [dissolving, setDissolving] = useState(false)
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [closingCollage, setClosingCollage] = useState(false)
+  const [collageReady, setCollageReady] = useState(false)
   const [isMobile, setIsMobile] = useState(false) // desktop during SSR
 
   useEffect(() => {
@@ -26,6 +28,19 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = prev }
   }, [])
+
+  /* Cards mount at scale(0.4)/opacity 0, then flip on the next frame — a
+     transition needs a changed value to animate from, so rendering straight
+     to the final state would show no entry animation at all. */
+  useEffect(() => {
+    if (expandedIndex === null) { setCollageReady(false); return }
+    setCollageReady(false)
+    let r1 = 0, r2 = 0
+    r1 = requestAnimationFrame(() => {
+      r2 = requestAnimationFrame(() => setCollageReady(true))
+    })
+    return () => { cancelAnimationFrame(r1); cancelAnimationFrame(r2) }
+  }, [expandedIndex])
 
   /* 43 tiles across a phone is ~9px each — unusable. Show every third image
      on mobile so each tile is wide enough to see and touch. Each tile keeps
@@ -56,14 +71,22 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
       return {
         src: IMAGES[idx],
         isMain: idx === expandedIndex,
-        top: 20 + seededRandom(seed) * 55,
-        left: 15 + seededRandom(seed + 1) * 65,
-        width: pos === 0 ? 320 : 140 + seededRandom(seed + 2) * 100,
+        top: 12 + seededRandom(seed) * 66,
+        left: 8 + seededRandom(seed + 1) * 74,
+        width: pos === 0 ? 280 : 120 + seededRandom(seed + 2) * 70,
         rotate: (seededRandom(seed + 3) - 0.5) * 24,
         zIndex: pos === 0 ? 50 : Math.floor(seededRandom(seed + 4) * 40),
       }
     })
   }, [expandedIndex])
+
+  const closeCollage = () => {
+    setClosingCollage(true)
+    setTimeout(() => {
+      setExpandedIndex(null)
+      setClosingCollage(false)
+    }, 400)
+  }
 
   const handleDismiss = () => {
     setDissolving(true)
@@ -127,7 +150,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
               transform: `scale(${getScale(i)})`,
               transformOrigin: 'center center',
               zIndex: getZIndex(i),
-              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)',
               boxShadow: hoverIndex === i
                 ? '0 30px 60px rgba(31,24,192,0.3)'
                 : '0 2px 8px rgba(31,24,192,0.08)',
@@ -150,7 +173,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
 
       {expandedIndex !== null && (
         <div
-          onClick={() => setExpandedIndex(null)}
+          onClick={closeCollage}
           style={{
             position: 'absolute',
             inset: 0,
@@ -158,7 +181,9 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
             cursor: 'pointer',
           }}
         >
-          {collageLayout.map((item, i) => (
+          {collageLayout.map((item, i) => {
+            const hidden = closingCollage || !collageReady
+            return (
             <div
               key={i}
               style={{
@@ -167,16 +192,16 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
                 left: `${item.left}%`,
                 width: `${item.width}px`,
                 aspectRatio: '3/4',
-                transform: `translate(-50%, -50%) rotate(${item.rotate}deg)`,
+                transform: `translate(-50%, -50%) rotate(${item.rotate}deg) scale(${hidden ? 0.4 : 1})`,
+                transformOrigin: 'center center',
                 zIndex: item.zIndex,
                 borderRadius: '4px',
                 overflow: 'hidden',
                 boxShadow: item.isMain
-                  ? '0 30px 70px rgba(31,24,192,0.35)'
-                  : '0 16px 40px rgba(31,24,192,0.2)',
-                animation: 'collageIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards',
-                animationDelay: `${i * 0.05}s`,
-                opacity: 0,
+                  ? '0 24px 50px rgba(31,24,192,0.18)'
+                  : '0 10px 24px rgba(31,24,192,0.1)',
+                opacity: hidden ? 0 : 1,
+                transition: `transform 0.5s cubic-bezier(0.16,1,0.3,1) ${closingCollage ? '0s' : i * 0.04 + 's'}, opacity 0.4s ease ${closingCollage ? '0s' : i * 0.04 + 's'}`,
               }}
             >
               <img
@@ -185,7 +210,8 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
