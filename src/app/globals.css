@@ -858,6 +858,12 @@ img { max-width: 100%; height: auto; }
   background: rgba(92,107,40,0.55);
 }
 
+/* Dock intro collage reveal */
+@keyframes collageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* ─── TOUCH DEVICES — hide custom cursor ──────────────────── */
 @media (hover: none) {
   #c-dot, #c-ring { display: none; }

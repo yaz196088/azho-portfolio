@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const TOTAL_IMAGES = 43
 const IMAGES = Array.from({ length: TOTAL_IMAGES }, (_, i) =>
@@ -9,6 +9,7 @@ const IMAGES = Array.from({ length: TOTAL_IMAGES }, (_, i) =>
 export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
   const [dissolving, setDissolving] = useState(false)
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false) // desktop during SSR
 
   useEffect(() => {
@@ -27,8 +28,42 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
   }, [])
 
   /* 43 tiles across a phone is ~9px each — unusable. Show every third image
-     on mobile so each tile is wide enough to see and touch. */
-  const tiles = isMobile ? IMAGES.filter((_, i) => i % 3 === 0) : IMAGES
+     on mobile so each tile is wide enough to see and touch. Each tile keeps
+     its index into IMAGES so the collage resolves the right source photos. */
+  const tiles = useMemo(
+    () => IMAGES.map((src, srcIndex) => ({ src, srcIndex }))
+                .filter((_, i) => (isMobile ? i % 3 === 0 : true)),
+    [isMobile]
+  )
+
+  /* Scattered collage built from the clicked image plus 4-6 neighbours.
+     Seeded off the index so the layout is varied but stable across renders. */
+  const collageLayout = useMemo(() => {
+    if (expandedIndex === null) return []
+    const seededRandom = (seed: number) => {
+      const x = Math.sin(seed) * 10000
+      return x - Math.floor(x)
+    }
+    const neighborCount = 4 + Math.floor(seededRandom(expandedIndex) * 3) // 4-6
+    const indices = [expandedIndex]
+    for (let i = 1; i <= neighborCount; i++) {
+      const offset = i % 2 === 0 ? i / 2 : -(Math.ceil(i / 2))
+      const idx = (expandedIndex + offset + IMAGES.length) % IMAGES.length
+      if (!indices.includes(idx)) indices.push(idx)
+    }
+    return indices.map((idx, pos) => {
+      const seed = expandedIndex * 100 + pos
+      return {
+        src: IMAGES[idx],
+        isMain: idx === expandedIndex,
+        top: 20 + seededRandom(seed) * 55,
+        left: 15 + seededRandom(seed + 1) * 65,
+        width: pos === 0 ? 320 : 140 + seededRandom(seed + 2) * 100,
+        rotate: (seededRandom(seed + 3) - 0.5) * 24,
+        zIndex: pos === 0 ? 50 : Math.floor(seededRandom(seed + 4) * 40),
+      }
+    })
+  }, [expandedIndex])
 
   const handleDismiss = () => {
     setDissolving(true)
@@ -73,17 +108,18 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: isMobile ? '130px' : '180px',
-          width: '100%',
+          height: '110px',
+          width: '100vw',
           overflow: 'visible',
-          padding: isMobile ? '0 6vw' : '0 4vw',
+          padding: '0',
         }}
       >
-        {tiles.map((src, i) => (
+        {tiles.map((tile, i) => (
           <div
-            key={src}
+            key={tile.src}
             onMouseEnter={() => setHoverIndex(i)}
             onTouchStart={() => setHoverIndex(i)}
+            onClick={() => setExpandedIndex(tile.srcIndex)}
             style={{
               flex: '1 1 0',
               height: '100%',
@@ -98,7 +134,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
             }}
           >
             <img
-              src={src}
+              src={tile.src}
               alt=""
               loading={i < 8 ? 'eager' : 'lazy'}
               style={{
@@ -112,6 +148,47 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         ))}
       </div>
 
+      {expandedIndex !== null && (
+        <div
+          onClick={() => setExpandedIndex(null)}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 200,
+            cursor: 'pointer',
+          }}
+        >
+          {collageLayout.map((item, i) => (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                top: `${item.top}%`,
+                left: `${item.left}%`,
+                width: `${item.width}px`,
+                aspectRatio: '3/4',
+                transform: `translate(-50%, -50%) rotate(${item.rotate}deg)`,
+                zIndex: item.zIndex,
+                borderRadius: '4px',
+                overflow: 'hidden',
+                boxShadow: item.isMain
+                  ? '0 30px 70px rgba(31,24,192,0.35)'
+                  : '0 16px 40px rgba(31,24,192,0.2)',
+                animation: 'collageIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards',
+                animationDelay: `${i * 0.05}s`,
+                opacity: 0,
+              }}
+            >
+              <img
+                src={item.src}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
       <button
         onClick={handleDismiss}
         aria-label="Enter site"
@@ -120,6 +197,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
           bottom: '48px',
           left: '50%',
           transform: 'translateX(-50%)',
+          zIndex: 300,
           width: '64px',
           height: '64px',
           borderRadius: '50%',
