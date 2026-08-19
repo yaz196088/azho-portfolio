@@ -1,10 +1,62 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 const TOTAL_IMAGES = 43
 const IMAGES = Array.from({ length: TOTAL_IMAGES }, (_, i) =>
   `/images/loading/loading-${String(i + 1).padStart(2, '0')}.webp`
 )
+/* Strip renders ~45x110px per tile — serving 1920px originals there is
+   ~10x the bytes needed. Thumbs are 400px tall, ample for the 1.9x hover
+   scale on a 2x display. The collage keeps the full-size originals. */
+const THUMB_IMAGES = Array.from({ length: TOTAL_IMAGES }, (_, i) =>
+  `/images/loading-thumb/loading-${String(i + 1).padStart(2, '0')}.webp`
+)
+
+/* Memoised so a hover change only re-renders the tiles whose scale actually
+   moved, not all 43. Handlers take the index so the parent can pass stable
+   useCallback references — inline arrows would defeat React.memo. */
+const Tile = React.memo(function Tile({
+  src, index, srcIndex, scale, zIndex, isHovered, onHover, onSelect,
+}: {
+  src: string
+  index: number
+  srcIndex: number
+  scale: number
+  zIndex: number
+  isHovered: boolean
+  onHover: (i: number) => void
+  onSelect: (i: number) => void
+}) {
+  return (
+    <div
+      onMouseEnter={() => onHover(index)}
+      onTouchStart={() => onHover(index)}
+      onClick={() => onSelect(srcIndex)}
+      style={{
+        flex: '1 1 0',
+        height: '100%',
+        position: 'relative',
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
+        zIndex,
+        willChange: 'transform',
+        backfaceVisibility: 'hidden' as const,
+        transition: 'transform 0.18s cubic-bezier(0.33, 1, 0.68, 1)',
+        boxShadow: isHovered
+          ? '0 30px 60px rgba(31,24,192,0.3)'
+          : '0 2px 8px rgba(31,24,192,0.08)',
+      }}
+    >
+      <img
+        src={src}
+        alt=""
+        loading={index < 8 ? 'eager' : 'lazy'}
+        fetchPriority={index < 4 ? 'high' : 'auto'}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+      />
+    </div>
+  )
+})
 
 export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null)
@@ -46,8 +98,8 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
      on mobile so each tile is wide enough to see and touch. Each tile keeps
      its index into IMAGES so the collage resolves the right source photos. */
   const tiles = useMemo(
-    () => IMAGES.map((src, srcIndex) => ({ src, srcIndex }))
-                .filter((_, i) => (isMobile ? i % 3 === 0 : true)),
+    () => THUMB_IMAGES.map((src, srcIndex) => ({ src, srcIndex }))
+                      .filter((_, i) => (isMobile ? i % 3 === 0 : true)),
     [isMobile]
   )
 
@@ -87,6 +139,9 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
       setClosingCollage(false)
     }, 500)
   }
+
+  const handleHover = useCallback((i: number) => setHoverIndex(i), [])
+  const handleSelect = useCallback((i: number) => setExpandedIndex(i), [])
 
   const handleDismiss = () => {
     setDissolving(true)
@@ -138,36 +193,17 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         }}
       >
         {tiles.map((tile, i) => (
-          <div
+          <Tile
             key={tile.src}
-            onMouseEnter={() => setHoverIndex(i)}
-            onTouchStart={() => setHoverIndex(i)}
-            onClick={() => setExpandedIndex(tile.srcIndex)}
-            style={{
-              flex: '1 1 0',
-              height: '100%',
-              position: 'relative',
-              transform: `scale(${getScale(i)})`,
-              transformOrigin: 'center center',
-              zIndex: getZIndex(i),
-              transition: 'transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)',
-              boxShadow: hoverIndex === i
-                ? '0 30px 60px rgba(31,24,192,0.3)'
-                : '0 2px 8px rgba(31,24,192,0.08)',
-            }}
-          >
-            <img
-              src={tile.src}
-              alt=""
-              loading={i < 8 ? 'eager' : 'lazy'}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-              }}
-            />
-          </div>
+            src={tile.src}
+            index={i}
+            srcIndex={tile.srcIndex}
+            scale={getScale(i)}
+            zIndex={getZIndex(i)}
+            isHovered={hoverIndex === i}
+            onHover={handleHover}
+            onSelect={handleSelect}
+          />
         ))}
       </div>
 
