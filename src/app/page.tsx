@@ -1,5 +1,5 @@
 import { toRoman } from '@/lib/roman'
-import PageShell from '@/components/PageShell'
+import IntroGate from '@/components/IntroGate'
 import HeroClient from '../components/HeroClient'
 import PosterRack from '../components/PosterRack'
 import PosterWorkRow from '../components/PosterWorkRow'
@@ -19,7 +19,7 @@ const MARQUEE_ITEMS = [
 
 export default function Home() {
   return (
-    <PageShell hero={<HeroClient />}>
+    <IntroGate>
       {/* Client-side effects: cursor, scroll reveal, stat counters, page interactions */}
       <PageEffects />
       <ScrollReveal />
@@ -36,6 +36,9 @@ export default function Home() {
           <span className="nav-loc">Berlin — Cairo</span>
         </div>
       </nav>
+
+      {/* ─── HERO ─── */}
+      <HeroClient />
 
       {/* ─── MARQUEE ─── */}
       <div className="marquee-wrap">
@@ -204,6 +207,6 @@ export default function Home() {
         <div className="footer-dot"></div>
         <p>Berlin — Cairo</p>
       </footer>
-    </PageShell>
+    </IntroGate>
   )
 }
