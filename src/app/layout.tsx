@@ -31,6 +31,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
         <script
+          dangerouslySetInnerHTML={{ __html: `
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+` }}
+        />
+        <script
           async
           type="module"
           src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"

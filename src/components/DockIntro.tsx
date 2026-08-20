@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const TOTAL_IMAGES = 43
 const IMAGES = Array.from({ length: TOTAL_IMAGES }, (_, i) =>
@@ -29,6 +29,7 @@ const Tile = React.memo(function Tile({
 }) {
   return (
     <div
+      data-tile-index={index}
       onMouseEnter={() => onHover(index)}
       onTouchStart={() => onHover(index)}
       onClick={() => onSelect(srcIndex)}
@@ -140,6 +141,25 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
     }, 500)
   }
 
+  const stripRef = useRef<HTMLDivElement>(null)
+
+  /* Dragging a finger across the strip should magnify continuously, the same
+     way the mouse does — elementFromPoint resolves whichever tile is under
+     the finger on every move. */
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    const el = document.elementFromPoint(touch.clientX, touch.clientY)
+    const tileEl = el?.closest('[data-tile-index]')
+    if (tileEl) {
+      const idx = parseInt(tileEl.getAttribute('data-tile-index') || '-1', 10)
+      if (idx >= 0) setHoverIndex(idx)
+    }
+  }
+
+  const handleTouchEnd = () => {
+    setHoverIndex(null)
+  }
+
   const handleHover = useCallback((i: number) => setHoverIndex(i), [])
   const handleSelect = useCallback((i: number) => setExpandedIndex(i), [])
 
@@ -182,7 +202,10 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
       }}
     >
       <div
+        ref={stripRef}
         onMouseLeave={() => setHoverIndex(null)}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -190,6 +213,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
           width: '100vw',
           overflow: 'visible',
           padding: '0',
+          touchAction: 'pan-y',
         }}
       >
         {tiles.map((tile, i) => (
