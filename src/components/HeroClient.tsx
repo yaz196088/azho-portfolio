@@ -41,7 +41,6 @@ export default function HeroClient() {
         <img src="/images/elements/sun.png" alt="" />
       </div>
       <div className="hero-geo-circle2"></div>
-      <div className="hero-geo-rect"></div>
 
       <div className="hero-eyebrow">
         <div className="eyebrow-desc">

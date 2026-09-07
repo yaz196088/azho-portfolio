@@ -151,16 +151,6 @@ nav {
   from { transform: translateY(-50%) rotate(0deg); }
   to   { transform: translateY(-50%) rotate(360deg); }
 }
-.hero-geo-rect {
-  position: absolute; left: 56px; top: 42%;
-  width: 3px; height: 120px;
-  background: var(--ink); opacity: .6; z-index: 1;
-  animation: floatRect 6s ease-in-out infinite;
-}
-@keyframes floatRect {
-  0%,100% { transform: translateY(0) scaleY(1); opacity: .6; }
-  50%      { transform: translateY(-16px) scaleY(0.85); opacity: .9; }
-}
 .hero-geo-circle2 {
   position: absolute; left: 30%; bottom: -60px;
   width: 180px; height: 180px;
