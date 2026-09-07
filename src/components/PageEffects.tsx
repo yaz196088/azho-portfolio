@@ -154,7 +154,10 @@ export default function PageEffects() {
       document.body.classList.remove('cur-p')
     }
 
-    document.querySelectorAll<HTMLElement>('.portal-tile').forEach(tile => {
+    /* Any element carrying data-portal opens that portal — portal tiles and
+       work rows alike, so a project row can point at the internship it came
+       from without duplicating the overlay content. */
+    document.querySelectorAll<HTMLElement>('[data-portal]').forEach(tile => {
       tile.addEventListener('click', () => openPortal(tile.dataset.portal || ''))
     })
     closeBtn?.addEventListener('click', closePortal)

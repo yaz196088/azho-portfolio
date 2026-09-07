@@ -124,7 +124,7 @@ export default function Home() {
             <span className="w-type">Architecture</span>
             <span className="w-year roman">{toRoman(2024)}</span>
           </div>
-          <div className="work-row rv rv-d1" data-label="Interior">
+          <div className="work-row rv rv-d1" data-label="Interior" data-portal="hsi" style={{ cursor: 'pointer' }}>
             <span className="w-num roman">{toRoman(2)}</span>
             <div>
               <div className="w-title hand-title">North Coast Bedroom Interior</div>
