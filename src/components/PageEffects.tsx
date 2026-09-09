@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const PORTALS: Record<string, {
   company: string; duration: string; role: string; desc: string;
   project: { label: string; href: string } | null;
-  images?: string[];
+  galleries?: { label: string; images: string[] }[];
 }> = {
   hsi: {
     company: 'Hany Saad Innovations',
@@ -13,10 +13,15 @@ const PORTALS: Record<string, {
     role: '3D Dept · Post Production · FF&E',
     desc: 'Developed luxury interior 3D visualisations using 3ds Max and Corona Render. Produced post-production composites and managed FF&E specifications for high-end residential projects across Cairo and the North Coast.',
     project: { label: 'Related project — North Coast Bedroom Interior ↓', href: '#works' },
-    images: [
-      '/images/hsi/dresser.webp',
-      '/images/hsi/hsi-11.webp',
-      '/images/hsi/hsi-tv.webp',
+    galleries: [
+      {
+        label: 'Selected renders',
+        images: [
+          '/images/hsi/dresser.webp',
+          '/images/hsi/hsi-11.webp',
+          '/images/hsi/hsi-tv.webp',
+        ]
+      }
     ]
   },
   fr: {
@@ -24,7 +29,24 @@ const PORTALS: Record<string, {
     duration: '2 months',
     role: 'FF&E · Architectural 3D Renders',
     desc: 'Produced architectural 3D renders for residential and hospitality projects. Coordinated FF&E documentation with procurement teams and managed material libraries and supplier contacts.',
-    project: null
+    project: null,
+    galleries: [
+      {
+        label: 'Jasmeya Farm Retreat — Qatar',
+        images: [
+          '/images/fr-partnership/jasmeya-sauna.webp',
+          '/images/fr-partnership/jasmeya-01.webp',
+          '/images/fr-partnership/jasmeya-02.webp',
+        ]
+      },
+      {
+        label: 'Ahmad Fathy Villa — Outdoor',
+        images: [
+          '/images/fr-partnership/fathy-villa-01.webp',
+          '/images/fr-partnership/fathy-villa-02.webp',
+        ]
+      }
+    ]
   },
   siemens: {
     company: 'Siemens',
@@ -108,18 +130,18 @@ export default function PageEffects() {
       if (!d || !overlay || !inner) return
       document.body.classList.add('cur-p')
       document.body.style.overflow = 'hidden'
-      const gallery = d.images?.length
-        ? `
-        <div style="margin-top:32px">
-          <div class="po-col-label" style="margin-bottom:14px">Selected renders</div>
+      const gallery = d.galleries?.length
+        ? d.galleries.map((g, gi) => `
+        <div style="margin-top:${gi === 0 ? 32 : 24}px">
+          <div class="po-col-label" style="margin-bottom:14px">${g.label}</div>
           <div style="display:flex;gap:16px;flex-wrap:wrap">
-            ${d.images.map(img => `
+            ${g.images.map(img => `
               <div style="width:220px;aspect-ratio:4/3;border-radius:4px;overflow:hidden;flex-shrink:0;border:1px solid rgba(253,251,212,0.15)">
-                <img src="${img}" alt="${d.company} interior render" loading="lazy"
+                <img src="${img}" alt="${g.label} render" loading="lazy"
                      style="width:100%;height:100%;object-fit:cover;display:block" />
               </div>`).join('')}
           </div>
-        </div>`
+        </div>`).join('')
         : ''
 
       inner.innerHTML = `
