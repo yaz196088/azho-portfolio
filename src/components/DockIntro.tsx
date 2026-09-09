@@ -267,6 +267,7 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
               <img
                 src={item.src}
                 alt=""
+                loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
@@ -303,8 +304,9 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         }}
       >
         <img
-          src="/images/elements/home-icon.png"
+          src="/images/elements/home-icon.webp"
           alt=""
+          loading="eager"
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       </button>

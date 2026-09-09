@@ -3,13 +3,13 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 
 const IMAGES = [
-  { src: '/images/wellness-daily/wd-sleep.png',     alt: 'Sleep Maxxing',  code: '01' },
-  { src: '/images/wellness-daily/wd-recovery.png',  alt: 'Recovery',       code: '02' },
-  { src: '/images/wellness-daily/wd-protein.png',   alt: 'Protein',        code: '03' },
-  { src: '/images/wellness-daily/wd-creatine.png',  alt: 'Creatine',       code: '04' },
-  { src: '/images/wellness-daily/wd-sauna.png',     alt: 'Sauna',          code: '05' },
-  { src: '/images/wellness-daily/wd-athx.png',      alt: 'ATHX Games',     code: '06' },
-  { src: '/images/wellness-daily/wd-aesthetic.png', alt: 'Aesthetic',      code: '07' },
+  { src: '/images/wellness-daily/wd-sleep.webp',     alt: 'Sleep Maxxing',  code: '01' },
+  { src: '/images/wellness-daily/wd-recovery.webp',  alt: 'Recovery',       code: '02' },
+  { src: '/images/wellness-daily/wd-protein.webp',   alt: 'Protein',        code: '03' },
+  { src: '/images/wellness-daily/wd-creatine.webp',  alt: 'Creatine',       code: '04' },
+  { src: '/images/wellness-daily/wd-sauna.webp',     alt: 'Sauna',          code: '05' },
+  { src: '/images/wellness-daily/wd-athx.webp',      alt: 'ATHX Games',     code: '06' },
+  { src: '/images/wellness-daily/wd-aesthetic.webp', alt: 'Aesthetic',      code: '07' },
 ]
 
 export default function WellnessDailyRack() {
@@ -148,6 +148,7 @@ export default function WellnessDailyRack() {
             <motion.img
               src={image.src}
               alt={image.alt}
+              loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' }}
             />
           </motion.div>
@@ -202,6 +203,7 @@ export default function WellnessDailyRack() {
               <img
                 src={IMAGES[expanded].src}
                 alt={IMAGES[expanded].alt}
+                loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' }}
               />
             </motion.div>

@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import { toRoman } from '@/lib/roman'
 
 const POSTERS = [
-  { src: '/images/posters/constructivism.png', title: 'OBSERVE SUBJECTIVELY' },
-  { src: '/images/posters/escape.png', title: 'ESCAPE' },
-  { src: '/images/posters/Momento_Mori_.png', title: 'MOMENTO MORI' },
-  { src: '/images/posters/crash_poster_.png', title: 'PARALLEL PARKING GONE WRONG' },
+  { src: '/images/posters/constructivism.webp', title: 'OBSERVE SUBJECTIVELY' },
+  { src: '/images/posters/escape.webp', title: 'ESCAPE' },
+  { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI' },
+  { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG' },
 ]
 
 export default function PosterRack() {
@@ -163,6 +163,7 @@ export default function PosterRack() {
                 <img
                   src={p.src}
                   alt={p.title}
+                  loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
               </div>
