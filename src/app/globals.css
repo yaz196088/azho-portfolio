@@ -425,6 +425,14 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
   font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
   color: rgba(253,251,212,.35); margin-bottom: 12px;
 }
+.po-gallery-label {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: rgba(253,251,212,0.7);
+}
 .po-col-val { font-size: 15px; line-height: 1.75; color: rgba(253,251,212,.8); font-weight: 300; }
 .po-col-val strong { font-weight: 500; color: var(--cream); }
 

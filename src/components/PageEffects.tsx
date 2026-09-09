@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 const PORTALS: Record<string, {
   company: string; duration: string; role: string; desc: string;
   project: { label: string; href: string } | null;
-  galleries?: { label: string; images: string[] }[];
+  galleries?: { label: string; images: string[]; handwritten?: boolean }[];
 }> = {
   hsi: {
     company: 'Hany Saad Innovations',
@@ -33,6 +33,7 @@ const PORTALS: Record<string, {
     galleries: [
       {
         label: 'Jasmeya Farm Retreat — Qatar',
+        handwritten: true,
         images: [
           '/images/fr-partnership/jasmeya-sauna.webp',
           '/images/fr-partnership/jasmeya-01.webp',
@@ -41,6 +42,7 @@ const PORTALS: Record<string, {
       },
       {
         label: 'Ahmad Fathy Villa — Outdoor',
+        handwritten: true,
         images: [
           '/images/fr-partnership/fathy-villa-01.webp',
           '/images/fr-partnership/fathy-villa-02.webp',
@@ -133,7 +135,7 @@ export default function PageEffects() {
       const gallery = d.galleries?.length
         ? d.galleries.map((g, gi) => `
         <div style="margin-top:${gi === 0 ? 32 : 24}px">
-          <div class="po-col-label" style="margin-bottom:14px">${g.label}</div>
+          <div class="po-col-label${g.handwritten ? ' po-gallery-label' : ''}" style="margin-bottom:14px">${g.label}</div>
           <div style="display:flex;gap:16px;flex-wrap:wrap">
             ${g.images.map(img => `
               <div style="width:220px;aspect-ratio:4/3;border-radius:4px;overflow:hidden;flex-shrink:0;border:1px solid rgba(253,251,212,0.15)">
