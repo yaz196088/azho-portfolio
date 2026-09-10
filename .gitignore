@@ -16,3 +16,19 @@ out/
 .DS_Store
 *.pem
 npm-debug.log*
+
+# Source originals — never commit, too large.
+# Only the optimised .webp derivatives are tracked in these folders; the
+# .png/.jpg originals they were converted from stay local. Matched by
+# extension rather than by filename so new originals dropped in later are
+# ignored too.
+public/models/
+public/images/hsi/*.png
+public/images/hsi/*.jpg
+public/images/hsi/*.jpeg
+public/images/fr-partnership/*.png
+public/images/fr-partnership/*.jpg
+public/images/fr-partnership/*.jpeg
+public/images/posters/*.png
+public/images/posters/*.jpg
+public/images/posters/*.jpeg

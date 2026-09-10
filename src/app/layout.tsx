@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import CursorClient from '../components/CursorClient'
-import WaxSeal from '../components/WaxSeal'
 
 export const metadata: Metadata = {
   title: 'Youssef Azhari — Architecture & Design',
@@ -38,15 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   window.scrollTo(0, 0);
 ` }}
         />
-        <script
-          async
-          type="module"
-          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
-        ></script>
       </head>
       <body>
         <CursorClient />
-        <WaxSeal />
         {children}
       </body>
     </html>
