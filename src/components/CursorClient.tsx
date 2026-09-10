@@ -18,7 +18,7 @@ export default function CursorClient() {
 
     function followRing() {
       if (!rafActive) return
-      rx += (mx - rx) * 0.11; ry += (my - ry) * 0.11
+      rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22
       if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px' }
       rafId = requestAnimationFrame(followRing)
     }
