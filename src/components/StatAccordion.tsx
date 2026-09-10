@@ -19,6 +19,14 @@ const STATS = [
     label: 'Two Cities, One Eye',
     detail: 'Originally from Cairo, Egypt, currently based in Berlin — designing in the space between two very different urban languages.',
   },
+  {
+    label: 'AI Visualization',
+    detail: 'Using AI-driven tools to accelerate concept exploration and generate rapid architectural visualizations.',
+  },
+  {
+    label: 'Adobe Creative Suite',
+    detail: 'Proficient across Photoshop, Illustrator, and the broader Adobe ecosystem for visual and graphic work.',
+  },
 ]
 
 export default function StatAccordion() {
