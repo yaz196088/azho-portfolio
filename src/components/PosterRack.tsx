@@ -3,12 +3,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { toRoman } from '@/lib/roman'
 
+/* w/h are the artwork's real pixel dimensions. The card takes each poster's
+   own aspect ratio, so nothing is ever cropped or letterboxed — the five
+   range from 0.563 (9:16) to 0.750, which no single fixed ratio can hold. */
 const POSTERS = [
-  { src: '/images/posters/constructivism.webp', title: 'OBSERVE SUBJECTIVELY', year: 2023 },
-  { src: '/images/posters/escape.webp', title: 'ESCAPE', year: 2023 },
-  { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI', year: 2023 },
-  { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG', year: 2023 },
-  { src: '/images/posters/dinner-host.webp', title: 'DINNER HOST', year: 2026 },
+  { src: '/images/posters/constructivism.webp', title: 'OBSERVE SUBJECTIVELY', year: 2023, w: 900, h: 1273 },
+  { src: '/images/posters/escape.webp', title: 'ESCAPE', year: 2023, w: 900, h: 1273 },
+  { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI', year: 2023, w: 900, h: 1273 },
+  { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG', year: 2023, w: 375, h: 500 },
+  { src: '/images/posters/dinner-host.webp', title: 'DINNER HOST', year: 2026, w: 900, h: 1600 },
 ]
 const LAST = POSTERS.length - 1
 
@@ -53,7 +56,7 @@ export default function PosterRack() {
 
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return
-      if (Math.abs(e.deltaX) < 15) return
+      if (Math.abs(e.deltaX) < 10) return
       e.preventDefault()
       if (swipeLocked) return
       swipeLocked = true
@@ -62,7 +65,7 @@ export default function PosterRack() {
       } else {
         setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
-      setTimeout(() => { swipeLocked = false }, 600)
+      setTimeout(() => { swipeLocked = false }, 450)
     }
 
     const handleTouchStart = (e: TouchEvent) => {
@@ -149,16 +152,14 @@ export default function PosterRack() {
                 key={p.src}
                 className="rack-card"
                 style={{
-                  transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
+                  transform: `translate(-50%, -50%) translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`,
                   transformStyle: 'preserve-3d',
                   opacity: Math.abs(offset) > 1 ? 0.3 : 1,
                   transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                   width: `${cardW}px`,
-                  aspectRatio: '2/3',
+                  aspectRatio: `${p.w}/${p.h}`,
                   top: '50%',
                   left: '50%',
-                  marginLeft: `${-cardW / 2}px`,
-                  marginTop: `${-(cardW * 1.5) / 2}px`,
                   boxShadow: offset === 0 ? '0 40px 100px rgba(0,0,0,0.5)' : 'none',
                 }}
               >
@@ -166,7 +167,7 @@ export default function PosterRack() {
                   src={p.src}
                   alt={p.title}
                   loading="lazy"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
                 />
               </div>
             )
