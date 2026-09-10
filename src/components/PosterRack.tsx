@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from 'react'
 import { toRoman } from '@/lib/roman'
 
 const POSTERS = [
-  { src: '/images/posters/constructivism.webp', title: 'OBSERVE SUBJECTIVELY' },
-  { src: '/images/posters/escape.webp', title: 'ESCAPE' },
-  { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI' },
-  { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG' },
+  { src: '/images/posters/constructivism.webp', title: 'OBSERVE SUBJECTIVELY', year: 2023 },
+  { src: '/images/posters/escape.webp', title: 'ESCAPE', year: 2023 },
+  { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI', year: 2023 },
+  { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG', year: 2023 },
+  { src: '/images/posters/dinner-host.webp', title: 'DINNER HOST', year: 2026 },
 ]
+const LAST = POSTERS.length - 1
 
 export default function PosterRack() {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -56,7 +58,7 @@ export default function PosterRack() {
       if (swipeLocked) return
       swipeLocked = true
       if (e.deltaX > 0) {
-        setSelectedIndex(prev => Math.min(prev + 1, 3))
+        setSelectedIndex(prev => Math.min(prev + 1, LAST))
       } else {
         setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
@@ -71,7 +73,7 @@ export default function PosterRack() {
       const diff = touchStartX.current - e.changedTouches[0].screenX
       if (Math.abs(diff) < 50) return
       if (diff > 0) {
-        setSelectedIndex(prev => Math.min(prev + 1, 3))
+        setSelectedIndex(prev => Math.min(prev + 1, LAST))
       } else {
         setSelectedIndex(prev => Math.max(prev - 1, 0))
       }
@@ -184,7 +186,7 @@ export default function PosterRack() {
       <div className="rack-meta">
         <span><span className="roman">{toRoman(displayedIndex + 1)}</span> / <span className="roman">{toRoman(POSTERS.length)}</span></span>
         <span>Poster Series</span>
-        <span className="roman">{toRoman(2023)}</span>
+        <span className="roman">{toRoman(POSTERS[displayedIndex].year)}</span>
       </div>
     </div>
   )
