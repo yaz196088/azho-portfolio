@@ -11,7 +11,7 @@ const POSTERS = [
   { src: '/images/posters/escape.webp', title: 'ESCAPE', year: 2023, w: 900, h: 1273 },
   { src: '/images/posters/Momento_Mori_.webp', title: 'MOMENTO MORI', year: 2023, w: 900, h: 1273 },
   { src: '/images/posters/crash_poster_.webp', title: 'PARALLEL PARKING GONE WRONG', year: 2023, w: 375, h: 500 },
-  { src: '/images/posters/dinner-host.webp', title: 'DINNER HOST', year: 2026, w: 900, h: 1600 },
+  { src: '/images/posters/dinner-host-v2.webp', title: 'DINNER HOST', year: 2026, w: 900, h: 1600 },
 ]
 const LAST = POSTERS.length - 1
 
