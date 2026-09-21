@@ -125,6 +125,36 @@ export default function PageEffects() {
       }
     }
 
+    /* ── IMAGE LIGHTBOX ── */
+    const lightbox = document.getElementById('image-lightbox')
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null
+    const isLightboxOpen = () => lightbox?.style.display === 'flex'
+
+    function openLightbox(src: string, alt: string) {
+      if (!lightbox || !lightboxImg) return
+      lightboxImg.src = src
+      lightboxImg.alt = alt
+      lightbox.style.display = 'flex'
+      /* Two frames, not one. The display change and the opacity change can land
+         in the same style recalc, which leaves the transition with no starting
+         value and the panel snaps in with no fade at all. */
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          lightbox.style.opacity = '1'
+          lightboxImg.style.transform = 'scale(1)'
+        })
+      })
+    }
+
+    function closeLightbox() {
+      if (!lightbox || !lightboxImg) return
+      lightbox.style.opacity = '0'
+      lightboxImg.style.transform = 'scale(0.92)'
+      setTimeout(() => { lightbox.style.display = 'none' }, 400)
+    }
+
+    lightbox?.addEventListener('click', closeLightbox)
+
     /* ── PORTAL OPEN / CLOSE ── */
     const overlay  = document.getElementById('portal-overlay')
     const inner    = document.getElementById('po-inner')
@@ -142,7 +172,7 @@ export default function PageEffects() {
           <div style="display:flex;gap:16px;flex-wrap:wrap">
             ${g.images.map(img => `
               <div style="width:220px;aspect-ratio:4/3;border-radius:4px;overflow:hidden;flex-shrink:0;border:1px solid rgba(253,251,212,0.15)">
-                <img src="${img}" alt="${g.label} render" loading="lazy"
+                <img src="${img}" alt="${g.label} render" loading="lazy" class="po-gal-img"
                      style="width:100%;height:100%;object-fit:cover;display:block" />
               </div>`).join('')}
           </div>
@@ -170,6 +200,19 @@ export default function PageEffects() {
         ${d.project ? `<a href="${d.project.href}" class="po-project-link" id="po-proj-link">${d.project.label} <span class="arr">→</span></a>` : ''}
       `
       overlay.classList.add('open')
+
+      /* Wired here rather than on mount: the gallery nodes don't exist until
+         this innerHTML runs, and each open discards the previous set along with
+         its listeners. Every portal's galleries are covered automatically.
+         The cursor affordance is the site's own hover ring, not cursor:pointer
+         — body sets `cursor: none`, so a native pointer would draw a second
+         cursor on top of the custom one. */
+      inner.querySelectorAll<HTMLImageElement>('.po-gal-img').forEach(img => {
+        img.addEventListener('click', () => openLightbox(img.src, img.alt))
+        img.addEventListener('mouseenter', () => document.body.classList.add('cur-h'))
+        img.addEventListener('mouseleave', () => document.body.classList.remove('cur-h'))
+      })
+
       if (d.project) {
         document.getElementById('po-proj-link')?.addEventListener('click', closePortal)
       }
@@ -189,13 +232,22 @@ export default function PageEffects() {
     })
     closeBtn?.addEventListener('click', closePortal)
 
-    const onKeyDown = (e: KeyboardEvent) => { if (e.key === 'Escape') closePortal() }
+    /* One listener with precedence rather than two independent ones: the
+       lightbox sits above the portal, so Escape dismisses the image first and
+       leaves the portal open behind it. Two listeners would collapse both on a
+       single press. */
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (isLightboxOpen()) { closeLightbox(); return }
+      closePortal()
+    }
     document.addEventListener('keydown', onKeyDown)
 
     return () => {
       window.removeEventListener('scroll', onScrollHint)
       window.removeEventListener('scroll', onScrollParallax)
       document.removeEventListener('keydown', onKeyDown)
+      lightbox?.removeEventListener('click', closeLightbox)
     }
   }, [])
 
@@ -215,6 +267,40 @@ export default function PageEffects() {
         <div className="po-bg-lines" id="po-bg-lines"></div>
         <button className="po-close" id="po-close">✕</button>
         <div className="po-inner" id="po-inner"></div>
+      </div>
+
+      {/* Image lightbox — sits above the portal overlay (z 5000) so a gallery
+          image can expand over an open portal. */}
+      <div
+        id="image-lightbox"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9500,
+          display: 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(31,24,192,0.55)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          opacity: 0,
+          transition: 'opacity 0.4s cubic-bezier(0.16,1,0.3,1)',
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          id="lightbox-img"
+          src=""
+          alt=""
+          style={{
+            maxWidth: '85vw',
+            maxHeight: '85vh',
+            borderRadius: '4px',
+            boxShadow: '0 40px 100px rgba(0,0,0,0.4)',
+            transform: 'scale(0.92)',
+            transition: 'transform 0.4s cubic-bezier(0.16,1,0.3,1)',
+          }}
+        />
       </div>
     </>
   )
