@@ -48,6 +48,7 @@ const PORTALS: Record<string, {
           '/images/fr-partnership/fathy-villa-02.webp',
           '/images/fr-partnership/fathy-villa-03.webp',
           '/images/fr-partnership/fathy-villa-04.webp',
+          '/images/fr-partnership/fathy-villa-05.webp',
         ]
       }
     ]
