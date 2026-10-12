@@ -384,8 +384,17 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 }
 #portal-overlay.open {
   inset: 0; pointer-events: all; opacity: 1;
-  display: flex; flex-direction: column; justify-content: flex-end;
+  display: flex; flex-direction: column; justify-content: flex-start;
   padding: 56px;
+  /* Tall portals have to scroll inside the overlay. With flex-end the overflow
+     went off the TOP, where it is unreachable — the title was cropped and the
+     wheel scrolled the page behind instead. flex-start plus margin-top:auto on
+     .po-inner keeps short portals bottom-aligned (auto margins take positive
+     free space only, and resolve to 0 once the content overflows). */
+  overflow-y: auto; overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .po-inner {
   opacity: 0; transform: translateY(40px);
@@ -440,15 +449,54 @@ hr { border: none; border-top: 1px solid var(--rule); margin: 0 56px; }
 .po-project-link:hover .arr { transform: translateX(4px); }
 
 .po-bg-lines {
-  position: absolute; top: 0; left: 0; right: 0; height: 100%;
+  /* Fixed for the same reason as .po-close — absolute + height:100% resolves
+     against the viewport-sized overlay box, so the lines would stop at the
+     first screenful and scrolled content would sit on bare colour. */
+  position: fixed; top: 0; left: 0; right: 0; height: 100%;
   pointer-events: none; z-index: 0; overflow: hidden;
 }
 .po-bg-line {
   position: absolute; top: 0; bottom: 0; width: 1px;
   background: rgba(253,251,212,.04);
 }
-.po-inner { position: relative; z-index: 1; }
-.po-close { position: absolute; z-index: 2; }
+.po-inner { position: relative; z-index: 1; margin-top: auto; }
+/* Fixed, not absolute: the overlay scrolls now, and an absolute close button
+   would scroll away with the content. */
+.po-close { position: fixed; z-index: 2; }
+
+/* ─── PORTAL GALLERY ROW ──────────────────────────────────── */
+.po-gallery-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;   /* stops the trackpad swipe triggering browser back */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  touch-action: pan-x pan-y;
+  padding-bottom: 14px;             /* room for the scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(253,251,212,.35) transparent;
+  -webkit-mask-image: linear-gradient(to right, #000 92%, transparent);
+  mask-image: linear-gradient(to right, #000 92%, transparent);
+}
+/* Dropped once the row is scrolled to the end, or when everything already
+   fits — otherwise the last thumbnail sits permanently faded. */
+.po-gallery-row.no-fade {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.po-gallery-row::-webkit-scrollbar { height: 4px; }
+.po-gallery-row::-webkit-scrollbar-track { background: transparent; }
+.po-gallery-row::-webkit-scrollbar-thumb {
+  background: rgba(253,251,212,.35);
+  border-radius: 2px;
+}
+.po-gallery-row > * {
+  flex: 0 0 220px;
+  scroll-snap-align: start;
+}
 
 /* ─── WORKS ───────────────────────────────────────────────── */
 .works { padding: 80px 56px; }
@@ -907,6 +955,7 @@ img { max-width: 100%; height: auto; }
   .intern-section { padding: 32px 24px 56px; }
   .intern-grid { grid-template-columns: 1fr; }
   #portal-overlay.open { padding: 24px; }
+  .po-gallery-row > * { flex-basis: 180px; }
   .po-company { font-size: clamp(42px, 11.5vw, 74px); }
   .po-grid { grid-template-columns: 1fr; gap: 24px; }
 

@@ -173,18 +173,34 @@ export default function PageEffects() {
     const inner    = document.getElementById('po-inner')
     const closeBtn = document.getElementById('po-close')
 
+    /* Background scroll lock. Both html and body need locking — body alone
+       still lets the document scroll behind the overlay. Previous values are
+       captured rather than assumed empty, so the gate's own lock survives. */
+    let prevBodyOverflow = ''
+    let prevHtmlOverflow = ''
+
+    const updateRowFade = (row: HTMLElement) => {
+      const maxScroll = row.scrollWidth - row.clientWidth
+      row.classList.toggle('no-fade', maxScroll <= 1 || row.scrollLeft >= maxScroll - 8)
+    }
+
     function openPortal(key: string) {
       const d = PORTALS[key]
       if (!d || !overlay || !inner) return
       document.body.classList.add('cur-p')
+      if (!overlay.classList.contains('open')) {
+        prevBodyOverflow = document.body.style.overflow
+        prevHtmlOverflow = document.documentElement.style.overflow
+      }
       document.body.style.overflow = 'hidden'
+      document.documentElement.style.overflow = 'hidden'
       const gallery = d.galleries?.length
         ? d.galleries.map((g, gi) => `
         <div style="margin-top:${gi === 0 ? 32 : 24}px">
           <div class="po-col-label${g.handwritten ? ' po-gallery-label' : ''}" style="margin-bottom:14px">${g.label}</div>
-          <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <div class="po-gallery-row">
             ${g.images.map(img => `
-              <div style="width:220px;aspect-ratio:4/3;border-radius:4px;overflow:hidden;flex-shrink:0;border:1px solid rgba(253,251,212,0.15)">
+              <div style="aspect-ratio:4/3;border-radius:4px;overflow:hidden;border:1px solid rgba(253,251,212,0.15)">
                 <img src="${img}" alt="${g.label} render" loading="lazy" class="po-gal-img"
                      style="width:100%;height:100%;object-fit:cover;display:block" />
               </div>`).join('')}
@@ -226,6 +242,18 @@ export default function PageEffects() {
         img.addEventListener('mouseleave', () => document.body.classList.remove('cur-h'))
       })
 
+      /* Each group starts at its first thumbnail, and the right-edge fade is
+         dropped once there is nothing further to scroll to. */
+      overlay.scrollTop = 0
+      inner.querySelectorAll<HTMLElement>('.po-gallery-row').forEach(row => {
+        row.scrollLeft = 0
+        row.addEventListener('scroll', () => updateRowFade(row), { passive: true })
+        updateRowFade(row)
+        /* Widths aren't final until layout runs, so a row that does overflow
+           can measure as fitting on this first pass. */
+        requestAnimationFrame(() => updateRowFade(row))
+      })
+
       if (d.project) {
         document.getElementById('po-proj-link')?.addEventListener('click', closePortal)
       }
@@ -233,7 +261,8 @@ export default function PageEffects() {
 
     function closePortal() {
       overlay?.classList.remove('open')
-      document.body.style.overflow = ''
+      document.body.style.overflow = prevBodyOverflow
+      document.documentElement.style.overflow = prevHtmlOverflow
       document.body.classList.remove('cur-p')
     }
 
