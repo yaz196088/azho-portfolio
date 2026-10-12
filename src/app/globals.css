@@ -957,6 +957,49 @@ img { max-width: 100%; height: auto; }
   body * { cursor: auto !important; }
 }
 
+/* Backdrop blurs — kept here rather than inline so phones can cut them. */
+#image-lightbox, .email-dd-panel {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* ─── TOUCH / PHONE PERFORMANCE ───────────────────────────
+   Keyed on pointer capability rather than width, so a small desktop window
+   keeps the full treatment and every real phone gets the cheap one. */
+@media (hover: none) {
+  /* The paper texture stays; the 7s transform loop on a fixed 200%x200%
+     layer does not. It recomposites a full-screen layer every frame for an
+     effect at 3.8% opacity. */
+  body::before {
+    animation: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #image-lightbox, .email-dd-panel {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  /* The glass panel behind .clink also blurs; stacking it under the dropdown
+     doubles the cost for no visible gain on a small screen. */
+  .clink::before { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  .hero-geo-circle, .hero-geo-circle2 { animation: none; }
+  .marquee-track { animation: none; }
+  .char { animation: none; opacity: 1; transform: none; }
+  .hero-intro p, .htag { animation: none; opacity: 1; transform: none; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ─── WELLNESS DAILY LAYOUT ───────────────────────────────
    These used to be inline styles in WellnessDaily.tsx. Inline styles beat
    every media query, so the hardcoded 56px side padding could not be

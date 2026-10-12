@@ -21,14 +21,13 @@ export default function EmailDropdown() {
         }}>→</span>
       </div>
 
-      <div style={{
+      <div className="email-dd-panel" style={{
         position: 'absolute',
         top: 'calc(100% + 8px)',
         left: 0,
         right: 0,
         background: 'rgba(16, 15, 13, 0.06)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
+        /* Blur radius in CSS so phones can halve it; inline would win. */
         border: '1px solid rgba(16,15,13,0.06)',
         zIndex: 100,
         overflow: 'hidden',

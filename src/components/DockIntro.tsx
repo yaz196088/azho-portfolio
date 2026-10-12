@@ -209,8 +209,10 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         inset: 0,
         zIndex: 9000,
         background: 'rgba(253,251,212,0.35)',
-        backdropFilter: 'blur(28px)',
-        WebkitBackdropFilter: 'blur(28px)',
+        /* 28px over a full-screen layer is one of the most expensive things a
+           phone GPU can be asked for; 14px is visually close and far cheaper. */
+        backdropFilter: isMobile ? 'blur(14px)' : 'blur(28px)',
+        WebkitBackdropFilter: isMobile ? 'blur(14px)' : 'blur(28px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

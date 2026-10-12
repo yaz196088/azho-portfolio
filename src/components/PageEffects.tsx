@@ -92,7 +92,13 @@ export default function PageEffects() {
     /* ── HERO PARALLAX ── */
     const heroName = document.getElementById('hero-name')
     const heroSection = heroName?.closest('.hero') as HTMLElement | null
-    const onScrollParallax = () => {
+    /* The handler reads getBoundingClientRect then writes a transform. Doing
+       that straight from the scroll event forces a layout on every event —
+       several per frame on a phone. Coalescing to one read/write per frame
+       keeps it off the scrolling critical path. */
+    let parallaxRaf: number | null = null
+    const applyParallax = () => {
+      parallaxRaf = null
       if (!heroName || !heroSection) return
       // Measure from the hero's own top, not the document's. The walker intro
       // reserves scroll height before the hero, so absolute scrollY would apply
@@ -101,6 +107,9 @@ export default function PageEffects() {
       const past = Math.max(0, -heroSection.getBoundingClientRect().top)
       if (past <= window.innerHeight)
         heroName.style.transform = `translateY(${past * 0.14}px)`
+    }
+    const onScrollParallax = () => {
+      if (parallaxRaf === null) parallaxRaf = requestAnimationFrame(applyParallax)
     }
     window.addEventListener('scroll', onScrollParallax, { passive: true })
 
@@ -289,6 +298,7 @@ export default function PageEffects() {
     return () => {
       window.removeEventListener('scroll', onScrollHint)
       window.removeEventListener('scroll', onScrollParallax)
+      if (parallaxRaf !== null) cancelAnimationFrame(parallaxRaf)
       document.removeEventListener('keydown', onKeyDown)
       lightbox?.removeEventListener('click', closeLightbox)
     }
@@ -324,8 +334,8 @@ export default function PageEffects() {
           alignItems: 'center',
           justifyContent: 'center',
           background: 'rgba(31,24,192,0.55)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
+          /* Blur radius lives in CSS (#image-lightbox) so the phone override
+             can reduce it — an inline value would outrank any media query. */
           opacity: 0,
           transition: 'opacity 0.4s cubic-bezier(0.16,1,0.3,1)',
         }}
