@@ -146,19 +146,37 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
   /* Dragging a finger across the strip should magnify continuously, the same
      way the mouse does — elementFromPoint resolves whichever tile is under
      the finger on every move. */
+  /* elementFromPoint forces a layout, so running it on every touchmove (which
+     can fire faster than the display refreshes) does the work several times
+     per frame and drops the drag below 60fps. Coalesce to one hit-test per
+     frame and ignore the rest. */
+  const rafRef = useRef<number | null>(null)
+  const pointRef = useRef<{ x: number; y: number } | null>(null)
+
   const handleTouchMove = (e: React.TouchEvent) => {
     const touch = e.touches[0]
-    const el = document.elementFromPoint(touch.clientX, touch.clientY)
-    const tileEl = el?.closest('[data-tile-index]')
-    if (tileEl) {
+    pointRef.current = { x: touch.clientX, y: touch.clientY }
+    if (rafRef.current !== null) return
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null
+      const p = pointRef.current
+      if (!p) return
+      const tileEl = document.elementFromPoint(p.x, p.y)?.closest('[data-tile-index]')
+      if (!tileEl) return
       const idx = parseInt(tileEl.getAttribute('data-tile-index') || '-1', 10)
       if (idx >= 0) setHoverIndex(idx)
-    }
+    })
   }
 
   const handleTouchEnd = () => {
+    if (rafRef.current !== null) { cancelAnimationFrame(rafRef.current); rafRef.current = null }
+    pointRef.current = null
     setHoverIndex(null)
   }
+
+  useEffect(() => () => {
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
+  }, [])
 
   const handleHover = useCallback((i: number) => setHoverIndex(i), [])
   const handleSelect = useCallback((i: number) => setExpandedIndex(i), [])
@@ -213,7 +231,10 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
           width: '100vw',
           overflow: 'visible',
           padding: '0',
-          touchAction: 'pan-y',
+          /* The gate already locks page scroll, so nothing should pan while a
+             finger is dragging across the strip — pan-y let the gesture
+             rubber-band the page on iOS instead of magnifying tiles. */
+          touchAction: 'none',
         }}
       >
         {tiles.map((tile, i) => (

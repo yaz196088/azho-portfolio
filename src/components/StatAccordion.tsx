@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toRoman } from '@/lib/roman'
 
 const STATS = [
@@ -31,19 +31,35 @@ const STATS = [
 
 export default function StatAccordion() {
   const [open, setOpen] = useState<number | null>(null)
+  const [isTouch, setIsTouch] = useState(false)
+
+  /* Pointer capability, not width: a hover-driven accordion is unreachable on
+     any touch device, and matchMedia is the only reliable way to tell. */
+  useEffect(() => {
+    const mq = window.matchMedia('(hover: none)')
+    const update = () => setIsTouch(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {STATS.map((stat, i) => (
         <div
           key={i}
-          onMouseEnter={() => setOpen(i)}
-          onMouseLeave={() => setOpen(null)}
+          onMouseEnter={() => { if (!isTouch) setOpen(i) }}
+          onMouseLeave={() => { if (!isTouch) setOpen(null) }}
+          /* Touch toggles, one open at a time. */
+          onClick={() => { if (isTouch) setOpen(prev => (prev === i ? null : i)) }}
+          role={isTouch ? 'button' : undefined}
+          aria-expanded={isTouch ? open === i : undefined}
           style={{
             borderTop: i === 0 ? 'none' : '1px solid var(--rule)',
             paddingTop: i === 0 ? '0px' : '18px',
             paddingBottom: open === i ? '18px' : '0px',
             cursor: 'default',
+            minHeight: isTouch ? '44px' : undefined,
             transition: 'padding-bottom 0.5s cubic-bezier(0.16,1,0.3,1)',
           }}
         >
@@ -65,7 +81,9 @@ export default function StatAccordion() {
             </span>
           </div>
           <div style={{
-            maxHeight: open === i ? '80px' : '0px',
+            /* The column is far narrower on a phone, so the same copy wraps to
+               more lines; 80px would clip it mid-sentence. */
+            maxHeight: open === i ? (isTouch ? '240px' : '80px') : '0px',
             opacity: open === i ? 1 : 0,
             overflow: 'hidden',
             transition: 'max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1) 0.05s',
