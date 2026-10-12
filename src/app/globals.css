@@ -914,8 +914,32 @@ img { max-width: 100%; height: auto; }
   body * { cursor: auto !important; }
 }
 
+/* ─── WELLNESS DAILY LAYOUT ───────────────────────────────
+   These used to be inline styles in WellnessDaily.tsx. Inline styles beat
+   every media query, so the hardcoded 56px side padding could not be
+   narrowed for phones and 35 elements overflowed the screen at 360px. The
+   values here are the desktop ones, unchanged. */
+.wd-pad { padding-left: 56px; padding-right: 56px; }
+.wd-hero { grid-template-columns: 3fr 2fr; gap: 64px; }
+
 /* ─── MOBILE (max-width: 768px) ───────────────────────────── */
 @media (max-width: 768px) {
+  /* WELLNESS DAILY */
+  .wd-pad { padding-left: 24px; padding-right: 24px; }
+  .wd-hero { grid-template-columns: 1fr; gap: 32px; }
+  .wd-toprow { flex-wrap: wrap; gap: 10px; }
+  /* The card row scrolls sideways on touch. Padding keeps the first and last
+     card centre-snappable rather than pinned to the edge. */
+  .wd-rack-scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    touch-action: pan-x pan-y;
+    scrollbar-width: none;
+    padding: 0 calc(50% - 84px);
+  }
+  .wd-rack-scroller::-webkit-scrollbar { display: none; }
   /* NAV */
   nav {
     padding: 20px 24px;

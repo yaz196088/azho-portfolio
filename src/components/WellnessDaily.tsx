@@ -19,8 +19,9 @@ export default function WellnessDaily() {
     <section id="wellness-daily-section" className="rv" style={{ background: '#DDD0B8', overflow: 'hidden' }}>
 
       {/* Top label row */}
-      <div style={{
-        padding: '80px 56px 0',
+      <div className="wd-pad wd-toprow" style={{
+        paddingTop: '80px',
+        paddingBottom: 0,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -40,11 +41,10 @@ export default function WellnessDaily() {
       </div>
 
       {/* Hero row */}
-      <div className="rv rv-d1" style={{
-        padding: '48px 56px 0',
+      <div className="rv rv-d1 wd-pad wd-hero" style={{
+        paddingTop: '48px',
+        paddingBottom: 0,
         display: 'grid',
-        gridTemplateColumns: '3fr 2fr',
-        gap: '64px',
         alignItems: 'start',
       }}>
         {/* Left — brand name + description */}
@@ -192,7 +192,7 @@ export default function WellnessDaily() {
       </div>
 
       {/* Content pillars */}
-      <div className="rv rv-d2" style={{ padding: '56px 56px 0' }}>
+      <div className="rv rv-d2 wd-pad" style={{ paddingTop: '56px', paddingBottom: 0 }}>
         <div className="sec-label" style={{ color: 'rgba(92,107,40,0.55)', marginBottom: '20px' }}>
           Content Pillars
         </div>

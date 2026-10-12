@@ -17,7 +17,30 @@ export default function WellnessDailyRack() {
   const [hovered, setHovered] = useState<number | null>(null)
   const [expanded, setExpanded] = useState<number | null>(null)
   const [paused, setPaused] = useState(false)
+  const [isMobile, setIsMobile] = useState(false) // desktop during SSR
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const resumeRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const scrollerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => () => { if (resumeRef.current) clearTimeout(resumeRef.current) }, [])
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  /* Phones get a scroll-snap row instead of the hover-expand accordion: seven
+     cards at 52px collapsed plus one at 260px need ~608px, which no phone has.
+     Auto-rotate drives the scroll position rather than a width animation. */
+  useEffect(() => {
+    if (!isMobile || expanded !== null) return
+    const el = scrollerRef.current
+    const card = el?.children[active] as HTMLElement | undefined
+    if (!el || !card) return
+    el.scrollTo({ left: card.offsetLeft - (el.clientWidth - card.offsetWidth) / 2, behavior: 'smooth' })
+  }, [active, isMobile, expanded])
 
   useEffect(() => {
     if (paused || expanded !== null) return
@@ -38,7 +61,7 @@ export default function WellnessDailyRack() {
   const displayIndex = hovered !== null ? hovered : active
 
   return (
-    <div style={{ padding: '0 56px 56px' }}>
+    <div className="wd-pad" style={{ paddingTop: 0, paddingBottom: '56px' }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -60,27 +83,44 @@ export default function WellnessDailyRack() {
       </div>
 
       <div
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => { setPaused(false); setHovered(null) }}
+        ref={scrollerRef}
+        className={isMobile ? 'wd-rack-scroller' : undefined}
+        onMouseEnter={() => { if (!isMobile) setPaused(true) }}
+        onMouseLeave={() => { if (!isMobile) { setPaused(false); setHovered(null) } }}
+        /* Pause while a finger is on the row, resume a few seconds after it
+           lifts, so auto-rotate never fights the user mid-scroll. */
+        onTouchStart={() => {
+          setPaused(true)
+          if (resumeRef.current) clearTimeout(resumeRef.current)
+        }}
+        onTouchEnd={() => {
+          if (resumeRef.current) clearTimeout(resumeRef.current)
+          resumeRef.current = setTimeout(() => setPaused(false), 5000)
+        }}
         style={{
           display: 'flex',
           width: '100%',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: isMobile ? 'flex-start' : 'center',
           gap: '6px',
-          height: '380px',
+          height: isMobile ? '300px' : '380px',
         }}
       >
         {IMAGES.map((image, index) => (
           <motion.div
             key={index}
             layoutId={`wd-card-${index}`}
-            onMouseEnter={() => setHovered(index)}
-            onClick={() => setExpanded(index)}
-            initial={{ width: '40px' }}
-            animate={{
-              width: displayIndex === index ? '260px' : '52px',
+            onMouseEnter={() => { if (!isMobile) setHovered(index) }}
+            /* Touch: first tap focuses the card, a second tap on the already
+               focused card opens the lightbox. Desktop opens on a single
+               click exactly as before. */
+            onClick={() => {
+              if (!isMobile) { setExpanded(index); return }
+              if (active === index) setExpanded(index)
+              else setActive(index)
             }}
+            initial={isMobile ? false : { width: '40px' }}
+            animate={isMobile ? undefined : { width: displayIndex === index ? '260px' : '52px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             style={{
               position: 'relative',
@@ -88,7 +128,9 @@ export default function WellnessDailyRack() {
               overflow: 'hidden',
               borderRadius: '18px',
               flexShrink: 0,
-              height: '380px',
+              height: isMobile ? '300px' : '380px',
+              width: isMobile ? '168px' : undefined,
+              scrollSnapAlign: isMobile ? 'center' : undefined,
               boxShadow: displayIndex === index
                 ? '0 0 0 1px rgba(255,255,255,0.5), 0 24px 64px rgba(92,107,40,0.25)'
                 : '0 0 0 1px rgba(255,255,255,0.15)',
@@ -164,7 +206,7 @@ export default function WellnessDailyRack() {
         opacity: 0.4,
         marginTop: '16px',
       }}>
-        Hover to preview · Click to expand
+        {isMobile ? 'Swipe to browse · Tap twice to expand' : 'Hover to preview · Click to expand'}
       </div>
 
       <AnimatePresence>
