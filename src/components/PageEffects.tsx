@@ -41,7 +41,7 @@ const PORTALS: Record<string, {
         ]
       },
       {
-        label: 'Ahmad Fathy Villa — Outdoor',
+        label: 'Omar Fathy',
         handwritten: true,
         images: [
           '/images/fr-partnership/fathy-villa-01.webp',
@@ -49,6 +49,7 @@ const PORTALS: Record<string, {
           '/images/fr-partnership/fathy-villa-03.webp',
           '/images/fr-partnership/fathy-villa-04.webp',
           '/images/fr-partnership/fathy-villa-05.webp',
+          '/images/fr-partnership/fathy-villa-06.webp',
         ]
       },
       {
