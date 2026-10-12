@@ -281,7 +281,9 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
         aria-label="Enter site"
         style={{
           position: 'absolute',
-          bottom: '48px',
+          /* Clears the home indicator on phones; resolves to plain 48px
+             everywhere the inset is 0, so desktop is untouched. */
+          bottom: 'calc(48px + env(safe-area-inset-bottom, 0px))',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 300,

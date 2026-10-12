@@ -135,7 +135,11 @@ export default function PosterRack() {
             perspectiveOrigin: '50% 50%',
             position: 'relative',
             width: '100%',
-            height: '80vh',
+            /* Desktop keeps 80vh. On phones that resolved to ~624px inside a
+               360px .rack-scene, so the cards hung 264px out of the scene and
+               landed on top of the title. 100% fills the scene instead; the
+               tallest card (9:16 at 180px wide = 320px) still fits. */
+            height: isMobile ? '100%' : '80vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -179,9 +183,18 @@ export default function PosterRack() {
           {POSTERS[displayedIndex].title}
         </div>
       </div>
+      {/* .rack-dots is pointer-events:none on desktop, so these handlers are
+          inert there and the desktop rack is unchanged. The mobile block turns
+          pointer-events back on and grows the hit area to 32px. */}
       <div className="rack-dots">
-        {POSTERS.map((_, i) => (
-          <div key={i} className={`rack-dot${i === selectedIndex ? ' active' : ''}`} />
+        {POSTERS.map((p, i) => (
+          <div
+            key={i}
+            className={`rack-dot${i === selectedIndex ? ' active' : ''}`}
+            role="button"
+            aria-label={`Show poster ${i + 1}: ${p.title}`}
+            onClick={() => setSelectedIndex(i)}
+          />
         ))}
       </div>
       <div className="rack-meta">

@@ -1,10 +1,20 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import CursorClient from '../components/CursorClient'
 
 export const metadata: Metadata = {
   title: 'Youssef Azhari — Architecture & Design',
   description: 'Architect-in-training, designer, and creator.',
+}
+
+/* viewportFit: 'cover' lets the page paint under the notch and home
+   indicator, which is what makes env(safe-area-inset-*) report real values.
+   Without it those insets are always 0 and fixed UI collides with the
+   hardware. Next injects width=device-width, initial-scale=1 itself. */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

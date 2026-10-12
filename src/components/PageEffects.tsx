@@ -337,7 +337,10 @@ export default function PageEffects() {
           alt=""
           style={{
             maxWidth: '85vw',
-            maxHeight: '85vh',
+            /* svh, not vh: with the iOS toolbars showing, 85vh is measured
+               against the *largest* viewport, so the image overflowed the
+               visible area. svh uses the smallest. */
+            maxHeight: '85svh',
             borderRadius: '4px',
             boxShadow: '0 40px 100px rgba(0,0,0,0.4)',
             transform: 'scale(0.92)',

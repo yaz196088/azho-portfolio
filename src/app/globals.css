@@ -917,10 +917,24 @@ img { max-width: 100%; height: auto; }
 /* ─── MOBILE (max-width: 768px) ───────────────────────────── */
 @media (max-width: 768px) {
   /* NAV */
-  nav { padding: 20px 24px; }
+  nav {
+    padding: 20px 24px;
+    padding-left: calc(24px + env(safe-area-inset-left, 0px));
+    padding-right: calc(24px + env(safe-area-inset-right, 0px));
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+  }
   .nav-loc { display: none; }
-  .nav-links { gap: 20px; }
-  .nav-links a { font-size: 9px; }
+  .nav-links { gap: 8px; align-items: center; }
+  /* The label stays 9px; the link grows to a 44px touch row around it, so the
+     text size is unchanged but the target is reachable. */
+  .nav-links a {
+    font-size: 9px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 10px;
+  }
+  .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
 
   /* HERO */
   .hero { padding: 0 24px 48px; }
@@ -954,7 +968,19 @@ img { max-width: 100%; height: auto; }
   /* EXPERIENCE PORTALS */
   .intern-section { padding: 32px 24px 56px; }
   .intern-grid { grid-template-columns: 1fr; }
-  #portal-overlay.open { padding: 24px; }
+  #portal-overlay.open {
+    padding: 24px;
+    padding-top: calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+  /* Was 21x36 — below the 44px minimum and sitting under the notch. */
+  .po-close {
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    line-height: 1;
+  }
   .po-gallery-row > * { flex-basis: 180px; }
   .po-company { font-size: clamp(42px, 11.5vw, 74px); }
   .po-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -973,9 +999,25 @@ img { max-width: 100%; height: auto; }
   .rack-scene { height: 100vw; min-height: 360px; perspective: 700px; }
   .rack-title-wrap { margin-top: 32px; padding: 0 24px; }
   .rack-title-text { font-size: clamp(26px, 7vw, 42px); }
-  .rack-dots { bottom: 24px; }
   .rack-meta { padding: 16px 24px 0; font-size: 9px; }
   .rack-top-label { padding: 0 24px 32px; }
+
+  /* Dots become real controls on touch: the 6px visual keeps its look while a
+     32px transparent ::after does the catching. Desktop keeps
+     pointer-events:none, so the dots stay decorative there. */
+  .rack-dots {
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    pointer-events: auto;
+    gap: 14px;
+  }
+  .rack-dot { position: relative; }
+  .rack-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+  }
 
   /* QUOTE */
   .quote-section { padding: 56px 24px; grid-template-columns: 1fr; gap: 24px; }
