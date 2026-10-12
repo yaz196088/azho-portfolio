@@ -119,19 +119,40 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
       const idx = (expandedIndex + offset + IMAGES.length) % IMAGES.length
       if (!indices.includes(idx)) indices.push(idx)
     }
+    /* Card sizes were fixed pixels, so on a 390px screen the 280px main card
+       measured 321px once rotated and hung 64px off the left edge. Scale the
+       widths to the viewport and clamp each centre so that half the rotated
+       width always stays inside, which keeps every card fully on screen at
+       any size instead of relying on the percentages happening to land well. */
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1200
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 800
+    const mainW = Math.min(280, vw * 0.52)
+    const maxRotate = 24
+
     return indices.map((idx, pos) => {
       const seed = expandedIndex * 100 + pos
+      const width = pos === 0 ? mainW : Math.min(120 + seededRandom(seed + 2) * 70, vw * 0.34)
+      const height = width * (4 / 3)
+      const rotate = (seededRandom(seed + 3) - 0.5) * maxRotate
+      // Rotated bounding box, so the clamp accounts for the tilt too.
+      const rad = Math.abs(rotate) * Math.PI / 180
+      const halfW = (Math.abs(width * Math.cos(rad)) + Math.abs(height * Math.sin(rad))) / 2
+      const halfH = (Math.abs(width * Math.sin(rad)) + Math.abs(height * Math.cos(rad))) / 2
+      const marginX = (halfW / vw) * 100
+      const marginY = (halfH / vh) * 100
+      const clamp = (v: number, m: number) => Math.min(Math.max(v, m + 1), 99 - m)
+
       return {
         src: IMAGES[idx],
         isMain: idx === expandedIndex,
-        top: 12 + seededRandom(seed) * 66,
-        left: 8 + seededRandom(seed + 1) * 74,
-        width: pos === 0 ? 280 : 120 + seededRandom(seed + 2) * 70,
-        rotate: (seededRandom(seed + 3) - 0.5) * 24,
+        top: clamp(12 + seededRandom(seed) * 66, marginY),
+        left: clamp(8 + seededRandom(seed + 1) * 74, marginX),
+        width,
+        rotate,
         zIndex: pos === 0 ? 50 : Math.floor(seededRandom(seed + 4) * 40),
       }
     })
-  }, [expandedIndex])
+  }, [expandedIndex, isMobile])
 
   const closeCollage = () => {
     setClosingCollage(true)
