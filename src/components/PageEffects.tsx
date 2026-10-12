@@ -50,6 +50,19 @@ const PORTALS: Record<string, {
           '/images/fr-partnership/fathy-villa-04.webp',
           '/images/fr-partnership/fathy-villa-05.webp',
         ]
+      },
+      {
+        label: 'Ramla',
+        handwritten: true,
+        images: [
+          '/images/fr-partnership/ramla-01.webp',
+          '/images/fr-partnership/ramla-02.webp',
+          '/images/fr-partnership/ramla-03.webp',
+          '/images/fr-partnership/ramla-04.webp',
+          '/images/fr-partnership/ramla-05.webp',
+          '/images/fr-partnership/ramla-06.webp',
+          '/images/fr-partnership/ramla-07.webp',
+        ]
       }
     ]
   },
