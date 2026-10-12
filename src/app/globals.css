@@ -1050,7 +1050,11 @@ img { max-width: 100%; height: auto; }
     min-height: 44px;
     padding: 0 10px;
   }
-  .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
+  .nav-logo { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+  /* 124x17 — wide enough but far too short to hit reliably. */
+  .works-head .view-all {
+    display: inline-flex; align-items: center; min-height: 44px;
+  }
 
   /* HERO */
   /* Body copy to 16px. Small uppercase labels stay at 9-10px by design —
