@@ -78,8 +78,17 @@ export default function DockIntro({ onDismiss }: { onDismiss: () => void }) {
      behind the overlay. */
   useEffect(() => {
     const prev = document.body.style.overflow
+    const prevHtml = document.documentElement.style.overflow
     document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = prev }
+    /* body alone leaves the document scrollable on iOS; locking html too is
+       the cheap half of the fix. The heavier position:fixed lock is
+       deliberately not used — it needs scroll save/restore and was the source
+       of the old "page opens at the bottom" bug. */
+    document.documentElement.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+      document.documentElement.style.overflow = prevHtml
+    }
   }, [])
 
   /* Cards mount at scale(0.4)/opacity 0, then flip on the next frame — a

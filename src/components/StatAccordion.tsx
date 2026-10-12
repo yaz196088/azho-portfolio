@@ -89,7 +89,7 @@ export default function StatAccordion() {
             transition: 'max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1) 0.05s',
           }}>
             <p style={{
-              fontSize: '13px',
+              fontSize: isTouch ? '15px' : '13px',
               lineHeight: 1.7,
               color: 'var(--ink)',
               opacity: 0.75,

@@ -962,6 +962,12 @@ img { max-width: 100%; height: auto; }
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
 }
+/* The lightbox has nothing to scroll, so any touch drag on it would chain
+   straight through to the portal underneath and then the page. */
+#image-lightbox {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
 
 /* ─── TOUCH / PHONE PERFORMANCE ───────────────────────────
    Keyed on pointer capability rather than width, so a small desktop window
@@ -1047,6 +1053,11 @@ img { max-width: 100%; height: auto; }
   .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
 
   /* HERO */
+  /* Body copy to 16px. Small uppercase labels stay at 9-10px by design —
+     they are spaced-out captions, not reading text. */
+  .hero-intro p { font-size: 16px; line-height: 1.8; }
+  .po-col-val { font-size: 16px; }
+
   .hero { padding: 0 24px 48px; }
   .hero-body { padding-top: 120px; }
   .hero-eyebrow { left: 24px; right: 24px; top: 72px; }
